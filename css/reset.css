@@ -1,0 +1,193 @@
+.reset-form  .button-style{
+   bottom:0;
+}
+
+.reset-form .button-style:hover {
+  
+  background-color:green;
+  color:white;
+ -webkit-padding-end: 10px;
+  -webkit-padding-start: 10px;
+  min-height: 2em;
+  min-width: 4em;
+}
+
+.reset-form .float {
+    width: 100%;
+    float: left;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,1);
+}
+/*
+.reset-form .float:first-of-type {
+    padding-right: 5px;
+}
+
+.reset-form .float:last-of-type {
+    padding-left: 5px;
+}
+*/
+button {
+  cursor: pointer;
+}
+
+.popup select,
+input[type='checkbox'],
+input[type='radio'],
+input[type='button'],
+button {
+  -webkit-appearance: none;
+  -webkit-user-select: none;
+  background-image: -webkit-linear-gradient(#ededed, #ededed 38%, #dedede);
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 2px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.75);
+  color: #444;
+  font: inherit;
+  margin: 0 1px 0 0;
+  text-shadow: 0 1px 0 #F0F0F0;
+}
+.reset  #user_name{
+  width:100%;
+}
+.reset  #reset_user_email{
+  width:100%;
+}
+.reset  #password1{
+  width:100%;
+}
+.reset  #password2{
+  width:100%;
+}
+.reset  #message1{
+   color:red;
+}
+.reset  #error1{
+   color:red;
+}
+.reset  #error2{
+   color:red;
+}
+
+button {
+  -webkit-padding-end: 10px;
+  -webkit-padding-start: 10px;
+  min-height: 2em;
+  min-width: 4em;
+}
+input[type='password'],
+input[type='text'],
+input[type='search'] {
+  border: 1px solid #BFBFBF;
+  border-radius: 2px;
+  box-sizing: border-box;
+  color: #444;
+  font: inherit;
+  margin: 0;
+  max-height: 2em;
+  padding: 3px;
+  padding-bottom: 4px;
+     -webkit-transition: all 0.3s ease-out;
+   -moz-transition: all 0.3s ease-out;
+   -ms-transition: all 0.3s ease-out;
+   -o-transition: all 0.3s ease-out;
+   transition: all 0.3s ease-out;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.2);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+}
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup {
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 30%;
+  position: relative;
+  transition: all 5s ease-in-out;
+}/*
+.popup h1{
+    font-size: 14px;
+	font-weight: 300;
+	margin: 0;
+	padding: 15px 0 5px 0;
+	color: #666;
+	font-family: Cambria, Georgia, serif;
+	font-style: italic;
+	text-shadow: 0 1px 1px rgba(255,255,255,0.6);
+}
+.popup h1 {
+  margin-top: 15%;
+  color: #333;
+  text-align:center;
+  font-style:solid;
+  font-family: Tahoma, Arial, sans-serif;
+}*/
+.popup h1 {
+    margin-top: 1%;
+    font-size: 17px;
+    font-weight: bold;
+    color: #bdb5aa;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #EBE6E2;
+    text-shadow: 0 2px 0 rgba(255,255,255,0.8);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.8);
+}
+.popup .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+.popup .close:hover {
+  color: red;
+}
+.popup .content {
+  max-height: 30%;
+  overflow: auto;
+}
+
+.reset .button-style {
+    margin-right: 1%;
+    background: #34a5cf; /* Fallback */
+    background: -moz-linear-gradient(#34a5cf, #2a8ac4);
+    background: -ms-linear-gradient(#34a5cf, #2a8ac4);
+    background: -o-linear-gradient(#34a5cf, #2a8ac4);
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#34a5cf), to(#2a8ac4));
+    background: -webkit-linear-gradient(#34a5cf, #2a8ac4);
+    background: linear-gradient(#34a5cf, #2a8ac4);
+    border: 1px solid #2b8bc7;
+    color: #ffffff;
+    text-shadow: 0 -1px rgba(0,0,0,0.3);
+    text-decoration: none;
+}
+.reset {
+    /* Size and position */
+    width: 100%;
+   margin: 40px auto 30px;
+    padding: 10px;
+    position: relative;
+    /* Styles */
+    background: #FFFFFF;
+    color: #7e7975;
+    box-shadow:
+        0 2px 2px rgba(0,0,0,0.2),        
+        0 1px 5px rgba(0,0,0,0.2),        
+        0 0 0 12px rgba(255,255,255,0.4); 
+}
