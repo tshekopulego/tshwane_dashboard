@@ -1,4 +1,5 @@
 <input id="update_id" type="hidden" name="id" value="">	
+<input id="update_id11" type="hidden" name="id1" value="">	
 
 <script language="JavaScript">
 
@@ -473,6 +474,7 @@ var incident_image, escalation_id, longidute,latidute,incident_audio,incident_vi
     	<form method="post" id="update-status-form" action="list_order/update_status" onsubmit="return validate();" >
               <h1><b>Incident Reference Number:  <span id="order_id"></span></b></h1>
              <input type="hidden" name="casenum1" id="casenum1" >
+			 <input type="hidden" name="type11" id="type11" >
              <input type="hidden" name="date" id="date" >
               	<div class="content-area">
 					Update incident Status :<br>
@@ -1145,6 +1147,7 @@ function validate()
    {
     
      var update =document.forms["update-status-form"]["status_data"].value;
+	 var type11 =document.forms["update-status-form"]["type11"].value;
      var notes=document.forms["update-status-form"]["notes"].value;
      var string_handover_region_id =document.forms["update-status-form"]["string_handover_region_id"].value;
      var handover_region_id=document.forms["update-status-form"]["handover_region_id"].value;
@@ -1158,6 +1161,9 @@ function validate()
      var referred_id=document.forms["update-status-form"]["referred_id"].value;
      var string_car_data1=document.forms["update-status-form"]["string_car_data1"].value;
      var dispatch_officer1=document.forms["update-status-form"]["dispatch_officer1"].value;
+	 var ar_num=document.forms["update-status-form"]["ar_num"].value;
+	 var reg_num=document.forms["update-status-form"]["reg_num"].value;
+	 var persons=document.forms["update-status-form"]["persons"].value;
 
 
 
@@ -1209,39 +1215,67 @@ function validate()
 	}
 
 
-	if(update =="Feedback")	
+	if(update =="Feedback" && type11 =="Accident")	
 	{ 
- 
+		if (ar_num== null || ar_num == "") {
+     			alert("AR_Number must be filled out");
+      		return false;
+		}else{
+		if (reg_num== null || reg_num == "") {
+     			alert("Registration Number must be filled out");
+      		return false;
+		}else{
+		if (persons== null || persons == "") {
+     			alert("Number of people must be filled out");
+      		return false;
+		}else{
 		if (string_car_data1== null || string_car_data1 == "") {
-     			 alert("Car must be filled out");
+     			 alert("Car Call sign must be filled out");
       			return false;
 		}else{
-		//if (dispatch_officer1== null || dispatch_officer1 == "") {
-     			//alert("Officer must be filled out");
-      			//return false;
-		//}else{
+		if (dispatch_officer1== null || dispatch_officer1 == "") {
+     	   alert("Officer must be filled out");
+      	  return false;
+	    }else{
 		if (notes== null || notes == ""){
      			alert("Notes must be filled out");
       			return false;
 		}else{
    			return true;
      		}
-		//}
 		}
-
-
-	//if (string_car_data1== null || string_car_data1 == "") {
-     	// alert("Car must be filled out");
-      	//return false;
-	//}else{
-	//if (dispatch_officer1== null || dispatch_officer1 == "") {
-     	//alert("Officer must be filled out");
-      	//return false;
-	//}else{
+		}
+		}
+		}
+		}
+	}else{
+		if(update =="Feedback" ){
+		
+			
+			if (string_car_data1== null || string_car_data1 == "") {
+     			 alert("Car Call sign must be filled out");
+      			return false;
+			}else{
+			if (dispatch_officer1== null || dispatch_officer1 == "") {
+				alert("Officer must be filled out");
+				return false;
+			}else{
+			if (notes== null || notes == ""){
+     			alert("Notes must be filled out");
+      			return false;
+			}else{
+   			return true;
+     		}
+			}
+			}
+			
 	
-	//}
-	//}
 	}
+	
+	}
+	
+	
+	
 
 	if(update =="Referred")	{
  
@@ -1963,6 +1997,7 @@ accident_disc = "AR number: " + aData[19]  + "\r\nCar registration number: " + a
 		
 $('#category1').val(aData[1]);
 		$('#type1').val(aData[2]);
+		$('#type11').val(aData[2]);
 		$('#location1').val(aData[4]);
 		$('#region1').val(aData[6]);
 	 	$('#address1').val(aData[11]);
@@ -1974,6 +2009,7 @@ $('#category1').val(aData[1]);
 		$('#date1').val(aData[3]);
 		$('#category_img1').val(aData[14]);
 		type_AR = aData[2];
+		
 		//$('#car_reg_num ').val(aData[20]);
 		//$('#num_persons').val(aData[21]);
 		$('#channel1').val(aData[7]);
