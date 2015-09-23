@@ -324,6 +324,9 @@ $this->load->model('login_model');
 		$data['region']	= $this->input->post('string_handover_region_id');
 		}
 		if($status_data ==="Dispatched"){
+		$data['ar_number']	=	$this->input->post('ar_num');
+		$data['car_reg_num']	=	$this->input->post('reg_num');
+		$data['num_persons']	=	$this->input->post('persons');
 		$data['status']	=	$status_data;
 		$data['officer_name']	= $this->input->post('dispatch_officer');
 		$data['dispatched_car']	= $this->input->post('string_car_data');
