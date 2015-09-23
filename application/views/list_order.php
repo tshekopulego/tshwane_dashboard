@@ -920,11 +920,23 @@ $('#ARcontainer').hide();
      $("#status_data").change(function(){
       $('#status_data option:selected').each(function(){
         $('#notes').val('').empty();
-	  if ($(this).text() == 'Dispatched'){
-	    $('#dispatchCars').show();
-	  }else{
-	    $('#dispatchCars').hide();
-	  }
+	 // if ($(this).text() == 'Dispatched'){
+	   // $('#dispatchCars').show();
+	 // }else{
+	   // $('#dispatchCars').hide();
+	 // }
+	 if ($(this).text() == 'Dispatched'){ 
+			  $('#dispatchCars').show();
+	   }else{
+			 $('#dispatchCars').hide();
+	   }
+	    if ($(this).text() == 'Dispatched' && type_AR==="Accident"){ 
+			  $('#ARcontainer').show();
+		      $('#dispatchCars').show();
+	   }else{
+	         $('#ARcontainer').hide();
+			 $('#dispatchCars').hide();
+	   }
      	})
      }).change();
     
