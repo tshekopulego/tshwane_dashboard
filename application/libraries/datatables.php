@@ -1,4 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+include 'ChromePhp.php';
 
 class Datatables
 {
@@ -7,12 +8,14 @@ class Datatables
 	 * $aColumns: Columns in source table.
 	 * $idColumn: The ID column within columns.
 	 */
-	public function getData($sTable, $aColumns, $idColumn, $getjoin = '', $getjoin2 = '', $where = '')
+	public function getData($sTable, $aColumns, $idColumn, $getjoin = '', $getjoin2 = '', $where = '',$where2 = '')
 	{
 		// Loads CodeIgniter's Database Configuration
 		$CI =& get_instance();
 		$CI->load->database();
 		
+
+               		
 		// Paging
 		if(isset($_GET['iDisplayStart']) && $_GET['iDisplayLength'] != '-1')
 		{
@@ -46,6 +49,7 @@ class Datatables
 			}
 		}
 
+              ChromePhp::log('Total is ' . $where2[1]);
                 
 		// Any filtering
 		if(isset($_GET['total']) && !empty($_GET['total']))
@@ -53,7 +57,9 @@ class Datatables
 			for($i=0; $i<$_GET['total']; $i++)
 			{
 			
-			$pecah = explode('|',$_GET['value']);
+			
+			$pecah = explode('|',$_GET['value']); 
+			
 			$var = explode('*',$pecah[$i]);
 			
 			if($var[1] <> '' && $var[2] <> '' && $var[3] <> '' && $var[4]<> ''){
@@ -139,6 +145,8 @@ class Datatables
 		if($getjoin != ''){ $CI->db->join($getjoin[0], $getjoin[1], $getjoin[2]); }
 		if($getjoin2 != ''){ $CI->db->join($getjoin2[0], $getjoin2[1], $getjoin2[2]); }
 		if($where != ''){ $CI->db->where($where[0], $where[1]); }
+		if($where2 != ''){ $CI->db->where($where2[0]." !=",$where2[1]); }
+		 
 		$rResult = $CI->db->get($sTable);
 		
    
@@ -180,7 +188,7 @@ class Datatables
 		return $_REQUEST['callback'].'('.json_encode( $output ).');';
 	}
 
-/*
+	/*
 	 * $sTable: Source table in database.
 	 * $aColumns: Columns in source table.
 	 * $idColumn: The ID column within columns.
@@ -317,7 +325,7 @@ class Datatables
 		$CI->db->select('SQL_CALC_FOUND_ROWS '.str_replace(' , ', ' ', implode(', ', $aColumns)), false);
 		if($getjoin != ''){ $CI->db->join($getjoin[0], $getjoin[1], $getjoin[2]); }
 		if($getjoin2 != ''){ $CI->db->join($getjoin2[0], $getjoin2[1], $getjoin2[2]); }
-		if($where != ''){ $CI->db->where('type', 'Corruption'); }
+		if($where != ''){ $CI->db->where('area', 'Corruption'); }
 		$rResult = $CI->db->get($sTable);
 		
    
@@ -358,6 +366,5 @@ class Datatables
 		$output['links'] = "$url";
 		return $_REQUEST['callback'].'('.json_encode( $output ).');';
 	}
-
 }
 ?>

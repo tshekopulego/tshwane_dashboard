@@ -1392,6 +1392,7 @@ $("#region_assign").hide();
 	getRequest("list_order/get_logged", function(data) {
          
         var data = JSON.parse(data.responseText);
+		
     if(data == "Nodal Point")
 {
 $("#region_assign").show();
@@ -1651,8 +1652,22 @@ $("ol").append("</br>");
 
 });
  
+	
+	/**Get request data logged user to determine which buttons to hide **/
+	getRequest("list_order/get_logged", function(data) {
+         
+      var data = JSON.parse(data.responseText);
+		console.log("region"+ data);
+    if(data == "Special Operations")
+	 {
+		 var filter = 1;
+
+	 }else{
+		 var filter = null;
+	 }
+ 
+	//var filter = 1;
 	/** Set datatables **/
-	var filter = null;
 	var oTable = $('#tabels').dataTable({
 		"aoColumnDefs": [
 						{ "bVisible": false, "aTargets": [8] },
@@ -1687,7 +1702,7 @@ $("ol").append("</br>");
                 "dataType": "jsonp",
                 "cache": false
             } );
-        }
+        }  
         
          }).columnFilter({
 		 	// Set filter type
@@ -1702,7 +1717,7 @@ $("ol").append("</br>");
 						{ type: "text" },
 						{ type: "text" },
 						{ type: "text" },
-				        	{ type: "text" }]
+				        { type: "text" }]
 		});
 		
    
@@ -2245,5 +2260,5 @@ $( "#btn-view" ).trigger( "click" );
 			$('[data-remodal-id=modal_csv]').remodal().close();
 		}	
 	});
-
+ });
 </script>

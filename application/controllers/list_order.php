@@ -42,16 +42,16 @@ class List_order extends CI_Controller
 	for list order page
 	Get requst data from datatables.
 	*/
+public function get_corruption(){
 
-	public function get_corruption(){
-	
+		
 		
 		$result = $this->datatables->getData2('crimereport', array('RefNum','area','type','reportedon','location','status', 
-'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
-'audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id', '','','');
-		
-		
+		'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
+		'audiolocation','lat','lot','accident_reg_nums','num_persons','id'), 'id', '','',array('area','Corruption'));
+
 		echo $result;	
+		//echo json_encode($result);
 
 	}
 
@@ -148,14 +148,14 @@ $this->load->model('login_model');
 			
 				$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 
 'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
-'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id');
+'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id','','','',array('area','Corruption'));
 
 			}
 			else{
 				
 				$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 
 'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
-'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id', '','',array('region',$region ));
+'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id', '','',array('region',$region ),array('area','Corruption'));
 				
 			}
 		}
