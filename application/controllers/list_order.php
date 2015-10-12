@@ -1,5 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 include ("service.php");
+
 class List_order extends CI_Controller
 {
 
@@ -42,16 +43,16 @@ class List_order extends CI_Controller
 	for list order page
 	Get requst data from datatables.
 	*/
+public function get_corruption(){
 
-	public function get_corruption(){
-	
+		
 		
 		$result = $this->datatables->getData2('crimereport', array('RefNum','area','type','reportedon','location','status', 
-'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
-'audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id', '','','');
-		
-		
+		'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
+		'audiolocation','lat','lot','accident_reg_nums','num_persons','id'), 'id', '','',array('area','Corruption'));
+
 		echo $result;	
+		//echo json_encode($result);
 
 	}
 
@@ -148,14 +149,14 @@ $this->load->model('login_model');
 			
 				$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 
 'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
-'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id');
+'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id','','','',array('area','Corruption'));
 
 			}
 			else{
 				
 				$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 
 'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
-'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id', '','',array('region',$region ));
+'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id', '','',array('region',$region ),array('area','Corruption'));
 				
 			}
 		}
@@ -324,6 +325,9 @@ $this->load->model('login_model');
 		$data['region']	= $this->input->post('string_handover_region_id');
 		}
 		if($status_data ==="Dispatched"){
+		$data['ar_number']	=	$this->input->post('ar_num');
+		$data['car_reg_num']	=	$this->input->post('reg_num');
+		$data['num_persons']	=	$this->input->post('persons');
 		$data['status']	=	$status_data;
 		$data['officer_name']	= $this->input->post('dispatch_officer');
 		$data['dispatched_car']	= $this->input->post('string_car_data');
