@@ -1,10 +1,9 @@
 <input id="update_id" type="hidden" name="id" value="">	
 <input id="update_id11" type="hidden" name="id1" value="">	
-<input type="hidden" name="dispatchRegionName" id="dispatchRegionName" >
 
 <script language="JavaScript">
 
-var incident_image, escalation_id, longidute,latidute,incident_audio,incident_video,recapture_id ,type_AR,case_num,dispatchRegionName,channelupdate;
+var incident_image, escalation_id, longidute,latidute,incident_audio,incident_video,recapture_id ,type_AR,case_num;
 
 </script>
 <!--********************************************************************************************************-->
@@ -95,11 +94,11 @@ var incident_image, escalation_id, longidute,latidute,incident_audio,incident_vi
 		<label for="category_img">Images (744px X 700px)</label>
 		<input type="file" name="category_img" id="category_img" class="custom-file-input">
 		
-		<!--<label for="videolocation">Video</label>
+		<label for="videolocation">Video</label>
 		<input type="file" name="videolocation" id="videolocation" class="custom-file-input">
 		
 		<label for="audiolocation">Audio</label>
-		<input type="file" name="audiolocation" id="audiolocation" class="custom-file-input">-->
+		<input type="file" name="audiolocation" id="audiolocation" class="custom-file-input">
 			
 		<!--<label for="capturedby">Captured by</label>
 		<input type="text" name="capturedby" id="capturedby" disabled>
@@ -204,11 +203,11 @@ var incident_image, escalation_id, longidute,latidute,incident_audio,incident_vi
 		<label for="category_img">Images (744px X 700px)</label>
 		<input type="file" name="category_img" id="category_img" class="custom-file-input">
 		
-		<!--<label for="videolocation">Video</label>
+		<label for="videolocation">Video</label>
 		<input type="file" name="videolocation_recapture" id="videolocation_recapture" class="custom-file-input">
 		
 		<label for="audiolocation">Audio</label>
-		<input type="file" name="audiolocation" id="audiolocation" class="custom-file-input">-->
+		<input type="file" name="audiolocation" id="audiolocation" class="custom-file-input">
 			
 		
 		
@@ -475,8 +474,7 @@ var incident_image, escalation_id, longidute,latidute,incident_audio,incident_vi
     	<form method="post" id="update-status-form" action="list_order/update_status" onsubmit="return validate();" >
               <h1><b>Incident Reference Number:  <span id="order_id"></span></b></h1>
              <input type="hidden" name="casenum1" id="casenum1" >
-	     <input type="hidden" name="type11" id="type11" >
-	     <input type="hidden" name="dispatchRegionName1" id="dispatchRegionName1" >
+			 <input type="text" name="type11" id="type11" >
              <input type="hidden" name="date" id="date" >
               	<div class="content-area">
 					Update incident Status :<br>
@@ -547,8 +545,6 @@ var incident_image, escalation_id, longidute,latidute,incident_audio,incident_vi
 			<select id="referred_id" name="referred_id" style="width:100%" >
 			<option value="">Select department</option>
         		</select></div>
-
-
         		<input type="hidden" id="string_referred_id" name="string_referred_id">
         		
 			<div id="escalate_call_method">
@@ -572,14 +568,6 @@ var incident_image, escalation_id, longidute,latidute,incident_audio,incident_vi
 
 			<label for="notes">Notes</label>
 			<textarea name="notes" rows="10" cols="50" ></textarea>
-			
-			<div id="reporter_div">
-			
-			<label for="message">Reporter's Message(Mobile app & Mobi site)</label>
-			<textarea name="message" rows="10" cols="50" ></textarea>
-
-			</div>
-
 			<!--<label for="capturedby">Captured by</label>-->
 			<input type="hidden" name="operator" id="operator" disabled>
 			<label for="date">Date</label>
@@ -673,8 +661,8 @@ var incident_image, escalation_id, longidute,latidute,incident_audio,incident_vi
         var data = JSON.parse(data.responseText);
     
         for (var i = 0; i < data.length; i++) {
-			$("#menu_region_id").append("<option value="+data[i].region_id+">"+data[i].region_name+"</option>");
-			$("#menu_region_id_recapture").append("<option value="+data[i].region_id+">"+data[i].region_name+"</option>");
+			$("#menu_region_id").append("<option value="+data[i].region_name+">"+data[i].region_name+"</option>");
+			$("#menu_region_id_recapture").append("<option value="+data[i].region_name+">"+data[i].region_name+"</option>");
         }
 $("#menu_region_id").html($("#menu_region_id option").sort(function (a, b) {
 if(a.text != 'Select Region'){
@@ -728,7 +716,7 @@ $('#menu_channel_id_recapture option[value=0]').attr('selected','selected');
     $("#menu_region_id").change(function(){
     
     	 
-    	 $("#menu_region").val($('#menu_region_id option:selected').val());
+    	 $("#menu_region").val($('#menu_region_id option:selected').text());
     });
      /** Get request data type**/
     $("#menu_channel_id").change(function(){
@@ -738,7 +726,7 @@ $('#menu_channel_id_recapture option[value=0]').attr('selected','selected');
     
      	  $("#menu_region_id_recapture").change(function(){
     
-    	$("#menu_region_name_recapture").val($('#menu_region_id_recapture option:selected').val()); 
+    	$("#menu_region_name_recapture").val($('#menu_region_id_recapture option:selected').text()); 
     
     });
     
@@ -766,7 +754,7 @@ $('#menu_channel_id_recapture option[value=0]').attr('selected','selected');
    // console.log("cat val"+);
     var menucategoryid = $('#menu_category_id_recapture option:selected').text();
     
-   //console.log("logging text " +   menucategoryid);
+   //console.log("logging text " +   carname);
     $("#menu_type_id_recapture").empty();
    
      
@@ -805,7 +793,7 @@ $("#menu_type_id_recapture").append("<option value=Other>Other</option>");
 	});
 
 
-	/** var menucategoryname = $("#menu_category_id");dispatchregion
+	/** var menucategoryname = $("#menu_category_id");
      console.log("logging text" +  menucategoryname);**/
     });
     
@@ -984,10 +972,18 @@ $("#menu_type_id").append("<option value=Other>Other</option>");
 getRequest("list_order/get_escalation_group", function(data) {
 		
 	escalation_id = JSON.parse(data.responseText);
+
+	
+
     });
 
 
 
+	
+
+
+ 
+   
 	
      $("#supervisor_name").change(function(){
 
@@ -1007,8 +1003,32 @@ getRequest("list_order/get_escalation_group", function(data) {
      });
 
 
-  
+   
+   getRequest("list_order/get_vehicle_type", function(data) {
+         
+        var data = JSON.parse(data.responseText);
+    
+        for (var i = 0; i < data.length; i++) {
+			$("#dispatch_cars_id").append("<option value="+data[i].call_sign+">"+data[i].call_sign+"</option>");
+        }
+$("#dispatch_cars_id").append("<option value=Other>Other</option>");
 
+    });
+    $ ('#dispatch_cars_id').change(function(){
+
+if($ ('#dispatch_cars_id').val() == "Other")
+    {
+	$("#lbl_car_data").show();
+        $("#string_car_data").val('');
+    	$('#string_car_data').get(0).type = 'text';
+
+}else{
+     $("#lbl_car_data").hide();
+           $("#string_car_data").val($('#dispatch_cars_id option:selected').text());
+$('#string_car_data').get(0).type = 'hidden';
+}
+           
+     });
    
 </script>
 	
@@ -1060,7 +1080,6 @@ function validateRequiredField()
      var menu_region=document.forms["submit-form"]["menu_region"].value;
      var menu_hiddenchannel=document.forms["submit-form"]["menu_channel"].value;
      var menu_channel=document.forms["submit-form"]["menu_channel_id"].value;
-     var menu_channel_id=document.forms["submit-form"]["menu_channel_id"].value;
      var reportedby=document.forms["submit-form"]["reportedby"].value;
      var mobile=document.forms["submit-form"]["mobile"].value;
      var string_category_type_name =document.forms["submit-form"]["string_category_type_name"].value;
@@ -1087,11 +1106,6 @@ function validateRequiredField()
 		        alert("Channel must be filled out");
 		        return false;
 		    }else{
- 			if (menu_channel_id== null || menu_channel_id== "") {
-		        alert("Channel must be filled out");
-		        return false;
-		    }else{
-
 	         if (menu_hiddenchannel== null || menu_hiddenchannel== "") {
 		        alert("Channel must be filled out");
 		        return false;
@@ -1130,7 +1144,7 @@ alertSubmit("Loading");
 								}
 		     		       	}
 						}}
-				    }}}}
+				    }}}
 			    }}
 		    }}
 	    }
@@ -1143,8 +1157,6 @@ function validate()
    {
     
      var update =document.forms["update-status-form"]["status_data"].value;
-     var dispatchRegionName1=document.forms["update-status-form"]["dispatchRegionName1"].value;
-    // var dispatchRegionName=document.forms.dispatchRegionName.value;
      var type11 =document.forms["update-status-form"]["type11"].value;
      var notes=document.forms["update-status-form"]["notes"].value;
      var string_handover_region_id =document.forms["update-status-form"]["string_handover_region_id"].value;
@@ -1159,9 +1171,9 @@ function validate()
      var referred_id=document.forms["update-status-form"]["referred_id"].value;
      var string_car_data1=document.forms["update-status-form"]["string_car_data1"].value;
      var dispatch_officer1=document.forms["update-status-form"]["dispatch_officer1"].value;
-     var ar_num=document.forms["update-status-form"]["ar_num"].value;
-     var reg_num=document.forms["update-status-form"]["reg_num"].value;
-     var persons=document.forms["update-status-form"]["persons"].value;
+	 var ar_num=document.forms["update-status-form"]["ar_num"].value;
+	 var reg_num=document.forms["update-status-form"]["reg_num"].value;
+	 var persons=document.forms["update-status-form"]["persons"].value;
 
 
 
@@ -1199,28 +1211,45 @@ if(update =="Dispatched"){
      			 alert("Car Call sign must be filled out");
        			return false;
  		}else{
+
 		if (dispatch_officer== null || dispatch_officer == "") {
-     		               alert("Officer must be filled out");
-      		               return false;
-		 }else{
+     	  		 alert("Officer must be filled out");
+      		  	return false;
+		}else{
+		if (ar_num== null || ar_num == "") {
+     			alert("AR_Number must be filled out");
+      			return false;
+		}else{
+		if (reg_num== null || reg_num == "") {
+     			alert("Registration Number must be filled out");
+      			return false;
+		}else{
+		if (persons== null || persons == "") {
+     			alert("Number of people must be filled out");
+      			return false;
+		
+	   	 }else{
  		if (notes== null || notes == ""){
       			alert("Notes must be filled out");
        			return false;
  		}else{
     			return true;
       		}
-		}
+
  		}
 
-		
+	
+		}
+		}
+		}
+		}
 	}else{
 		if(update =="Dispatched" ){
 			
 		    if (dispatch_cars_id== null || dispatch_cars_id== "") {
-   		        alert("Car must be filled out, It means A region is empty, assign the incident to a region before you dispatch");
+   		        alert("Car must be filled out");
    		        return false;
 		     }else{
-			
    		         if (string_car_data== null || string_car_data == "") {
      		           alert("Car must be filled out");
       		           return false;
@@ -1237,15 +1266,12 @@ if(update =="Dispatched"){
      		              }
 		              }
 		             }
-       		         
-			}
+       		          }
 	          }
 			
 	    }
-		
-
-
 }
+
 
 
 
@@ -1505,25 +1531,6 @@ $("#supervisor_name").append("<option value=Other> Other </option>");
 			}
 		  });	 
 	 }).change();
-
-
- $ ('#dispatch_cars_id').change(function(){
-
-	if($ ('#dispatch_cars_id').val() == "Other")
-   	   {
-		$("#lbl_car_data").show();
-        	$("#string_car_data").val('');
-    		$('#string_car_data').get(0).type = 'text';
-
-	   }else{
-    		 $("#lbl_car_data").hide();
-          	 $("#string_car_data").val($('#dispatch_cars_id option:selected').text());
-		 $('#string_car_data').get(0).type = 'hidden';
-	   }
-           
-     });
-
-
 	 
      $("#status_data").change(function(){
         // if($('#status_data option:selected').text()=='RefferedBack')
@@ -1562,19 +1569,12 @@ $("#supervisor_name").append("<option value=Other> Other </option>");
         $('#dispatchCars').hide();
 	$('#notes').val('').empty();
         $('#notes').val('');
-	$('#message').val('').empty();
-        $('#message').val('');
 
-	if (channelupdate =='Mobi' || channelupdate =='MobileApp' ){
-		 $('#reporter_div').show();
-	}else{
-		$('#reporter_div').hide();
-	}
+// Reset submit form
+		//$('#update-status-form input').val('');
 
-
-
-	 // Reset submit form
-				
+		//$('#update-status-form').hide();
+		
 	console.log(update_id);
 		 /** Get request data region  **/
 	getRequest("list_order/get_log_id/" + update_id, function(data) {
@@ -1608,25 +1608,6 @@ $("#supervisor_name").append("<option value=Other> Other </option>");
 
     });
 		// console.log("testing"+ $user_region );
-
-
-
- //var test = $("#dispatchRegionName").text();
-  //console.log("dispatch region nameddd: " + dispatchRegionName);
-   $("#dispatch_cars_id").empty(); 
-   getRequest("list_order/get_vehicle_type/" + dispatchRegionName.replace(/\ /g, "_"), function(data) {
- 
-        var data = JSON.parse(data.responseText);
-           $("#dispatch_cars_id").append("<option> Select a vehicle </option>");
-        	for (var i = 0; i < data.length; i++) {
-			$("#dispatch_cars_id").append("<option value="+data[i].call_sign+">"+data[i].call_sign+"</option>");
-        	}
-			$("#dispatch_cars_id").append("<option value=Other>Other</option>");
-
-    });
-   	
-  
- 
 		 
 	});
 	
@@ -2100,8 +2081,6 @@ $('#category1').val(aData[1]);
 		$('#type11').val(aData[2]);
 		$('#location1').val(aData[4]);
 		$('#region1').val(aData[6]);
-		dispatchRegionName = aData[6]; 
-		$('#dispatchRegionName1').val(aData[6]);
 	 	$('#address1').val(aData[11]);
 	 
 		$('#reported1').val(aData[12]);
@@ -2115,7 +2094,6 @@ $('#category1').val(aData[1]);
 		//$('#car_reg_num ').val(aData[20]);
 		//$('#num_persons').val(aData[21]);
 		$('#channel1').val(aData[7]);
-		channelupdate= aData[7];
 		incident_image=aData[14];
 		longidute=aData[18];
 		latidute = aData[17];
@@ -2123,12 +2101,12 @@ $('#category1').val(aData[1]);
 		incident_video = aData[15];
 //var extention = incident_audio.substring(incident_audio.indexOf('.'),incident_audio.length);
 		
-		document.getElementById("incidentDiv").innerHTML="<img src=../upload/gambar/" + incident_image + " ></img>";
+		document.getElementById("incidentDiv").innerHTML="<img src=../upload/gambar/" + incident_image + " width='100%' height='500em' border='0'></img>";
 		document.getElementById("audioDiv").innerHTML =incident_audio;
 		document.getElementById("videoDiv").innerHTML =incident_video;
 		
 oTableShow.fnReloadAjax();
-		console.log("dispatch region name: " + dispatchRegionName);
+		
 
  			if ( $(this).hasClass('row_selected') ) {
             	$(this).removeClass('row_selected');

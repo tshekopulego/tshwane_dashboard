@@ -15,7 +15,7 @@ class Menu extends CI_Controller
 	public function get()
 	{
 		// Get data menu
-		$result = $this->datatables->getData('menu', array('menu_name','category_name','menu_price','menu_disc','menu_desc','menu_image','menu_id','menu_category_id'), 'menu_id', array('category','menu.menu_category_id = category.category_id','inner'));
+		$result = $this->datatables->getData('enquiry', array('fullname','address','phone','type','notes','enquirydate','capturedby','id'), 'id');
 		echo $result;
 	}
 
@@ -27,30 +27,21 @@ class Menu extends CI_Controller
 	
 		$this->load->model('login_model');
 		$get_logged_in_user_info = $this->login_model->get_logged_in_user_info();
-		$user_name = $get_logged_in_user_info->user_name;
+		$user_name = $get_logged_in_user_info->user_full_name;
 		
-		// Upload logo
-		$config['path']   = './upload/gambar/';
-		$config['format'] =	array("jpg", "png", "gif", "bmp");
-		$config['size']   = '1024';
-	   
-	   $this->load->library('ajaxupload');
-	   $this->ajaxupload->getUpload($config,"menu_image");
-	   
-	   $query = $this->ajaxupload->query();
-		
-		$insert_id = $this->input->post('menu_id');
-
+		$insert_id = $this->input->post('category_id');
+		$today = date("Y-m-d H:i:s");
 		$data = array();
-		$data['menu_name']			=	$this->input->post('menu_name');
-		$data['menu_category_id']	=	$this->input->post('menu_category_id');
-		$data['menu_price']			=	$this->input->post('menu_price');
-		$data['menu_disc']			=	$this->input->post('menu_disc');
-		$data['menu_desc']			=	$this->input->post('menu_desc');
-		if($query['file_name'] != ''){
-			$data['menu_image'] = '<img src="../upload/gambar/'.$query['file_name'].'" width="100%"></img>';
-			$data['menu_img'] = $query['file_name'];
-		}
+		
+		$data['type']				=	$this->input->post('enquiry_type_id2');
+		$data['fullname']			=	$this->input->post('category_name');
+		$data['address']			=	$this->input->post('category_addrs');
+		$data['phone']				=	$this->input->post('category_phone');
+		$data['notes']				=	$this->input->post('category_notes');
+		$data['enquirydate']		=	$today;
+		$data['capturedby']			=	$user_name;
+		
+		
 		
 		//118
 		$this->load->model('menu_model');
@@ -68,6 +59,16 @@ class Menu extends CI_Controller
 			else
 				echo "Data update not successful!";
 	}
+	/*
+	Get enquiry data.
+	*/		
+	public function get_enquiry_type()
+	{
+		$this->load->model('menu_model');
+		$name = $this->menu_model->enquiry();
+		
+		echo json_encode($name);
+	}	
 
 	/*
 	Get category data.

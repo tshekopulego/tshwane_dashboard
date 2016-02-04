@@ -13,9 +13,24 @@ class Promo extends CI_Controller
 	*/
 	public function get()
 	{
+		$this->load->model('login_model');
+		$get_logged_in_user_info = $this->login_model->get_logged_in_user_info();
+		$region = $get_logged_in_user_info->user_region;
+
 		// Get data menu
-		//promo_id 	promo_name 	promo_desc 	promo_img 	promo_start_date 	promo_end_date
-		$result = $this->datatables->getData('assets', array('call_sign','reg_num','veh_type','region','status','captured_date','capturedby','assets_id'), 'assets_id');
+		if($region != '')
+		{
+			if($region == 'Nodal Point')
+			{
+                            $result = $this->datatables->getData('assets', array('call_sign','reg_num','veh_type','region_name',
+		                     'status','captured_date','capturedby','assets_id'), 'assets_id',array('regions','assets.region = regions.region_id','inner'));
+		        }else{
+                           $result = $this->datatables->getData('assets', array('call_sign','reg_num','veh_type','region',
+		                    'status','captured_date','capturedby','assets_id'), 'assets_id', array('regions','assets.region = regions.region_id','inner'),'',array('region',$region ));
+
+			}
+			
+		}
 		echo $result;
 	}
 

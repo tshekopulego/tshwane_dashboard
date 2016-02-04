@@ -24,12 +24,12 @@ class Message extends CI_Controller
 			if($region == 'Nodal Point')
 			{
 	
-				$result = $this->datatables->getData('deployment_plan', array('date', 'shift','region', 'region_ob','members', 'vehicles','bikes','reported_by','supervisor','nodal_ob','remarks','nodal_remarks','id'), 'id');
+				$result = $this->datatables->getData('deployment_plan', array('date_time', 'shift','region', 'region_ob','members', 'vehicles','bikes','reported_by','supervisor','nodal_ob','remarks','nodal_remarks','id'), 'id');
 
 			}else
 			{
 	
-				$result = $this->datatables->getData('deployment_plan', array('date','shift', 'region','region_ob', 'members', 'vehicles','bikes', 'reported_by','supervisor','nodal_ob','remarks','nodal_remarks','id'), 'id', '','',array('region',$region ));
+				$result = $this->datatables->getData('deployment_plan', array('date_time','shift', 'region','region_ob', 'members', 'vehicles','bikes', 'reported_by','supervisor','nodal_ob','remarks','nodal_remarks','id'), 'id', '','',array('region',$region ));
 			}
 
 
@@ -69,6 +69,7 @@ $data['region_ob']		=	$this->input->post('region_ob');
 $data['remarks']	=	$this->input->post('remarks');
 		$data['supervisor']	=	$this->input->post('supervisor');
 		$data['date']	= date("Y-m-d H:i:s");
+		$data['date_time']	= date("Y-m-d H:i:s");
 		$data['reported_by']	=	$user_name;
 $data['vehicles']		=	$this->input->post('vehicles');
 		$data['bikes']		=	$this->input->post('bikes');

@@ -158,7 +158,7 @@
            
 
                 // waiting time in minutes
-            var wait=2;
+            var wait=10;
 
            // alert user one minute before
             timer1=setTimeout(alertUser, (60000*wait)-1);

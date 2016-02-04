@@ -15,14 +15,14 @@ class Menu_model extends CI_Model
 	{
 		if ($data_id == '')
 		{
-			$result = $this->db->insert('menu',$data);
+			$result = $this->db->insert('enquiry',$data);
 			
 			return $result;
 			
 		}else{
 		
-			$this->db->where('menu_id', $data_id);
-			$result = $this->db->update('menu',$data);
+			$this->db->where('category_id', $data_id);
+			$result = $this->db->update('enquiry',$data);
 		
 			return $result;
 			
@@ -32,10 +32,10 @@ class Menu_model extends CI_Model
 	/*
 	Get category
 	*/
-	function category()
+	function enquiry()
 	{
 
-		$query = $this->db->get("menu");
+		$query = $this->db->get("enquiry_type");
 		$result = $query->result_array();
 		
 		return $result;

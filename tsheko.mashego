@@ -1,0 +1,113 @@
+warning: LF will be replaced by CRLF in application/cache/index.html.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/config/config.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/config/constants.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/config/doctypes.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/config/foreign_chars.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/config/hooks.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/config/index.html.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/config/mimes.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/config/profiler.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/config/smileys.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/config/user_agents.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/controllers/category.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/controllers/customers.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/controllers/dashboard.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/controllers/group.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/controllers/login.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/controllers/main.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/controllers/service.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/controllers/setting.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/controllers/user.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/core/index.html.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/errors/error_404.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/errors/error_db.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/errors/error_general.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/errors/error_php.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/errors/index.html.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/helpers/index.html.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/hooks/index.html.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/index.html.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/language/english/index.html.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/libraries/Dynamic_menu.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/libraries/ajaxupload.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/libraries/index.html.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/logs/index.html.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/models/category_model.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/models/customers_model.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/models/home_model.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/models/login_model.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/models/message_model.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/models/promo_model.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/models/service_model.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/models/setting_model.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/models/transaksi_model.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/models/user_model.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/third_party/index.html.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/views/category.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/views/customers.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/views/dashboard.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/views/group.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/views/opening.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/views/setting.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in application/views/user.php.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in css/alert.css.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in css/bootflat.css.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in css/bootflat.css.map.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in css/bootstrap.min.css.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in css/chrome-bootstrap.

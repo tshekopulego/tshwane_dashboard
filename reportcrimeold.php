@@ -44,23 +44,21 @@ if (isset($_POST['description']) && isset($_POST['categoryType'])) {
     // connecting to db
     $db = new DB_CONNECT();
 
-    // mysql inserting a new row
-    $refnum = get_ref_no();
-    
  
     // mysql inserting a new row
-    $result = mysql_query("INSERT INTO crimereport(refnum,description,area,lat,lot,user,mobile,location,imagelocation,videolocation,audiolocation,type,reportedon,reportedby,channel,regId) VALUES('$refnum','$description', '$categoryType', '$lat', '$lot', '$user','$mobile','$location','$imageloc','$videostr','$audiostr','$subCategoryType',NOW(),'$name','$channel','$regId')");
-    
+    $result = mysql_query("INSERT INTO crimereport(description,area,lat,lot,user,mobile,location,imagelocation,videolocation,audiolocation,type,reportedon,reportedby,channel,regId) VALUES('$description', '$categoryType', '$lat', '$lot', '$user','$mobile','$location','$imageloc','$videostr','$audiostr','$subCategoryType',NOW(),'$name','$channel','$regId')");
+    $last_id = mysql_insert_id(); 
+
     // check if row inserted or not
     if ($result) {
-         //$today = date("m.d.y");
-         //mysql_query("UPDATE crimereport SET refnum=concat(LAST_INSERT_ID(),\"/\",DATE_FORMAT(NOW(),'%m/%Y')) WHERE id = LAST_INSERT_ID()");
+         $today = date("m.d.y");
+         mysql_query("UPDATE crimereport SET refnum=concat(LAST_INSERT_ID(),\"/\",DATE_FORMAT(NOW(),'%m/%Y')) WHERE id = LAST_INSERT_ID()");
 
         // successfully inserted into database
         
         $response["success"] = 1;
         $response["uid"] = $last_id;
-        $response["message"] = "Submitted successfully." . $refnum;
+        $response["message"] = "Submitted successfully.";
  
         // echoing JSON response
         echo json_encode($response);
@@ -80,48 +78,4 @@ if (isset($_POST['description']) && isset($_POST['categoryType'])) {
     // echoing JSON response
     echo json_encode($response);
 }
-
-
-function get_ref_no()
-{
-
-// mysql inserting a new row
-$result = mysql_query("SELECT RefNum FROM crimereport ORDER BY id DESC LIMIT 1");
-
-$value = mysql_fetch_object($result);
-$raw_ref_num = $value->RefNum;
-
-$counter = substr($raw_ref_num, 0, strpos($raw_ref_num, '/'));
-		
-$day = date('d');
-
-		
-		if($day == 01)
-		{
-			'Counter at day one : '.$counter = 1;
-
-			$compare = substr($raw_ref_num, 0, strpos($raw_ref_num, '/'));
-			'MONTH : '.$month = substr($raw_ref_num,strpos($raw_ref_num, '/')+1,strpos($raw_ref_num, '/')-1);
-
-			if($month == date('m'))
-			{
-				'Compare at day one : '.$compare = $compare+1;
-				'Counter to Compare : '.$counter = $compare;
-			}
-
-		}
-		else{
-			'Counter at else: '.$counter = $counter+1;
-			
-		}
-
-		
-
-
-		
-return $counter.'/'.date('m').'/'.date('Y');
-
-}
-
-
 ?>

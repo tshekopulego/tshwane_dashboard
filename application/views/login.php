@@ -21,7 +21,7 @@
 				<form class="form-login" action="login/login_check">
 					<h1><span class="log-in">Tshwane Safety Dashboard</span></h1>
 					<p class="float">
-						<label for="login"><i class="icon-user"></i>Username</label>
+						<label for="username"><i class="icon-user"></i>Username</label>
 						<input type="text" id="user_name" name="user_name" placeholder="Username">
 					</p>
 					<p class="float">

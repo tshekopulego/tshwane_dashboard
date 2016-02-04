@@ -15,8 +15,8 @@
         	</select><br><br>
         	<select id="status" name="status" style="width:100%" >
 			<option value="">Select status</option>
-			<option value="In service">In service</option>
-			<option value="Out of service">Out of service</option>
+			<option value="Operational">Operational</option>
+			<option value="Non operational">Non operational</option>
         	</select>
         	<input type="hidden" name="menu_region" id="menu_region">
 		<br><br>
@@ -113,7 +113,7 @@
         var data = JSON.parse(data.responseText);
     
         for (var i = 0; i < data.length; i++) {
-			$("#menu_region_id").append("<option value="+data[i].region_name+">"+data[i].region_name+"</option>");
+			$("#menu_region_id").append("<option value="+data[i].region_id+">"+data[i].region_name+"</option>");
         }
         
         
@@ -123,7 +123,9 @@
      $("#menu_region_id").change(function(){
     
     	 
-    	 $("#menu_region").val($('#menu_region_id option:selected').text());
+    	 //$("#menu_region").val($('#menu_region_id option:selected').text());
+        $("#menu_region").val($('#menu_region_id option:selected').val());
+
     });
     
      

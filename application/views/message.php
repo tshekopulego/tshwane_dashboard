@@ -112,13 +112,13 @@
 <table>
 <tr>
 		<td><label for="members">Number of members</label><br>
-		<input type="number" name="members" id="members" min="0" placeholder="0"></td>&nbsp;&nbsp;
+		<input type="number" name="members" id="members" min="0" placeholder="0" value="0"></td>&nbsp;&nbsp;
 
 		<td><label for="vehicles">Number of vehicles</label><br>
-		<input type="number" name="vehicles" id="vehicles" min="0" placeholder="0"></td>&nbsp;&nbsp;
+		<input type="number" name="vehicles" id="vehicles" min="0" value="0" ></td>&nbsp;&nbsp;
 <td>
 <label for="bikes">Number of Bikes</label><br>
-		<input type="number" name="bikes" id="bikes" min="0" placeholder="0"></td>
+		<input type="number" name="bikes" id="bikes" min="0" value="0"></td>
 </tr>
 </table>
 		
@@ -139,7 +139,7 @@
 
 
 <label for="calc_date">Pick Date (mm/dd/yyyy)</label><br>
-		<input type="date" name="calc_date" id="calc_date" onclick="return calculate_daily_strength();">
+<input type="date" name="calc_date" id="calc_date" onclick="return calculate_daily_strength();">
 </br>
 <label for="calc_shift">Select Shift</label>
 <br>		
@@ -303,28 +303,30 @@ $('[data-remodal-id=modal_update]').remodal();
    function calculate_daily_strength()
    {
    
- if(($("#calc_date").val() == '' || $("#calc_date").val() == null || $("#calc_date").val() == 'mm/dd/yyy') || (radio_calc_shift == '' || radio_calc_shift == null))
- {
- 	$("#display_daily_strength").hide();
- }else
- {
-   getRequest("message/get_daily_deployment/" + radio_calc_shift.replace(/\ /g,"_") + "/" +  $("#calc_date").val() , function(data) {
+ 	if(($("#calc_date").val() == '' || $("#calc_date").val() == null || $("#calc_date").val() == 'mm/dd/yyy') || (radio_calc_shift == '' || radio_calc_shift == null))
+ 	{
+ 		$("#display_daily_strength").hide();
+ 	}
+	else
+ 	{
+
+   		getRequest("message/get_daily_deployment/" + radio_calc_shift.replace(/\ /g,"_") + "/" +  $("#calc_date").val() , function(data) {
          
-        var data = JSON.parse(data.responseText);
-        var total_members = 0;
-        var total_vehicles = 0;
-        var total_bikes = 0;
+        	var data = JSON.parse(data.responseText);
+        	var total_members = 0;
+        	var total_vehicles = 0;
+        	var total_bikes = 0;
         
-        for (var i = 0; i < data.length; i++) {
-        	total_members  = parseInt(total_members) + parseInt(data[i].members);
-        	total_vehicles = parseInt(total_vehicles ) + parseInt(data[i].vehicles );
-        	total_bikes = parseInt(total_bikes ) + parseInt(data[i].bikes );
-        }
+        	for (var i = 0; i < data.length; i++) {
+        		total_members  = parseInt(total_members) + parseInt(data[i].members);
+        		total_vehicles = parseInt(total_vehicles ) + parseInt(data[i].vehicles );
+        		total_bikes = parseInt(total_bikes ) + parseInt(data[i].bikes );
+        	}
         
-        document.getElementById("total_members").innerHTML		= 	"" + total_members;
-        document.getElementById("total_vehicles").innerHTML		= 	"" + total_vehicles;
-        document.getElementById("total_bikes").innerHTML		= 	"" + total_bikes;
-        $("#display_daily_strength").show();
+        	document.getElementById("total_members").innerHTML		= 	"" + total_members;
+        	document.getElementById("total_vehicles").innerHTML		= 	"" + total_vehicles;
+        	document.getElementById("total_bikes").innerHTML		= 	"" + total_bikes;
+        	$("#display_daily_strength").show();
         
         
     	
@@ -353,16 +355,17 @@ $('[data-remodal-id=modal_update]').remodal();
 	        return false;
 	}else
 	    {
-	    	if (region == null || region== "") 
-	   	{
-		        alert("Select a region");
-		        document.forms["submit-form"]["menu_region_id"].focus();
-		        return false;
-		}else if (region_ob == null || region_ob == "") 
+	    	//if (region == null || region== "") 
+	   	//{
+		       // alert("Select a region");
+		       // document.forms["submit-form"]["menu_region_id"].focus();
+		       // return false;
+		//}else 
+		if (region_ob == null || region_ob == "") 
 	    	{
 	        	alert("Enter the regional OB number");
 	        	document.forms["submit-form"]["region_ob"].focus();
-	        return false;
+	        	return false;
 	        }else if(supervisor == null || supervisor == "") 
 	   	{
 		        alert("Enter the supervisors full name");
@@ -389,12 +392,24 @@ $('[data-remodal-id=modal_update]').remodal();
 		        document.forms["submit-form"]["remarks"].focus();
 		        return false;
 		}else{
+			alertSubmit("Loading");
 	    		return true;
 	    	}
 	    }
 	  
     
-    }  
+    }
+
+function alertSubmit(query){
+			iosOverlay({
+				text: "Loading",
+				duration: 2e3,
+				icon: "../images/bar.gif"
+			});
+			return false;
+			}
+
+  
     
 $(document).ready(function() {
 
@@ -437,15 +452,22 @@ $("input[name=shifts]:radio").change(function () {
 
  var rate_value;
  
-if (document.getElementById('shift1').checked) {
+if (document.getElementById('shift1').checked) 
+{
   rate_value = "5am - 1pm";
   $("#hidden_shifts").val(rate_value);
   
-}else if (document.getElementById('shift2').checked) {
+}
+
+if (document.getElementById('shift2').checked) 
+{
   rate_value = "1pm - 9pm";
   $("#hidden_shifts").val(rate_value);
  
-}else if (document.getElementById('shift3').checked) {
+}
+
+if (document.getElementById('shift3').checked) 
+{
   rate_value = "9pm - 5am";
   $("#hidden_shifts").val(rate_value);
  
@@ -456,18 +478,23 @@ if (document.getElementById('shift1').checked) {
 
 
 
-$("input[name=calc_shift]:radio").change(function () {
+$("input[name=calc_shift]:radio").change(function () 
+{
 
  
 if (document.getElementById('calc_shift1').checked) {
   radio_calc_shift = "5am - 1pm";
  
   
-}else if (document.getElementById('calc_shift2').checked) {
+}
+
+if (document.getElementById('calc_shift2').checked) {
   radio_calc_shift = "1pm - 9pm";
 
  
-}else if (document.getElementById('calc_shift3').checked) {
+}
+
+if (document.getElementById('calc_shift3').checked) {
   radio_calc_shift= "9pm - 5am";
   
  
@@ -568,6 +595,7 @@ if (document.getElementById('calc_shift1').checked) {
 		"bProcessing": false,
 		"bServerSide": true,
 		"sAjaxSource": "message/get",
+		"iDisplayLength": 50,
 		'sPaginationType': 'full_numbers',
 		"aaSorting": [[ 0, "desc" ]],					
        	"fnServerData": function( sUrl, aoData, fnCallback ) {

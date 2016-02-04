@@ -277,6 +277,7 @@ form input, form button, form textarea{
 input[type="password"],
 input[type="text"],
 input[type="date"],
+input[type="number"],
 .submit input,
 input[type="file"],
 button,

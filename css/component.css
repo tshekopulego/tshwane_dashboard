@@ -245,7 +245,6 @@ input.gn-search:focus {
 		line-height: 1;
 		speak: none;
 		-webkit-font-smoothing: antialiased;
-color:#666;
 }
 
 .gn-icon-icon-cloudy::before {

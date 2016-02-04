@@ -320,7 +320,7 @@ class Datatables
 		$CI->db->select('SQL_CALC_FOUND_ROWS '.str_replace(' , ', ' ', implode(', ', $aColumns)), false);
 		if($getjoin != ''){ $CI->db->join($getjoin[0], $getjoin[1], $getjoin[2]); }
 		if($getjoin2 != ''){ $CI->db->join($getjoin2[0], $getjoin2[1], $getjoin2[2]); }
-		if($where != ''){ $CI->db->where('area', 'Corruption'); }
+		if($where != ''){ $CI->db->where('type', 'Corruption'); }
 		$rResult = $CI->db->get($sTable);
 		
    
@@ -361,6 +361,7 @@ class Datatables
 		$output['links'] = "$url";
 		return $_REQUEST['callback'].'('.json_encode( $output ).');';
 	}
+
 
 }
 ?>

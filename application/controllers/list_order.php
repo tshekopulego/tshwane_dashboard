@@ -1,6 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 include ("service.php");
-
 class List_order extends CI_Controller
 {
 
@@ -43,32 +42,20 @@ class List_order extends CI_Controller
 	for list order page
 	Get requst data from datatables.
 	*/
-public function get_corruption(){
 
-		
+	public function get_corruption(){
+	
 		
 		$result = $this->datatables->getData2('crimereport', array('RefNum','area','type','reportedon','location','status', 
-		'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
-		'audiolocation','lat','lot','accident_reg_nums','num_persons','id'), 'id', '','',array('area','Corruption'));
-
+'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
+'audiolocation','lat','lot','accident_reg_nums','num_persons','id'), 'id', array('regions','crimereport.region = regions.region_id','inner'),'',array('area','Corruption'));
+		
+		
 		echo $result;	
-		//echo json_encode($result);
 
 	}
 
-	/*
-	for opening page
-	Get requst data from datatables.
-	*/
-	public function corruption(){
-
-	$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 
-'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
-'audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id', '','',array('area','Corruption'));
-	echo $result;	
-
-	}
-
+	
 	public function send_log_id($incident_id)
 	{
 		
@@ -123,13 +110,33 @@ public function get_managers($escalation_id)
 	}
 
 
-        public function get_vehicle_type()
+      /*  public function get_vehicle_type()
 	{
 	      $this->load->model('list_model');
 		$cars= $this->list_model->vehicle_type();
 		
 		echo json_encode($cars);
+	}*/
+
+	
+        public function get_vehicle_type($dispatchRegionName)
+	{
+	      $this->load->model('list_model');
+		$cars= $this->list_model->vehicle_type(str_replace("_"," ",$dispatchRegionName));
+		
+		echo json_encode($cars);
+     
+	  	//$value = $this->input->get('dispatchregion');
+		//if($value != ''){
+			//$result = $this->datatables->getData('assets', array('call_sign','assets_id'), 'assets_id', '','',array('region',$value));
+		//}else{
+			//$result = "Unable to locate the car ";
+		//}
+		//echo $result;
+	
+
 	}
+
 
 /*
 	Get requst data from datatables.
@@ -148,22 +155,23 @@ $this->load->model('login_model');
 			{
 			
 				$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 
-'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
-'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id','','','',array('area','Corruption'));
+'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
+'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id',array('regions','crimereport.region = regions.region_id','inner'),'','','','',array('area','Corruption'));
 
 			}
 			else{
 				
 				$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 
-'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
-'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id', '','',array('region',$region ),array('area','Corruption'));
+'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
+'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id', array('regions','crimereport.region = regions.region_id','inner'),'',array('region',$region ));
 				
 			}
 		}
 		echo $result;	
 
 	}
-	
+
+
 	/*
 	Get requst data from datatables.
 	*/
@@ -171,10 +179,10 @@ $this->load->model('login_model');
 	{
 	  	$value = $this->input->get('getRef');
 		if($value != ''){
-			$result = $this->datatables->getData('history', array('ref_num','status','department','region','dispatched_car','officer_name','manager_name','notes','time_diff','capturedby','date','id'), 'id', '','',array('incident_id',$value));
+			$result = $this->datatables->getData('history', array('ref_num','status','department','region_name','dispatched_car','officer_name','manager_name','notes','time_diff','capturedby','date','id'), 'id',array('regions','history.region = regions.region_id','inner'),'',array('incident_id',$value));
 		}else{
-			$result = $this->datatables->getData('history', array('ref_num','status','department','region','dispatched_car','officer_name','manager_name','notes','time_diff','capturedby','date','id'), 'id');
-		}
+			$result = "Unable to locate incident";
+}
 		echo $result;
 	}
 	
@@ -195,12 +203,12 @@ $this->load->model('login_model');
 			if($region == 'Nodal Point')
 			{
 			
-				$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation','audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id');
+				$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation','audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id',array('regions','crimereport.region = regions.region_id','inner'));
 
 			}
 			else{
 				
-				$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation','audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id', '','',array('region',$region ));
+				$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation','audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id', array('regions','crimereport.region = regions.region_id','inner'),'',array('region',$region ));
 				
 			}
 		}
@@ -214,9 +222,9 @@ $this->load->model('login_model');
 	{
 	  	$value = $this->input->get('category_id');
 		if($value != ''){
-			$result = $this->datatables->getData('crimereport', array('RefNum','description','area','type','location','region','address','reportedby','mobile','status', 'capturedby','reportedon','channel', 'id'), 'id', '','',array('status',$value));
+			$result = $this->datatables->getData('crimereport', array('RefNum','description','area','type','location','region_name','address','reportedby','mobile','status', 'capturedby','reportedon','channel', 'id'), 'id', array('regions','assets.region = regions.region_id','inner'),'',array('status',$value));
 			}else{
-			$result = $this->datatables->getData('crimereport', array('RefNum','description','area','type','location','region','address','reportedby','mobile','status', 'capturedby','reportedon','channel', 'id'), 'id');
+			$result = $this->datatables->getData('crimereport', array('RefNum','description','area','type','location','region_name','address','reportedby','mobile','status', 'capturedby','reportedon','channel', 'id'), 'id',array('regions','assets.region = regions.region_id','inner'));
 		}
 		
 		echo $result;
@@ -235,12 +243,12 @@ $this->load->model('login_model');
 				if($region == 'Nodal Point')
 				{
 				
-					$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation','audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id', '','',array('id',$id));
+					$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation','audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id', array('regions','crimereport.region = regions.region_id','inner'),'',array('id',$id));
 	
 				}
 				else{
 					
-					$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation','audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id', '','',array('region',$region,'id',$id ));
+					$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation','audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id', array('regions','crimereport.region = regions.region_id','inner'),'',array('region',$region,'id',$id ));
 					
 				}
 			}
@@ -311,6 +319,19 @@ $this->load->model('login_model');
 		
 		echo json_encode($dept);
 	}
+
+/*
+	get_incidents_by_id.
+	*/		
+	public function get_incidents_by_id($casenum)
+	{
+                //$casenum = "688/10/2015";
+		$this->load->model('list_model');
+		$casedetails= $this->list_model->get_incidents_by_id($casenum);
+		return $casedetails->id;
+	}
+
+
 	
 	 function update_status()
 	{
@@ -319,6 +340,8 @@ $this->load->model('login_model');
 		$status_data		= $this->input->post('status_data');
 		$orders_id	 	= $this->input->post('orders_id');
 		$order_id	 	= $this->input->post('order_id');
+		$reportedon	 	= $this->input->post('date');
+
 		
 		if($status_data ==="Assigned"){
 		$data['status']	=	$status_data;
@@ -328,14 +351,13 @@ $this->load->model('login_model');
 		$data['ar_number']	=	$this->input->post('ar_num');
 		$data['car_reg_num']	=	$this->input->post('reg_num');
 		$data['num_persons']	=	$this->input->post('persons');
-		$data['status']	=	$status_data;
+		$data['status']		=	$status_data;
 		$data['officer_name']	= $this->input->post('dispatch_officer');
 		$data['dispatched_car']	= $this->input->post('string_car_data');
 		}
 		if($status_data ==="Feedback"){
 		$data['feedback']	=	"Yes";
-		$data['status']	=	$status_data;
-		//$data['arrival_datetime']=	$this->input->post('string_arrival_time');
+		$data['status']		=	$status_data;
 		$data['ar_number']	=	$this->input->post('ar_num');
 		$data['car_reg_num']	=	$this->input->post('reg_num');
 		$data['num_persons']	=	$this->input->post('persons');
@@ -360,12 +382,16 @@ $this->load->model('login_model');
 		if($status_data ==="Closed"){
 		$data['status']	= $status_data;
 		}
-		//else{
 		
-		//$data['referred_to']	= $this->input->post('string_referred_id');
+
+		$today1 = date("Y-m-d H:i:s");
+		$average1 =    strtotime($today1) - strtotime($reportedon);
+                $days1 = floor($average1 /(60*60*24));
+
+		$data['time_diff']	= $days1." day/s  ".gmdate("H:i:s", $average1);
 		
 		
-		//}
+		
 		
 		$this->db->where('id', $orders_id);
 		$result = $this->db->update('crimereport',$data);
@@ -381,12 +407,11 @@ $this->load->model('login_model');
 		$user_name = $get_logged_in_user_info->user_full_name;	
 		$order_id	 	= $this->input->post('order_id');
 		$reportedon	 	= $this->input->post('date');
-
+		
 		$today = date("Y-m-d H:i:s");
 
 		$average =    strtotime($today) - strtotime($reportedon);
- 		$days = floor($average /(60*60*24));
-
+                $days = floor($average /(60*60*24));
 	
 		$insert_id = $this->input->post('category_id');
 
@@ -408,9 +433,13 @@ $this->load->model('login_model');
 		if($status_data ==="Feedback"){
 		$data['ar_number']	=	$this->input->post('ar_num');
 		$data['car_reg_num']	=	$this->input->post('reg_num');
-		$data['num_persons']	=	$this->input->post('persons');
-		
+		$data['num_persons']	=	$this->input->post('persons');		
+		$data['officer_name']	= 	$this->input->post('dispatch_officer1');
+		$data['dispatched_car']	= 	$this->input->post('string_car_data1');
+
+
 		}
+
 		if($status_data ==="Referred"){
 		
 		$data['region']	= "Nodal Point";
@@ -436,24 +465,23 @@ $this->load->model('login_model');
 		$data['status']		=	"$status_data";
 		$data['capturedby']	=	"$user_name";
 		$data['notes']		=	$this->input->post('notes');
-		$data['time_diff']	=	$days." day/s  ".gmdate("H:i:s", $average);
-
-
-
-
+		$data['message']	=	$this->input->post('message');
+		$data['time_diff']	=	 $days." day/s  ".gmdate("H:i:s", $average);
 
 		
 		//118
 		$this->load->model('list_model');
 		$result = $this->list_model->insert_history($data,$insert_id);
-		
-		// Cek data insert or data update
+
+      				
+		// Check data insert or data update
 		if(!$insert_id)
+
 			if($result)
 				echo "Data insert was successful!";
 			else
-				echo "Data insert not success!";
-			else
+				echo "Data insert not successful!";
+			
 			
 			 if($result)
 				echo "Data update was successful!";
@@ -462,23 +490,39 @@ $this->load->model('login_model');
 			
 
 
-			/*// Get cURL resource - sends out the report update to the app
-			$curl = curl_init();
-			
-			        $title = urlencode(stripslashes("Update report"));
-		
-			      // $caseNum= $data['casenum1'];
+				 // Get cURL resource - sends out the report update to the app
+				$curl = curl_init();
+			        $title = "Case Update";
+				$message = $this->input->post('message');
+		                $uid = $this->input->post('orders_id');
+			        $caseNum= $this->input->post('casenum1');
+                                $status= $status_data;
+                             
+                                $url = 'http://www.tshwanesafety.co.za/dashboard/notification/sendupdatemessage.php';
+ 
+                               $fields = array(
+						'title' => urlencode($title),
+						'message' => urlencode($message),
+						'caseNum' => urlencode($caseNum),
+                                                'uid' => urlencode($uid),
+                                                'status' => urlencode($status)
+
+					);
+                                //url-ify the data for the POST
+				foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
+				rtrim($fields_string, '&');
+
+                                //set the url, number of POST vars, POST data
+				curl_setopt($curl,CURLOPT_URL, $url);
+				curl_setopt($curl,CURLOPT_POST, count($fields));
+				curl_setopt($curl,CURLOPT_POSTFIELDS, $fields_string);
+                                curl_setopt($curl, CURLOPT_VERBOSE, 1);
 		      
-			// Set some options - we are passing in a useragent too here
-			curl_setopt_array($curl, array(
-			CURLOPT_RETURNTRANSFER => 1,
-			CURLOPT_URL => "http://test.tshwanesafety.co.za/dashboard/notification/sendupdatemessage.php?caseNum=471/07/2015&title=$title&message=$message"));
-					
-			// Send the request & save response to $resp
-			$resp = curl_exec($curl);
+				// Send the request & save response to $resp
+				$resp = curl_exec($curl);
 			
-			// Close request to clear up some resources
-			curl_close($curl);*/
+				// Close request to clear up some resources
+				curl_close($curl);
 				
 			
 	}
@@ -534,6 +578,8 @@ $this->load->model('login_model');
 		$this->load->model('login_model');
 		$get_logged_in_user_info = $this->login_model->get_logged_in_user_info();
 		$user_name = $get_logged_in_user_info->user_full_name;
+		$payno = $get_logged_in_user_info->user_paysal;
+
 
 //Declaration of all variables
 		$description	=	$this->input->post('description');//unique
@@ -600,6 +646,7 @@ $this->load->model('login_model');
 		$data['channel'] 	=   	$this->input->post('menu_channel'); 
 		$data['status']		=	"New";
 		$data['capturedby']	=	"$user_name";
+		$data['payno']		=	"$payno";
 		
 		
 		
@@ -612,29 +659,29 @@ $this->load->model('login_model');
 			$data['imagelocation'] = $query['file_name'];
 		
 		}
-		$config1['path']   = './video/';
-		$config1['format'] =	array("wmv", "flv", "mp4", "webm", "avi", "mkv");
-		$config1['size']   = '5120';
+		//$config1['path']   = './video/';
+		//$config1['format'] =	array("wmv", "flv", "mp4", "webm", "avi", "mkv");
+		//$config1['size']   = '5120';
 		
-		$this->load->library('ajaxupload');
-		$this->ajaxupload->getUploadAudioOrVideo($config1,"videolocation");
-		$query = $this->ajaxupload->query();
-		if($query['file_name'] != ''){
-		$data['videolocation'] =       '<video width="320" height="240" controls></br><source  src="../video/'.$query['file_name'].'" width="100%" 				type="video/'.$query['file_ext'].'"></source></video>';
-		$data['video_name'] = $query['file_name'];
-		}
-       		$config2['path']   = './audio/';
-		$config2['format'] =	array("mp3", "amr", "wma", "wav");
-		$config2['size']   = '5120';
+		//$this->load->library('ajaxupload');
+		//$this->ajaxupload->getUploadAudioOrVideo($config1,"videolocation");
+		//$query = $this->ajaxupload->query();
+		//if($query['file_name'] != ''){
+		//$data['videolocation'] =       '<video width="320" height="240" controls></br><source  src="../video/'.$query['file_name'].'" width="100%" 				type="video/'.$query['file_ext'].'"></source></video>';
+		//$data['video_name'] = $query['file_name'];
+		//}
+       		//$config2['path']   = './audio/';
+		//$config2['format'] =	array("mp3", "amr", "wma", "wav");
+		//$config2['size']   = '5120';
 		
-		$this->load->library('ajaxupload');
-		$this->ajaxupload->getUploadAudioOrVideo($config2,"audiolocation");
-		$query = $this->ajaxupload->query();		
-		if($query['file_name'] != ''){
-			/*$data['audiolocation'] =       '<audio controls><source  src="../audio/'.$query['file_name'].'" width="100%" type="audio/'.$query['file_ext'].'"></source></audio>';*/
+		//$this->load->library('ajaxupload');
+		//$this->ajaxupload->getUploadAudioOrVideo($config2,"audiolocation");
+		//$query = $this->ajaxupload->query();		
+		//if($query['file_name'] != ''){
+			//$data['audiolocation'] =       '<audio controls><source  src="../audio/'.$query['file_name'].'" width="100%" type="audio/'.$query['file_ext'].'"></source></audio>';*/
 			
-			$data['audiolocation'] = $query['file_name'];
-		}
+			//$data['audiolocation'] = $query['file_name'];
+		//}
 		
 		//118
 		
@@ -727,6 +774,7 @@ $this->load->model('login_model');
 		
 		echo json_encode($channels);
 	}
+
 	
 	
 	
@@ -739,6 +787,7 @@ $this->load->model('login_model');
 		$this->load->model('login_model');
 		$get_logged_in_user_info = $this->login_model->get_logged_in_user_info();
 		$user_name = $get_logged_in_user_info->user_full_name;
+		$payno = $get_logged_in_user_info->user_paysal;
 
 		// Upload images
 		$config['path']   = './upload/gambar/';
@@ -779,33 +828,34 @@ $this->load->model('login_model');
 		$data['channel'] 	=   	$this->input->post('menu_channel_recapture'); 
 		$data['status']		=	"Recaptured";
 		$data['capturedby']	=	"$user_name";
+		$data['payno']		=	"$payno";
 		
 	
 		if($query['file_name'] != ''){
 				$data['imagelocation'] =       '<img src="../upload/gambar/'.$query['file_name'].'" width="100%"></img>';
 			
 			}
-		$config1['path']   = './video/';
-		$config1['format'] =	array("wmv", "flv", "mp4", "webm", "avi", "mkv");
-		$config1['size']   = '1024';
+		//$config1['path']   = './video/';
+		//$config1['format'] =	array("wmv", "flv", "mp4", "webm", "avi", "mkv");
+		//$config1['size']   = '1024';
 		
-		$this->load->library('ajaxupload');
-		$this->ajaxupload->getUploadAudioOrVideo($config1,"videolocation");
-		$query = $this->ajaxupload->query();
-			if($query['file_name'] != ''){
-			$data['videolocation'] =       '<video width="320" height="240" controls></br><source  src="../video/'.$query['file_name'].'" width="100%" 			type="video/'.$query['file_ext'].'"></source></video>';
-			}
-       		$config2['path']   = './audio/';
-		$config2['format'] =	array("mp3", "amr", "wma", "wav");
-		$config2['size']   = '1024';
+		//$this->load->library('ajaxupload');
+		//$this->ajaxupload->getUploadAudioOrVideo($config1,"videolocation");
+		//$query = $this->ajaxupload->query();
+			//if($query['file_name'] != ''){
+			//$data['videolocation'] =       '<video width="320" height="240" controls></br><source  src="../video/'.$query['file_name'].'" width="100%" 			type="video/'.$query['file_ext'].'"></source></video>';
+			//}
+       		//$config2['path']   = './audio/';
+		//$config2['format'] =	array("mp3", "amr", "wma", "wav");
+		//$config2['size']   = '1024';
 		
-		$this->load->library('ajaxupload');
-		$this->ajaxupload->getUploadAudioOrVideo($config2,"audiolocation");
-		$query = $this->ajaxupload->query();		
-			if($query['file_name'] != ''){
-		$data['audiolocation'] = '<audio controls><source  src="../audio/'.$query['file_name'].'" width="100%" type="audio/'.$query['file_ext'].'"></source></audio>';
+		//$this->load->library('ajaxupload');
+		//$this->ajaxupload->getUploadAudioOrVideo($config2,"audiolocation");
+		//$query = $this->ajaxupload->query();		
+			//if($query['file_name'] != ''){
+		//$data['audiolocation'] = '<audio controls><source  src="../audio/'.$query['file_name'].'" width="100%" type="audio/'.$query['file_ext'].'"></source></audio>';
 				
-			}
+			//}
 		
 		$result = $this->list_model->insert($data,$insert_id);
 		
