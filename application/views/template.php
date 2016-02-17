@@ -109,6 +109,7 @@
 					if(r.access_update != 1){ $("#btn-update").hide(); }else{ $("#btn-update").show(); }
 					if(r.access_delete != 1){ $("#btn-remove").hide(); }else{ $("#btn-remove").show(); }
 					if(r.access_send != 1){ $("#btn-send").hide(); }else{ $("#btn-send").show(); }
+					if(r.access_con != 1){ $("#btn-con").hide(); }else{ $("#btn-con").show(); }
 					//if(r.access_region_capture != 1){ $("#btn-send").hide(); }else{ $("#btn-send").show(); }
 				});
 			}	

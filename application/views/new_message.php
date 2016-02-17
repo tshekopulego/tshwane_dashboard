@@ -143,7 +143,7 @@
 <table>
 			<tr>
 				<td>
-					<label for="deploy_date">Pick Date (mm/dd/yyyy)</label><br>
+					<label for="deploy_date"><font color="red">Pick Date (USE THIS FORMAT 2016-02-05)</font></label><br>
 					<input type="date" name="deploy_date" id="deploy_date">
 				</td>
 				<td>
@@ -500,11 +500,11 @@ $('[data-remodal-id=modal_update]').remodal();
 getRequest("new_message/get_regions", function(data) {
          
         var data = JSON.parse(data.responseText);
-    
+    console.log("get the region" + data);
 		var i;
 		for (i = 0; i < data.length; i++) {
-			$("#menu_region_id").append("<option value="+data[i].region_name+">"+data[i].region_name+"</option>");
-			$("#menu_region_id_recapture").append("<option value="+data[i].region_name+">"+data[i].region_name+"</option>");
+			$("#menu_region_id").append("<option value="+data[i].region_id+">"+data[i].region_name+"</option>");
+			$("#menu_region_id_recapture").append("<option value="+data[i].region_id+">"+data[i].region_name+"</option>");
 			
 			var region = data[i].region_name;
 			var region_id = data[i].region_id;
@@ -687,7 +687,8 @@ $("#btn-save-con").show();
 	getRequest("new_message/get_logged", function(data) {
          
         var data = JSON.parse(data.responseText);
-    if(data == "Nodal Point")
+		 console.log("get the logged " + data);
+    if(data == 17)
 {
 $("a.modal_update").show();
 $("a.modal").show();
@@ -766,7 +767,7 @@ if (document.getElementById('calc_shift1').checked) {
 	$('#btn-insert').bind('click', function(){
 		// Reset submit form
 		$('#deploy_date').val('');
-		$('# drop_shifts').val('');
+		$('#drop_shifts').val('');
 
 
 		//$("input[name=shifts]:radio").removeAttr("checked");

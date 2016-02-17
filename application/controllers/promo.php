@@ -20,7 +20,7 @@ class Promo extends CI_Controller
 		// Get data menu
 		if($region != '')
 		{
-			if($region == 'Nodal Point')
+			if($region == 17)
 			{
                             $result = $this->datatables->getData('assets', array('call_sign','reg_num','veh_type','region_name',
 		                     'status','captured_date','capturedby','assets_id'), 'assets_id',array('regions','assets.region = regions.region_id','inner'));

@@ -645,7 +645,7 @@ var incident_image, escalation_id, longidute,latidute,incident_audio,incident_vi
         var data = JSON.parse(data.responseText);
     
         for (var i = 0; i < data.length; i++) {
-			$("#handover_region_id").append("<option value="+data[i].regionid+">"+data[i].region_name+"</option>");
+			$("#handover_region_id").append("<option value="+data[i].region_name+">"+data[i].region_name+"</option>");
         }
 
     });
@@ -1421,7 +1421,7 @@ $("#region_assign").hide();
          
         var data = JSON.parse(data.responseText);
 		
-    if(data == "Nodal Point")
+    if(data == 17)
 {
 $("#region_assign").show();
 $("#reffer_back").hide();
@@ -1454,9 +1454,10 @@ $("#escalation").show();
       	 
       	  //$("#submitStatus").change(function(){console.log("Deleting");})
       
-	var check_total = 0;
+	//var check_total = 0;
+	//var oTable = $('#tabels').DataTable();
 	
-	setInterval(function() {
+	/*setInterval(function() {
 		$.get('list_order/check', function(data) {
 			
 			if(check_total < data){
@@ -1468,7 +1469,7 @@ $("#escalation").show();
                                // oTableExport.fnReloadAjax();
 			}
 		});
-	}, 5000); // refers to the time to refresh the div. it is in milliseconds.
+	}, 5000);*/ // refers to the time to refresh the div. it is in milliseconds.
 
 	//code to that hide the dropdown for supervisors
 	   $('#escalate_call_method').hide();
@@ -1760,11 +1761,21 @@ $("ol").append("</br>");
 		"fnRowCallback": function( nRow, aData, iDisplayIndex ) {
                     
                     
-                crimetype = aData[2];   
-                if(crimetype=='Robbery' || crimetype=='Murder' || crimetype=='Theft' || crimetype=='Hijaking' || crimetype=='Breaking')	       
+               crimetype = aData[2];   
+			   console.log(crimetype);
+             //  if(crimetype=='Robbery'|| crimetype=='Murder' || crimetype=='Theft' || crimetype=='Hijaking' || crimetype='Accident' || crimetype=='Breaking')	
+             if(crimetype == 'Robbery')	
 	          nRow.className = "priority row_selected";
-	          
-	       
+			 /*if(crimetype == 'Accident')	
+	          nRow.className = "priority row_selected";*/
+            if(crimetype=='Murder')
+	             nRow.className = "priority row_selected";
+		    if(crimetype=='Theft')
+	             nRow.className = "priority row_selected";
+	       if(crimetype=='Hijaking')
+	             nRow.className = "priority row_selected";
+			if(crimetype=='Breaking')
+	             nRow.className = "priority row_selected";
 	        return nRow;
                  },
        	"fnServerData": function( sUrl, aoData, fnCallback ) {
@@ -1793,6 +1804,7 @@ $("ol").append("</br>");
 				        { type: "text" }]
 		});
 		
+  
    
 		var oTableShow = $('#tabelsShow').dataTable({
 					"bFilter": false,
@@ -1816,7 +1828,22 @@ $("ol").append("</br>");
         }
          });
 
-     
+      var check_total = 0;
+	//var oTable = $('#tabels').DataTable();
+	
+	setInterval(function() {
+		$.get('list_order/check', function(data) {
+			
+			if(check_total < data){
+			
+				alert('We have '+(data-check_total)+" New Incidents!");
+				check_total = data;	
+				oTable.fnReloadAjax();
+				oTableShow.fnReloadAjax();
+                               // oTableExport.fnReloadAjax();
+			}
+		});
+	}, 5000); // refers to the time to refresh the div. it is in milliseconds.
         //======================================================================================================================
          var oTableExport = $('#tabelsexport').dataTable({
                                         "aoColumnDefs": [ { "bVisible": false, "aTargets": [7] },
@@ -2144,7 +2171,7 @@ oTableShow.fnReloadAjax();
 				$('#btn-view').attr("disabled","disabled");
 				$('#btn-recapture').attr("disabled","disabled");
 				$('#btn-history').attr("disabled","disabled");
-						updateHistory();
+						//updateHistory();
         	} else {
             	oTable.$('tr.row_selected').removeClass('row_selected');
 		
@@ -2197,7 +2224,7 @@ accident_disc = "AR number: " + aData[19]  + "\r\nCar registration number: " + a
 		$('#location1').val(aData[4]);
 		$('#region1').val(aData[6]);
 	 	$('#address1').val(aData[11]);
-	 
+	
 		$('#reported1').val(aData[12]);
 		$('#mobile1').val(aData[13]);
 		$('#status1').val(aData[5]);

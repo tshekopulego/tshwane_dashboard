@@ -48,7 +48,7 @@ class List_order extends CI_Controller
 		
 		$result = $this->datatables->getData2('crimereport', array('RefNum','area','type','reportedon','location','status', 
 'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
-'audiolocation','lat','lot','accident_reg_nums','num_persons','id'), 'id', array('regions','crimereport.region = regions.region_id','inner'),'',array('area','Corruption'));
+'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id', array('regions','crimereport.region = regions.region_id','inner'),'',array('area','Corruption'));
 		
 		
 		echo $result;	
@@ -151,7 +151,7 @@ $this->load->model('login_model');
 		
 		if($region != '')
 		{
-			if($region == 'Nodal Point')
+			if($region == 17)
 			{
 			
 				$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 
@@ -179,7 +179,8 @@ $this->load->model('login_model');
 	{
 	  	$value = $this->input->get('getRef');
 		if($value != ''){
-			$result = $this->datatables->getData('history', array('ref_num','status','department','region_name','dispatched_car','officer_name','manager_name','notes','time_diff','capturedby','date','id'), 'id',array('regions','history.region = regions.region_id','inner'),'',array('incident_id',$value));
+		//array('regions','history.region = regions.region_id','inner')
+			$result = $this->datatables->getData('history', array('ref_num','status','department','region','dispatched_car','officer_name','manager_name','notes','time_diff','capturedby','date','id'), 'id','','',array('incident_id',$value));
 		}else{
 			$result = "Unable to locate incident";
 }
@@ -200,7 +201,7 @@ $this->load->model('login_model');
 		
 		if($region != '')
 		{
-			if($region == 'Nodal Point')
+			if($region == 17)
 			{
 			
 				$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation','audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id',array('regions','crimereport.region = regions.region_id','inner'));
@@ -240,7 +241,7 @@ $this->load->model('login_model');
 			
 			if($region != '')
 			{
-				if($region == 'Nodal Point')
+				if($region == 17)
 				{
 				
 					$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation','audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id', array('regions','crimereport.region = regions.region_id','inner'),'',array('id',$id));
@@ -366,7 +367,7 @@ $this->load->model('login_model');
 		}
 		if($status_data ==="Referred"){
 		$data['status']	=	$status_data;
-		$data['region']	= "Nodal Point";
+		$data['region']	= 17;
 		}
 		if($status_data ==="Escalated"){
 		$data['status']	=	$status_data;
@@ -442,7 +443,7 @@ $this->load->model('login_model');
 
 		if($status_data ==="Referred"){
 		
-		$data['region']	= "Nodal Point";
+		$data['region']	= 17;
 		}
 
 		if($status_data ==="Escalated"){
@@ -545,12 +546,12 @@ $this->load->model('login_model');
 		$get_logged_in_user_info = $this->login_model->get_logged_in_user_info();
 		$region = $get_logged_in_user_info->user_region;
 
-    		if($region == "Nodal Point"){
+    		if($region == 17){
 			$query = $this->db->query("SELECT COUNT(*) AS total FROM crimereport WHERE status = 'New'");
 			$result = $query->result();
 			echo $result[0]->total;	
 		}else{
-			$query = $this->db->query("SELECT COUNT(*) AS total FROM crimereport WHERE status = 'New' AND region = '$region'");
+			$query = $this->db->query("SELECT COUNT(*) AS total FROM crimereport WHERE status = 'New' AND region = $region");
 			$result = $query->result();
 			echo $result[0]->total;	
 		}

@@ -61,6 +61,7 @@ class Main extends CI_Controller {
  	 $response['access_update'] = $rows['access_update'];
  	 $response['access_delete'] = $rows['access_delete'];
  	 $response['access_send'] = $rows['access_send'];
+	 $response['access_con'] = $rows['access_con'];
  	 $response['access_region_capture'] = $rows['access_region_capture'];
 	}
 	echo json_encode( $response );

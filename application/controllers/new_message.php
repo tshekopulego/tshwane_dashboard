@@ -25,7 +25,7 @@ class new_message extends CI_Controller
 
 		if($region != '')
 		{
-			if($region == 'Nodal Point')
+			if($region == 17)
 			{
 				$result = $this->datatables->getData('deployment_plan', array('date', 'shift','region_name', 'region_ob','members', 'vehicles','bikes','reported_by','supervisor','nodal_ob','remarks','nodal_remarks','id'), 'id',array('deployment_regions','deployment_plan.region = deployment_regions.region_id','inner'),'',array('date',$date),array('shift',$shift));
 			}
@@ -90,6 +90,7 @@ public function get_deployment_calc()
 			$bikes = $this->input->post('bik_' . $i);
 			$today = date("Y-m-d");
 			$today_date_time = date("Y-m-d H:i:s");
+			$deploy_date		=	$this->input->post('deploy_date');
 			// add validate
 			$data_to_validate = array($deploy_date,$shift,$region);
 			$validated_data  = $this->validate($data_to_validate);
@@ -108,10 +109,10 @@ public function get_deployment_calc()
 
 				$data['members']		= 	$members;
 				$data['vehicles']		= 	$vehicles;
-				$data['bikes']			=       $bikes;
+				$data['bikes']			=   $bikes;
 				$data['remarks']		=	$this->input->post('remarks_' . $i);
 				$data['supervisor']		=	$this->input->post('sup_' . $i);
-				$data['reported_by']		=	$user_name;
+				$data['reported_by']	=	$user_name;
 
 				//calculate
 				$total_members = $total_members + $members ;
@@ -158,6 +159,11 @@ public function get_deployment_calc()
 		public function update()
 	{
 
+	
+		$this->load->model('login_model');
+		$get_logged_in_user_info = $this->login_model->get_logged_in_user_info();
+		$user_name = $get_logged_in_user_info->user_full_name;
+		
 		$insert_id 			= 	$this->input->post('nodal_update_id');
 		
 		$deploy_date 			=	$this->input->post('nodal_update_date');
@@ -176,10 +182,11 @@ public function get_deployment_calc()
 		$data['region_ob']		=	$this->input->post('region_nodal_ob');
 		$data['nodal_ob']		=	$this->input->post('nodal_ob');
 		$data['supervisor']		=	$this->input->post('nodal_sup');
-		$data['nodal_remarks']		=	$this->input->post('nodal_remarks');
+		$data['nodal_remarks']	=	$this->input->post('nodal_remarks');
 		$data['members']		=	$this->input->post('nodal_update_members');
 		$data['vehicles']		=	$this->input->post('nodal_update_vehicles');
 		$data['bikes']			=	$this->input->post('nodal_update_bikes');
+		$data['reported_by']	=	$user_name;
 		
 
 		//get totals from depoyment calculations table. see method get_totals(date,shift) bellow

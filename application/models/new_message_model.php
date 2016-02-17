@@ -7,14 +7,14 @@ class new_message_model extends CI_Model
 		parent::__construct();
 	}
 	/* inserts deployment calculations*/
-	function insert_delpoy_calc($data,$data_id,$date,$shift,$mem,$veh,$bik)
+	function insert_delpoy_calc($data,$data_id,$deploy_date,$shift,$mem,$veh,$bik)
 	{
 		$data_calc = array();
 		$data_calc['total_members']		=	$mem;
 		$data_calc['total_vehicles']		=	$veh;
 		$data_calc['total_bikes']		=	$bik;
 
-		$this->db->where('date', $date);
+		$this->db->where('date', $deploy_date);
 		$this->db->where('shift', $shift);
 		
 	 	$this->db->update('deployment_calculations',$data_calc);
@@ -72,11 +72,11 @@ class new_message_model extends CI_Model
 	{
 	
 	
-	if($user_region != 'Nodal Point')
+	if($user_region != 17)
 	{
 		$this->db->select('*');
 		$this->db->from('deployment_regions');
-		$this->db->where('region_name',$user_region);	
+		$this->db->where('region_id',$user_region);	
 		
 
 		$query = $this->db->get();

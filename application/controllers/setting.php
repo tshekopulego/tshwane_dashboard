@@ -26,7 +26,7 @@ class Setting extends CI_Controller
 	public function get()
 	{
 		// Get data menu 
-		$result = $this->datatables->getData('setting', array('setting_name','setting_address','setting_telephone','setting_email','setting_region','setting_code','setting_images','setting_commander','setting_latitude','setting_longitude','setting_id'), 'setting_id');
+		$result = $this->datatables->getData('setting', array('setting_name','setting_address','setting_telephone','setting_email','region_name','setting_code','setting_images','setting_commander','setting_latitude','setting_longitude','setting_id'), 'setting_id',array('regions','regions.region_id = setting.setting_region','inner'));
 		echo $result;
 	}
 
