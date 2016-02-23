@@ -21,7 +21,7 @@ class Menu_model extends CI_Model
 			
 		}else{
 		
-			$this->db->where('category_id', $data_id);
+			$this->db->where('id', $data_id);
 			$result = $this->db->update('enquiry',$data);
 		
 			return $result;

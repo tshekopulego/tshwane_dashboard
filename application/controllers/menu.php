@@ -59,6 +59,8 @@ class Menu extends CI_Controller
 			else
 				echo "Data update not successful!";
 	}
+	
+
 	/*
 	Get enquiry data.
 	*/		

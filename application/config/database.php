@@ -50,8 +50,8 @@ $active_record = TRUE;
 
 // Database Connection Settings
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'tshwaneadmin';
-$db['default']['password'] = 'MySQL_2015';
+$db['default']['username'] = 'root';
+$db['default']['password'] = '';
 $db['default']['database'] = 'cosafson_dash';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['token']    = 'a8B6c4D4e8F0';
