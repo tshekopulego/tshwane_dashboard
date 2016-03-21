@@ -15,7 +15,7 @@
 		<label for="category_phone">Phone</label>
 		<input type="text" name="category_phone" id="category_phone"  maxlength="10">
 		<label for="category_notes">Notes</label>
-		<textarea name="category_notes" rows="4" cols="50" ></textarea>
+		<textarea name="category_notes" id="category_notes" rows="4" cols="50" ></textarea>
 		<br><br>
 		<center>
 			<button type='submit'>Save</button>&nbsp;&nbsp;<button type='reset'>Cancel</button>
@@ -23,6 +23,7 @@
 	</form>
 </div>
 <!------------------------------------------------------------------------------------------------->
+
 <div class="remodal" data-remodal-id="modal_view">
 	<form style="text-align: left;" method="post" id="view-form" action="menu/view">
 	 	  	
@@ -57,8 +58,8 @@
 	<div class="menu">
 		<a href="#modal"><button id="btn-insert">Capture</button></a> 
 		<a href="#modal_view"><button id="btn-view" disabled="disabled">View</button></a>
-		<!--<a href="#modal"><button id="btn-update" disabled="disabled">Update</button></a>
-		<a href="#modal_remove"><button id="btn-remove" disabled="disabled">Remove</button></a>-->
+		<a href="#modal"><button id="btn-update" disabled="disabled">Update</button></a>
+		<!--<a href="#modal_remove"><button id="btn-remove" disabled="disabled">Remove</button></a>-->
 		<button id="btn-filter" value="on">Filter</button>
 	</div>
 </div>
@@ -133,16 +134,25 @@
 <script>
     $('[data-remodal-id=modal]').remodal();
 	$('[data-remodal-id=modal_view]').remodal();
+	$('[data-remodal-id=modal_update]').remodal();
 	$('[data-remodal-id=modal_remove]').remodal();
 	
-	/*onchange the the option handover field data*/
+	/*onchange the the option handover field data for insert*/
     	  $("#enquiry_type_id").change(function(){
      
     	 $("#enquiry_type_id2").val($('#enquiry_type_id option:selected').text());
      
     	 });
+
+	/*onchange the the option handover field data for update*/
+    	  $("#enquiry_type_idup").change(function(){
+     
+    	 $("#enquiry_type_id2up").val($('#enquiry_type_id option:selected').text());
+     
+    	 });
+		
 			
-	  /** Get request data for enquiry  **/
+	  /** Get request data for enquiry for insert **/
 	
 	getRequest("menu/get_enquiry_type", function(data) {
          
@@ -154,7 +164,22 @@
 		}
 		
 		
+	});
+
+  /** Get request data for enquiry for insert for update **/
+	
+	getRequest("menu/get_enquiry_type", function(data) {
+         
+        var data = JSON.parse(data.responseText);
+    
+		for (var i = 0; i < data.length; i++) {
+			$("#enquiry_type_idup").append("<option value="+data[i].name+">"+data[i].name+"</option>");
+			
+		}
+		
+		
 	});	
+	
 
 </script>
 <script>
@@ -194,7 +219,7 @@ function validateRequiredField()
 		        alert("Notes must be filled");
 		        return false;
 		    }else{   
-			alertSubmit("Loading");
+			//alertSubmit("Loading");
 			return true;
 		    }
 		    }
@@ -316,6 +341,7 @@ $(document).ready(function() {
 			$('#category_notes').val(aData[4]);
 			$('#category_type').val(aData[3]);
 			$('#enquiry_type_id2').val(aData[3]);
+			//console.log(aData[7]);
 			//----------------------view--------------------------
 			$('#category_view_id').val(aData[7]);
 			$('#category_name1').val(aData[0]);
@@ -372,6 +398,14 @@ $(document).ready(function() {
 		   cache: false,
 		   success: alertForm
 		});
+
+		/* Set "submit-form" action */	 
+		$('#update-form').ajaxForm({
+		   resetForm: true,
+		   cache: false,
+		   success: alertForm
+		});
+
 		/*Set "view-form" action*/
 		$('#view-form').ajaxForm({
 		   resetForm: true,
@@ -394,6 +428,7 @@ $(document).ready(function() {
 			$('[data-remodal-id=modal]').remodal().close();
 			$('[data-remodal-id=modal_remove]').remodal().close();
 			$('[data-remodal-id=modal_view]').remodal().close();
+			$('[data-remodal-id=modal_update]').remodal().close();
 			alertSuccess(query);
 		}
 			
