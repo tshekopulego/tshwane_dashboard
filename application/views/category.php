@@ -52,7 +52,7 @@ var incident_imagesend;
 <div class="remodal" data-remodal-id="modal_send">
 	<form style="text-align: left;" method="post" id="send-form" action="category/send">
 		<input type="hidden" name="category_send_id" id="category_send_id">
-		<center><span id='modal_title'><h1>Are you sure you want to send out the notification?</h1></span></center>
+		<center><span id='modal_title'><h1>Are you sure you want to send out the notification? </h1></span></center>
 		
 		
 		<input type="hidden" name="title2" id="title2">
