@@ -105,8 +105,27 @@ class List_model extends CI_Controller
 			return $result;
 			
 			}	
-		}
+	}
 	
+	function get_incidents_by_id($data_id){
+	
+	   $this->db->select('id,RefNum, description, car_reg_num, num_persons, area, type, reportedon, location, region, address, lat AS latidute, lot AS longidute, user, reportedby, mobile,status, capturedby, RecapRefNum, channel');
+	
+        $this->db->from('crimereport');
+        $this->db->where('RefNum',$data_id);
+
+
+        $this->db->order_by('RefNum', 'DESC');
+		
+		$query = $this->db->get();
+		
+		$result = $query->result_array();
+		
+		return $result;
+	
+	}
+
+
 	function get_incidents_by(){
 	
 	   $this->db->select('RefNum, description, car_reg_num, num_persons, area, type, reportedon, location, region, address, lat AS latidute, lot AS longidute, user, reportedby, mobile,status, capturedby, RecapRefNum, channel');
@@ -122,6 +141,9 @@ class List_model extends CI_Controller
 		return $result;
 	
 	}
+
+
+
 	function get_incidents(){
 	
 	     $query = $this->db->get("crimereport");
@@ -208,15 +230,15 @@ return  $result ;
 		
 	}
 	
-	function vehicle_type()
+	function vehicle_type($dispatchRegionName)
         {
-                 $user_id =  $this->session->userdata('user_id');
-		 $user_manager =  $this->session->userdata('user_group');
-		 $user_region =   $this->session->userdata('user_region');
+                 //$user_id =  $this->session->userdata('user_id');
+		// $user_manager =  $this->session->userdata('user_group');
+		 //$user_region =   $this->session->userdata('user_region');
 		
 		$this->db->select('*');
                 $this->db->from('assets');
-                $this->db->where('region',$user_region);
+                $this->db->where('region',$dispatchRegionName);
  		$this->db->where('status','Operational');
                 
 		

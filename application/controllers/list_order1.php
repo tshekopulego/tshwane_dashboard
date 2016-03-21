@@ -47,8 +47,8 @@ class List_order extends CI_Controller
 	
 		
 		$result = $this->datatables->getData2('crimereport', array('RefNum','area','type','reportedon','location','status', 
-'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
-'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id', array('regions','crimereport.region = regions.region_id','inner'),'',array('area','Corruption'));
+'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
+'audiolocation','lat','lot','accident_reg_nums','num_persons','id'), 'id', '','',array('area','16')/*,array('type','Cable Theft'),array('type','Drug Sales'),array('type','Drug Possession')*/);
 		
 		
 		echo $result;	
@@ -154,16 +154,20 @@ $this->load->model('login_model');
 			if($region == 17)
 			{
 			
-				$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 
+				/*$result = $this->datatables->getData('crimereport', array('RefNum','category_name','type_name','reportedon','location','status', 
 'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
-'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id',array('regions','crimereport.region = regions.region_id','inner'),'','','','',array('area','Corruption'));
+'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id',array('regions','crimereport.region=regions.region_id','inner'),array('category','crimereport.area=category.category_id','inner'),array('type','crimereport.type=type.type_id','inner'),'','',array('area','Corruption'));
+*/
 
+             $result = $this->datatables->getData('crimereport_view', array('RefNum','category_name','type_name','reportedon','location','status', 
+'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
+'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id');
 			}
 			else{
-				
-				$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 
+				//,array('region',$region )
+				$result = $this->datatables->getData('crimereport_viewby_regions', array('RefNum','category_name','type_name','reportedon','location','status', 
 'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
-'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id', array('regions','crimereport.region = regions.region_id','inner'),'',array('region',$region ));
+'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id', 'region'), 'id','','',array('region',$region ));
 				
 			}
 		}
@@ -179,8 +183,7 @@ $this->load->model('login_model');
 	{
 	  	$value = $this->input->get('getRef');
 		if($value != ''){
-		//array('regions','history.region = regions.region_id','inner')
-			$result = $this->datatables->getData('history', array('ref_num','status','department','region','dispatched_car','officer_name','manager_name','notes','time_diff','capturedby','date','id'), 'id','','',array('incident_id',$value));
+			$result = $this->datatables->getData('history', array('ref_num','status','department','region','dispatched_car','officer_name','manager_name','notes','time_diff','capturedby','date','id'), 'id', '','',array('incident_id',$value));
 		}else{
 			$result = "Unable to locate incident";
 }
@@ -204,12 +207,12 @@ $this->load->model('login_model');
 			if($region == 17)
 			{
 			
-				$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation','audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id',array('regions','crimereport.region = regions.region_id','inner'));
+				$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation','audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id');
 
 			}
 			else{
 				
-				$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation','audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id', array('regions','crimereport.region = regions.region_id','inner'),'',array('region',$region ));
+				$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation','audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id', '','',array('region',$region ));
 				
 			}
 		}
@@ -223,9 +226,9 @@ $this->load->model('login_model');
 	{
 	  	$value = $this->input->get('category_id');
 		if($value != ''){
-			$result = $this->datatables->getData('crimereport', array('RefNum','description','area','type','location','region_name','address','reportedby','mobile','status', 'capturedby','reportedon','channel', 'id'), 'id', array('regions','assets.region = regions.region_id','inner'),'',array('status',$value));
+			$result = $this->datatables->getData('crimereport', array('RefNum','description','area','type','location','region','address','reportedby','mobile','status', 'capturedby','reportedon','channel', 'id'), 'id', '','',array('status',$value));
 			}else{
-			$result = $this->datatables->getData('crimereport', array('RefNum','description','area','type','location','region_name','address','reportedby','mobile','status', 'capturedby','reportedon','channel', 'id'), 'id',array('regions','assets.region = regions.region_id','inner'));
+			$result = $this->datatables->getData('crimereport', array('RefNum','description','area','type','location','region','address','reportedby','mobile','status', 'capturedby','reportedon','channel', 'id'), 'id');
 		}
 		
 		echo $result;
@@ -244,12 +247,12 @@ $this->load->model('login_model');
 				if($region == 17)
 				{
 				
-					$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation','audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id', array('regions','crimereport.region = regions.region_id','inner'),'',array('id',$id));
+					$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation','audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id', '','',array('id',$id));
 	
 				}
 				else{
 					
-					$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation','audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id', array('regions','crimereport.region = regions.region_id','inner'),'',array('region',$region,'id',$id ));
+					$result = $this->datatables->getData('crimereport', array('RefNum','area','type','reportedon','location','status', 'region','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation','audiolocation','lat','lot','car_reg_num','num_persons','id'), 'id', '','',array('region',$region,'id',$id ));
 					
 				}
 			}
@@ -367,7 +370,7 @@ $this->load->model('login_model');
 		}
 		if($status_data ==="Referred"){
 		$data['status']	=	$status_data;
-		$data['region']	= 17;
+		$data['region']	= "Nodal Point";
 		}
 		if($status_data ==="Escalated"){
 		$data['status']	=	$status_data;
@@ -394,6 +397,8 @@ $this->load->model('login_model');
 					$data['time_diff']	=  $days1." day/s ".gmdate("H:i:s", $average1);
 				}
 
+		
+		
 		
 		
 		
@@ -446,7 +451,7 @@ $this->load->model('login_model');
 
 		if($status_data ==="Referred"){
 		
-		$data['region']	= 17;
+		$data['region']	= "Nodal Point";
 		}
 
 		if($status_data ==="Escalated"){
@@ -470,13 +475,13 @@ $this->load->model('login_model');
 		$data['capturedby']	=	"$user_name";
 		$data['notes']		=	$this->input->post('notes');
 		$data['message']	=	$this->input->post('message');
-		//$data['time_diff']	=	 $days." day/s  ".gmdate("H:i:s", $average);	if ($days < 10){
-				if ($days < 10){
+		if ($days < 10){
 					$data['time_diff']	=  sprintf('%02d',$days)." day/s ".gmdate("H:i:s", $average);
 				}else{
 					$data['time_diff']	=  $days." day/s ".gmdate("H:i:s", $average);
 				}
 
+		
 
 		
 		//118
@@ -560,7 +565,7 @@ $this->load->model('login_model');
 			$result = $query->result();
 			echo $result[0]->total;	
 		}else{
-			$query = $this->db->query("SELECT COUNT(*) AS total FROM crimereport WHERE status = 'New' AND region = $region");
+			$query = $this->db->query("SELECT COUNT(*) AS total FROM crimereport WHERE status = 'New' AND region = '$region'");
 			$result = $query->result();
 			echo $result[0]->total;	
 		}
@@ -599,14 +604,15 @@ $this->load->model('login_model');
 		$region	=	$this->input->post('menu_region');
 		$mobile =	$this->input->post('mobile');
 		$channel 	=   	$this->input->post('menu_channel'); 
+		$reportedby	=	$this->input->post('reportedby');
 		
 		
 
 
-		$data_to_validate = array($description,$area,$type,$location,$region,$mobile,$channel);
+		$data_to_validate = array($description,$reportedby,$mobile/*,$location,$region,$mobile,$channel*/);
 		$validated_date  = $this->validate($data_to_validate);
 
-
+//$validated_date  = $this->validate($description);
 
 		if($validated_date < 1)
 		{
@@ -669,31 +675,7 @@ $this->load->model('login_model');
 			$data['imagelocation'] = $query['file_name'];
 		
 		}
-		//$config1['path']   = './video/';
-		//$config1['format'] =	array("wmv", "flv", "mp4", "webm", "avi", "mkv");
-		//$config1['size']   = '5120';
 		
-		//$this->load->library('ajaxupload');
-		//$this->ajaxupload->getUploadAudioOrVideo($config1,"videolocation");
-		//$query = $this->ajaxupload->query();
-		//if($query['file_name'] != ''){
-		//$data['videolocation'] =       '<video width="320" height="240" controls></br><source  src="../video/'.$query['file_name'].'" width="100%" 				type="video/'.$query['file_ext'].'"></source></video>';
-		//$data['video_name'] = $query['file_name'];
-		//}
-       		//$config2['path']   = './audio/';
-		//$config2['format'] =	array("mp3", "amr", "wma", "wav");
-		//$config2['size']   = '5120';
-		
-		//$this->load->library('ajaxupload');
-		//$this->ajaxupload->getUploadAudioOrVideo($config2,"audiolocation");
-		//$query = $this->ajaxupload->query();		
-		//if($query['file_name'] != ''){
-			//$data['audiolocation'] =       '<audio controls><source  src="../audio/'.$query['file_name'].'" width="100%" type="audio/'.$query['file_ext'].'"></source></audio>';*/
-			
-			//$data['audiolocation'] = $query['file_name'];
-		//}
-		
-		//118
 		
 		$result = $this->list_model->insert($data,$insert_id);
 		
@@ -701,8 +683,10 @@ $this->load->model('login_model');
 		if(!$insert_id)
 			if($result)
 				echo "Data insert was successful!";
+				
 			else
 				echo "Data insert not success!";
+				
 			else
 			
 			 if($result)
@@ -710,6 +694,7 @@ $this->load->model('login_model');
 			else
 				echo "Data update not successful!";
 			}	
+			
 	   					
 	}
 	public function addAudio()
@@ -919,7 +904,7 @@ public function get_group_session()
 	public function validate($data)
 	{
 	
-		$query = $this->db->get_where('crimereport', array('description'=> $data[0],'area'=> $data[1],'type'=> $data[2],'location'=> $data[3],'region'=> $data[4],'mobile'=> $data[5],'channel'=> $data[6]),1);
+		$query = $this->db->get_where('crimereport', array('description'=> $data[0],'reportedby'=> $data[1],'mobile'=> $data[2]/*,'location'=> $data[3],'region'=> $data[4],'mobile'=> $data[5],'channel'=> $data[6]*/),1);
 	console.log($query->num_rows());
 		return $query->num_rows();
 		
