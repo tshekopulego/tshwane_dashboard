@@ -10,7 +10,7 @@
 		<input type="hidden" name="enquiry_type_id2" id="enquiry_type_id2">
 		<label for="category_name">Name</label>
 		<input type="text" name="category_name" id="category_name">
-		<label for="category_addrs">Address</label>
+		<label for="category_addrs">Address/Region</label>
 		<input type="text" name="category_addrs" id="category_addrs">
 		<label for="category_phone">Phone</label>
 		<input type="text" name="category_phone" id="category_phone"  maxlength="10">
@@ -22,7 +22,9 @@
 		</center>
 	</form>
 </div>
+
 <!------------------------------------------------------------------------------------------------->
+
 
 <div class="remodal" data-remodal-id="modal_view">
 	<form style="text-align: left;" method="post" id="view-form" action="menu/view">
@@ -81,7 +83,7 @@
 		<thead>
 			<tr>
 				<th>Name</th>
-				<th width="150px">Address</th>
+				<th width="150px">Address/Region</th>
 				<th>Phone</th>
 				<th>Type</th>
 				<th>Notes</th>
@@ -92,7 +94,7 @@
 		<tfoot id="form_filter" style="display:none">
 			<tr align="center">
 				<th>Name </th>
-				<th width="150px">Address</th>
+				<th width="150px">Address/Region</th>
 				<th>Phone</th>
 				<th>Type</th>
 				<th>Notes</th>
@@ -224,7 +226,7 @@ function validateRequiredField()
 		    }
 		    }
 		    }
-	          }
+	         }
 		}
 		}
 }
@@ -340,6 +342,7 @@ $(document).ready(function() {
 			$('#category_phone').val(aData[2]);
 			$('#category_notes').val(aData[4]);
 			$('#category_type').val(aData[3]);
+			//$('#enquiry_type_id').text(aData[3]);
 			$('#enquiry_type_id2').val(aData[3]);
 			//console.log(aData[7]);
 			//----------------------view--------------------------

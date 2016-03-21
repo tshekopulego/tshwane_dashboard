@@ -38,7 +38,7 @@ class Menu extends CI_Controller
 		$data['address']			=	$this->input->post('category_addrs');
 		$data['phone']				=	$this->input->post('category_phone');
 		$data['notes']				=	$this->input->post('category_notes');
-		$data['enquirydate']		=	$today;
+		//$data['enquirydate']		=	$today;
 		$data['capturedby']			=	$user_name;
 		
 		
@@ -53,12 +53,14 @@ class Menu extends CI_Controller
 				echo "Data insert was successful!";
 			else
 				echo "Data insert not success!";
-		else
+	else
 			if($result)
 				echo "Data update was successful!";
 			else
 				echo "Data update not successful!";
 	}
+	
+	
 	
 
 	/*
