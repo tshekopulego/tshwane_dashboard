@@ -49,7 +49,7 @@ if (isset($_POST['description']) && isset($_POST['categoryType'])) {
     
  
     // mysql inserting a new row
-    $result = mysql_query("INSERT INTO crimereport(refnum,description,area,lat,lot,user,mobile,location,imagelocation,videolocation,audiolocation,type,reportedon,reportedby,channel,regId) VALUES('$refnum','$description', '$categoryType', '$lat', '$lot', '$user','$mobile','$location','$imageloc','$videostr','$audiostr','$subCategoryType',NOW(),'$name','$channel','$regId')");
+    $result = mysql_query("INSERT INTO crimereport(refnum,description,area,lat,lot,user,mobile,location,imagelocation,videolocation,audiolocation,type,reportedon,reportedby,channel,regId) VALUES('$refnum','$description', '$categoryType', '$lat', '$lot', '$user', '$mobile', '$location', '$imageloc', '$videostr', '$audiostr', '$subCategoryType',NOW(),'$name','$channel','$regId')");
     
     // check if row inserted or not
     if ($result) {
@@ -57,6 +57,8 @@ if (isset($_POST['description']) && isset($_POST['categoryType'])) {
          //mysql_query("UPDATE crimereport SET refnum=concat(LAST_INSERT_ID(),\"/\",DATE_FORMAT(NOW(),'%m/%Y')) WHERE id = LAST_INSERT_ID()");
 
         // successfully inserted into database
+        
+        $last_id = mysql_insert_id();
         
         $response["success"] = 1;
         $response["uid"] = $last_id;
@@ -114,9 +116,6 @@ $day = date('d');
 			'Counter at else: '.$counter = $counter+1;
 			
 		}
-
-		
-
 
 		
 return $counter.'/'.date('m').'/'.date('Y');

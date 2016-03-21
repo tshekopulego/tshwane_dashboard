@@ -7,7 +7,7 @@ class Datatables
 	 * $aColumns: Columns in source table.
 	 * $idColumn: The ID column within columns.
 	 */
-	public function getData($sTable, $aColumns, $idColumn, $getjoin = '', $getjoin2 = '', $where = '', $where1 = '', $where2 = '',$whereNot = '')
+	public function getData($sTable, $aColumns, $idColumn, $getjoin = ''/*,$getjoin1 = ''*/, $getjoin2 = '', $where = '', $where1 = '', $where2 = '',$whereNot = '')
 	{
 		// Loads CodeIgniter's Database Configuration
 		$CI =& get_instance();
@@ -137,6 +137,7 @@ class Datatables
 		// Select data
 		$CI->db->select('SQL_CALC_FOUND_ROWS '.str_replace(' , ', ' ', implode(', ', $aColumns)), false);
 		if($getjoin != ''){ $CI->db->join($getjoin[0], $getjoin[1], $getjoin[2]); }
+		//if($getjoin1 != ''){ $CI->db->join($getjoin1[0], $getjoin1[1], $getjoin1[2]); }
 		if($getjoin2 != ''){ $CI->db->join($getjoin2[0], $getjoin2[1], $getjoin2[2]); }
 		if($where != ''){ $CI->db->where($where[0], $where[1]); }
 		if($where1 != ''){ $CI->db->where($where1[0], $where1[1]); }
@@ -320,7 +321,7 @@ class Datatables
 		$CI->db->select('SQL_CALC_FOUND_ROWS '.str_replace(' , ', ' ', implode(', ', $aColumns)), false);
 		if($getjoin != ''){ $CI->db->join($getjoin[0], $getjoin[1], $getjoin[2]); }
 		if($getjoin2 != ''){ $CI->db->join($getjoin2[0], $getjoin2[1], $getjoin2[2]); }
-		if($where != ''){ $CI->db->where('area', 'Corruption'); }
+		if($where != ''){ $CI->db->where('area', 16); }
 		$rResult = $CI->db->get($sTable);
 		
    

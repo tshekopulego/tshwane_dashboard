@@ -140,6 +140,19 @@ class new_message_model extends CI_Model
 				
 	}
 
+function get_shifts()
+	{
+		$this->db->select('*');
+        $this->db->from('shifts');
+		
+		 
+		$query = $this->db->get();
+		
+		$result = $query->result_array();
+		
+		return $result;
+	}
+	
 function get_totals($date,$shift)
 	{
 		$this->db->select('*');

@@ -1,5 +1,5 @@
 <script>
-var user_id;var user_name;var user_email;var user_phone;var user_address;var user_update;
+var user_id;var user_name;var user_email;var user_phone;var user_address;var user_update;var user_Pay_no;var user_id_no;var user_profile_img;
 </script>
 
 <!--Add update popup menu-->

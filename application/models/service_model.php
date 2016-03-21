@@ -134,9 +134,9 @@ class Service_model extends CI_Model
         /*Added get crime type by category*/
 	 function get_crimetype_by_category($id)
 	{
-		$this->db->select('type.type_id, type.type_name, type.categoryname');
+		$this->db->select('type.type_id, type.type_name, type.type_cat_id');
                 $this->db->from('type');
-                $this->db->where('categoryname',$id);
+                $this->db->where('type_cat_id',$id);
                 $this->db->order_by('type_name', 'DESC');
 		
 		 

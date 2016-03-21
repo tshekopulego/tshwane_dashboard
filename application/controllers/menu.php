@@ -15,7 +15,7 @@ class Menu extends CI_Controller
 	public function get()
 	{
 		// Get data menu
-		$result = $this->datatables->getData('enquiry', array('fullname','address','phone','type','notes','enquirydate','capturedby','id'), 'id');
+		$result = $this->datatables->getData('enquiry', array('fullname','address','phone','name','notes','enquirydate','capturedby','id'), 'id',array('enquiry_type','enquiry.type = enquiry_type.type_id','inner'));
 		echo $result;
 	}
 

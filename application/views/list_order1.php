@@ -109,7 +109,7 @@ var incident_image, escalation_id, longidute,latidute,incident_audio,incident_vi
 		
 		<br><br>
 		<center>
-			<button type='submit'  onclick="return validateRequiredField();">Save</button>&nbsp;&nbsp;<button type='reset'>Clear</button>
+			<button type='submit' onclick="return validateRequiredField();">Save</button>&nbsp;&nbsp;<button type='reset'>Clear</button>
 		</center>
 	</form>	
 </div>
@@ -363,28 +363,26 @@ var incident_image, escalation_id, longidute,latidute,incident_audio,incident_vi
 		<thead>
 			<tr>
 				<th width="80px">Ref no</th>
-				<th width="150px">Category</th>
+				<th>Category</th>
 				<th width="150px">Type</th>
 				<th width="150px">Date</th>
 				<th width="200px">Location</th>
 				<th width="80px">Status</th>
 				<th>Region/units</th>
 				<th>Channel</th>
-				<th width="150px">Captured By</th>
 				
 			</tr>
 		</thead>
 		<tfoot id="form_filter" style="display:none">
 			<tr align="center">
 				<th width="80px">CaseNum</th>
-				<th width="150px">Category</th>
+				<th>Category</th>
 				<th width="150px">Type</th>
 				<th width="150px">Date</th>
 				<th width="200px">Location</th>
 				<th width="80px">Status</th>
 				<th>Region/units</th>
 				<th>Channel</th>
-				<th width="150px">Captured By</th>
 				
 			</tr>
 		</tfoot>
@@ -592,7 +590,7 @@ var incident_image, escalation_id, longidute,latidute,incident_audio,incident_vi
                 		<div class="action-area-right">
                   			<div class="button-strip"><br>
 				   		<input type="hidden" id="orders_id" name="orders_id">
-                    			<button type="submit" id="btn-status">Submit</button>
+                    			<button type="submit" id="btn-delete-log">Submit</button>
                   			</div>
                 		</div>
 					
@@ -647,7 +645,7 @@ var incident_image, escalation_id, longidute,latidute,incident_audio,incident_vi
         var data = JSON.parse(data.responseText);
     
         for (var i = 0; i < data.length; i++) {
-			$("#handover_region_id").append("<option value="+data[i].region_name+">"+data[i].region_name+"</option>");
+			$("#handover_region_id").append("<option value="+data[i].regionid+">"+data[i].region_name+"</option>");
         }
 
     });
@@ -659,8 +657,8 @@ var incident_image, escalation_id, longidute,latidute,incident_audio,incident_vi
     
         for (var i = 0; i < data.length; i++) 
 	{
-			$("#menu_category_id").append("<option value="+data[i].category_id+">"+data[i].category_name+"</option>");
-			$("#menu_category_id_recapture").append("<option value="+data[i].category_id+">"+data[i].category_name+"</option>");
+			$("#menu_category_id").append("<option value="+data[i].category_name+">"+data[i].category_name+"</option>");
+			$("#menu_category_id_recapture").append("<option value="+data[i].category_name+">"+data[i].category_name+"</option>");
 				
 	}
 		
@@ -675,8 +673,8 @@ var incident_image, escalation_id, longidute,latidute,incident_audio,incident_vi
         var data = JSON.parse(data.responseText);
     
         for (var i = 0; i < data.length; i++) {
-			$("#menu_region_id").append("<option value="+data[i].region_id+">"+data[i].region_name+"</option>");
-			$("#menu_region_id_recapture").append("<option value="+data[i].region_id+">"+data[i].region_name+"</option>");
+			$("#menu_region_id").append("<option value="+data[i].region_name+">"+data[i].region_name+"</option>");
+			$("#menu_region_id_recapture").append("<option value="+data[i].region_name+">"+data[i].region_name+"</option>");
         }
 $("#menu_region_id").html($("#menu_region_id option").sort(function (a, b) {
 if(a.text != 'Select Region'){
@@ -730,7 +728,7 @@ $('#menu_channel_id_recapture option[value=0]').attr('selected','selected');
     $("#menu_region_id").change(function(){
     
     	 
-    	 $("#menu_region").val($('#menu_region_id option:selected').val());
+    	 $("#menu_region").val($('#menu_region_id option:selected').text());
     });
      /** Get request data type**/
     $("#menu_channel_id").change(function(){
@@ -740,17 +738,17 @@ $('#menu_channel_id_recapture option[value=0]').attr('selected','selected');
     
      	  $("#menu_region_id_recapture").change(function(){
     
-    	$("#menu_region_name_recapture").val($('#menu_region_id_recapture option:selected').val()); 
+    	$("#menu_region_name_recapture").val($('#menu_region_id_recapture option:selected').text()); 
     
     });
     
     /********************************************************************************/
      $("#menu_type_id_recapture").change(function(){
     
-    	$("#string_category_type_name_recapture").val($('#menu_type_id_recapture option:selected').val());
+    	$("#string_category_type_name_recapture").val($('#menu_type_id_recapture option:selected').text());
     	
     
-	  if ($('#menu_type_id_recapture option:selected').val() == 23){
+	  if ($('#menu_type_id_recapture option:selected').text() == 'Accident'){
 	    
 	     $('#container1_AR').show();
 	    
@@ -764,15 +762,15 @@ $('#menu_channel_id_recapture option[value=0]').attr('selected','selected');
      /** Get request data type recapture**/
     $("#menu_category_id_recapture").change(function(){
     
-    $("#string_menu_category_name_recapture").val($('#menu_category_id_recapture option:selected').val()); 
+    $("#string_menu_category_name_recapture").val($('#menu_category_id_recapture option:selected').text()); 
    // console.log("cat val"+);
-    var menucategoryid = $('#menu_category_id_recapture option:selected').val();
+    var menucategoryid = $('#menu_category_id_recapture option:selected').text();
     
    //console.log("logging text " +   menucategoryid);
     $("#menu_type_id_recapture").empty();
    
      
-	getRequest("list_order/get_crimetype/" + menucategoryid, function(data) {
+	getRequest("list_order/get_crimetype/" + menucategoryid.replace(/\ /g,"_"), function(data) {
       
         
         var data = JSON.parse(data.responseText);
@@ -780,8 +778,8 @@ $('#menu_channel_id_recapture option[value=0]').attr('selected','selected');
         $('#menu_type_id_recapture').append($('<option>', {    value: 0,    text: 'Select type'}));
          
         for (var i = 0; i < data.length; i++) {
-if(data[i].type_name != "Other"){
-        	$("#menu_type_id_recapture").append("<option value="+data[i].type_id+">"+data[i].type_name+"</option>");
+if(data[i].type_name != 'Other'){
+        	$("#menu_type_id_recapture").append("<option value="+data[i].type_name+">"+data[i].type_name+"</option>");
 }
 var my_options = $("#menu_type_id option");
 var selected = $("#menu_type_id").val(); /* preserving original selection, step 1 */
@@ -802,7 +800,7 @@ $("#menu_type_id").val(selected);
         }
       
 //append type other
-//$("#menu_type_id_recapture").append("<option value=Other>Other</option>");
+$("#menu_type_id_recapture").append("<option value=Other>Other</option>");
 
 	});
 
@@ -816,15 +814,15 @@ $("#menu_type_id").val(selected);
     /** Get request data type capture**/
     $("#menu_category_id").change(function(){
     
-    $("#string_menu_category_name").val($('#menu_category_id option:selected').val()); 
+    $("#string_menu_category_name").val($('#menu_category_id option:selected').text()); 
    // console.log("cat val"+);
-    var menucategoryid = $('#menu_category_id option:selected').val();
+    var menucategoryid = $('#menu_category_id option:selected').text();
     
    //console.log("logging text " +   carname);
     $("#menu_type_id").empty();
    
      
-	getRequest("list_order/get_crimetype/" + menucategoryid, function(data) {
+	getRequest("list_order/get_crimetype/" + menucategoryid.replace(/\ /g,"_"), function(data) {
       
         
         var data = JSON.parse(data.responseText);
@@ -832,10 +830,10 @@ $("#menu_type_id").val(selected);
         $('#menu_type_id').append($('<option>', {    value: 0,    text: 'Select type'}));
          
         for (var i = 0; i < data.length; i++) {
-if(data[i].type_name != "Other"){
+if(data[i].type_name != 'Other'){
 
         
-        	$("#menu_type_id").append("<option value="+data[i].type_id+">"+data[i].type_name+"</option>");
+        	$("#menu_type_id").append("<option value="+data[i].type_name+">"+data[i].type_name+"</option>");
 }
 
 var my_options = $("#menu_type_id option");
@@ -867,7 +865,7 @@ $("#menu_type_id").append("<option value=Other>Other</option>");
     
      $("#menu_type_id").change(function(){
      
-     $("#string_category_type_name").val($('#menu_type_id option:selected').val());
+     $("#string_category_type_name").val($('#menu_type_id option:selected').text());
      
      });
      /*onchange the the option handover field data*/
@@ -1127,7 +1125,7 @@ function validateRequiredField()
 						        alert("mobile no must be filled out");
 						        return false;
 								}else{
-//alertSubmit("Loading");
+alertSubmit("Loading");
 								   return true;
 								}
 		     		       	}
@@ -1456,10 +1454,9 @@ $("#escalation").show();
       	 
       	  //$("#submitStatus").change(function(){console.log("Deleting");})
       
-	//var check_total = 0;
-	//var oTable = $('#tabels').DataTable();
+	var check_total = 0;
 	
-	/*setInterval(function() {
+	setInterval(function() {
 		$.get('list_order/check', function(data) {
 			
 			if(check_total < data){
@@ -1471,7 +1468,7 @@ $("#escalation").show();
                                // oTableExport.fnReloadAjax();
 			}
 		});
-	}, 5000);*/ // refers to the time to refresh the div. it is in milliseconds.
+	}, 5000); // refers to the time to refresh the div. it is in milliseconds.
 
 	//code to that hide the dropdown for supervisors
 	   $('#escalate_call_method').hide();
@@ -1549,7 +1546,6 @@ $("#supervisor_name").append("<option value=Other> Other </option>");
 		// Reset submit form
 		$('#submit-form input').val('');
 		$('#modal_title').html($('#btn-insert').text());
-		
 	});
 	/* View Recapture*/
 	$('#btn-recapture').bind('click', function(){
@@ -1652,16 +1648,6 @@ $("#audioDiv").show()
        $('#btn-select-incident').bind('click', function(){
 		// oTableExport.fnReloadAjax();
 	});
-	
-
-//btn-select-incident
-       $('#btn-submit').bind('click', function(){
-		 oTable.fnReloadAjax();
-	});	
-	   $('#btn-status').bind('click', function(){
-		 oTable.fnReloadAjax();
-	});	
-
 
 /******************************************************************************/	
 	$('#btn-priority').bind('click', function(){
@@ -1710,7 +1696,6 @@ $("ol").append("</br>");
 	/* histoy button */
 	$('#btn-histoy').bind('click', function(){
 		$('#modal_title').html($('#btn-histoy').text());
-			
 	});
 	
 	/* Filter button */	
@@ -1758,7 +1743,7 @@ $("ol").append("</br>");
 	/** Set datatables **/
 	var oTable = $('#tabels').dataTable({
 		"aoColumnDefs": [
-						//{ "bVisible": false, "aTargets": [8] },
+						{ "bVisible": false, "aTargets": [8] },
 						{ "bVisible": false, "aTargets": [9] },
 						{ "bVisible": false, "aTargets": [10] },
 						{ "bVisible": false, "aTargets": [11] }],
@@ -1775,21 +1760,11 @@ $("ol").append("</br>");
 		"fnRowCallback": function( nRow, aData, iDisplayIndex ) {
                     
                     
-               crimetype = aData[2];   
-			   console.log(crimetype);
-             //  if(crimetype=='Robbery'|| crimetype=='Murder' || crimetype=='Theft' || crimetype=='Hijaking' || crimetype='Accident' || crimetype=='Breaking')	
-             if(crimetype == 'Robbery')	
+                crimetype = aData[2];   
+                if(crimetype=='Robbery' || crimetype=='Murder' || crimetype=='Theft' || crimetype=='Hijaking' || crimetype=='Breaking')	       
 	          nRow.className = "priority row_selected";
-			 if(crimetype == 'Accident')	
-	          nRow.className = "priority row_selected";
-            if(crimetype=='Murder')
-	             nRow.className = "priority row_selected";
-		    if(crimetype=='Theft')
-	             nRow.className = "priority row_selected";
-	       if(crimetype=='Hijaking')
-	             nRow.className = "priority row_selected";
-			if(crimetype=='Breaking')
-	             nRow.className = "priority row_selected";
+	          
+	       
 	        return nRow;
                  },
        	"fnServerData": function( sUrl, aoData, fnCallback ) {
@@ -1815,11 +1790,9 @@ $("ol").append("</br>");
 						{ type: "text" },
 						{ type: "text" },
 						{ type: "text" },
-						{ type: "text" },
 				        { type: "text" }]
 		});
 		
-  
    
 		var oTableShow = $('#tabelsShow').dataTable({
 					"bFilter": false,
@@ -1843,22 +1816,7 @@ $("ol").append("</br>");
         }
          });
 
-      var check_total = 0;
-	//var oTable = $('#tabels').DataTable();
-	
-	setInterval(function() {
-		$.get('list_order/check', function(data) {
-			
-			if(check_total < data){
-			
-				alert('We have '+(data-check_total)+" New Incidents!");
-				check_total = data;	
-				oTable.fnReloadAjax();
-				oTableShow.fnReloadAjax();
-                               // oTableExport.fnReloadAjax();
-			}
-		});
-	}, 5000); // refers to the time to refresh the div. it is in milliseconds.
+     
         //======================================================================================================================
          var oTableExport = $('#tabelsexport').dataTable({
                                         "aoColumnDefs": [ { "bVisible": false, "aTargets": [7] },
@@ -2186,7 +2144,7 @@ oTableShow.fnReloadAjax();
 				$('#btn-view').attr("disabled","disabled");
 				$('#btn-recapture').attr("disabled","disabled");
 				$('#btn-history').attr("disabled","disabled");
-						//updateHistory();
+						updateHistory();
         	} else {
             	oTable.$('tr.row_selected').removeClass('row_selected');
 		
@@ -2239,7 +2197,7 @@ accident_disc = "AR number: " + aData[19]  + "\r\nCar registration number: " + a
 		$('#location1').val(aData[4]);
 		$('#region1').val(aData[6]);
 	 	$('#address1').val(aData[11]);
-	
+	 
 		$('#reported1').val(aData[12]);
 		$('#mobile1').val(aData[13]);
 		$('#status1').val(aData[5]);
@@ -2310,8 +2268,8 @@ $( "#btn-view" ).trigger( "click" );
 
 		function alertError(query){
 			iosOverlay({
-				text: "Error!: Data already Exist",
-				duration: 4e3,
+				text: "Error!",
+				duration: 2e3,
 				icon: "../images/9735695398_2b8cbfc7df_o.png"
 			});
 			return false;
@@ -2362,15 +2320,9 @@ $( "#btn-view" ).trigger( "click" );
 		/* Alert form action */
 		function alertForm(query){
 			// Reload page
-			if(false){
-			//alertSubmit("Loading");
-			 alertError(query);
-			 oTable.fnReloadAjax(); 
-			 oTableExport.fnReloadAjax();
-			}else{
 			alertSuccess(query);
 			oTable.fnReloadAjax(); 
-            oTableExport.fnReloadAjax();
+                        oTableExport.fnReloadAjax();
 	
 			// $('[data-remodal-id=modal_activity]').remodal().close();
 			$('[data-remodal-id=modal]').remodal().close();
@@ -2379,10 +2331,9 @@ $( "#btn-view" ).trigger( "click" );
 			$('[data-remodal-id=modal_recapture]').remodal().close();
 			$('[data-remodal-id=modal_history]').remodal().close();
 			$('[data-remodal-id=modal_insert]').remodal().close();
-            $('[data-remodal-id=modal_export]').remodal().close();
+                   
+                        $('[data-remodal-id=modal_export]').remodal().close();
 			$('[data-remodal-id=modal_csv]').remodal().close();
-			  
-			}
 		}	
 	});
  });

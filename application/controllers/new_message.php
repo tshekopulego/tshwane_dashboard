@@ -27,11 +27,11 @@ class new_message extends CI_Controller
 		{
 			if($region == 17)
 			{
-				$result = $this->datatables->getData('deployment_plan', array('date', 'shift','region_name', 'region_ob','members', 'vehicles','bikes','reported_by','supervisor','nodal_ob','remarks','nodal_remarks','id'), 'id',array('deployment_regions','deployment_plan.region = deployment_regions.region_id','inner'),'',array('date',$date),array('shift',$shift));
+				$result = $this->datatables->getData('deployment_plan', array('date', 'shift_name','region_name', 'region_ob','members', 'vehicles','bikes','reported_by','supervisor','nodal_ob','remarks','nodal_remarks','shift','id'), 'id',array('deployment_regions','deployment_plan.region = deployment_regions.region_id','inner'),array('shifts','deployment_plan.shift = shifts.shift_id','inner'),array('date',$date),array('shift',$shift));
 			}
 			else
 			{
-				$result = $this->datatables->getData('deployment_plan', array('date','shift', 'region_name','region_ob', 'members', 'vehicles','bikes', 'reported_by','supervisor','nodal_ob','remarks','nodal_remarks','id'), 'id', array('deployment_regions','deployment_plan.region = deployment_regions.region_id','inner'),'',array('region',$region ),array('date',$date),array('shift',$shift));
+				$result = $this->datatables->getData('deployment_plan', array('date','shift_name', 'region_name','region_ob', 'members', 'vehicles','bikes', 'reported_by','supervisor','nodal_ob','remarks','nodal_remarks','shift','id'), 'id', array('deployment_regions','deployment_plan.region = deployment_regions.region_id','inner'),array('shifts','deployment_plan.shift = shifts.shift_id','inner'),array('region',$region ),array('date',$date),array('shift',$shift));
 			}
 
 		}
@@ -42,9 +42,17 @@ class new_message extends CI_Controller
 public function get_deployment_calc()
 	{
 			
-		$result = $this->datatables->getData('deployment_calculations', array('date', 'shift','total_members', 'total_vehicles','total_bikes','progress','id'), 'id');
-
+		$result = $this->datatables->getData('deployment_calculations', array('date', 'shift_name','total_members', 'total_vehicles','total_bikes','progress','shift','id'), 'id',array('shifts','deployment_calculations.shift = shifts.shift_id','inner'));
+//$result = $this->datatables->getData('deployment_calculations', array('date', 'shift','total_members', 'total_vehicles','total_bikes','progress','id'), 'id');
 		echo $result;
+	}
+	/*getting all the shifts*/
+	public function get_shifts()
+	{
+		$this->load->model('new_message_model');
+		$shifts= $this->new_message_model->get_shifts();
+		
+		echo json_encode($shifts);
 	}
 	/*not used anymore*/
 	public function get_daily_deployment($shift,$date)
@@ -52,8 +60,8 @@ public function get_deployment_calc()
 		
 		
 		$this->load->model('new_message_model');
-		$daily_dep= $this->new_message_model->day_dep(str_replace("_"," ",$shift),$date);
-		
+		//$daily_dep= $this->new_message_model->day_dep(str_replace("_"," ",$shift),$date);
+		$daily_dep= $this->new_message_model->day_dep($shift,$date);
 		echo json_encode($daily_dep);
 	}
 	
@@ -70,7 +78,8 @@ public function get_deployment_calc()
 		$insert_id = $this->input->post('id');
 
 		//get all values
-		$shift			=	str_replace('-', ' - ', $this->input->post('drop_shifts'));
+		//$shift			=	str_replace('-', ' - ', $this->input->post('drop_shifts'));
+		$shift			    =	$this->input->post('drop_shifts_id');
 		$deploy_date		=	$this->input->post('deploy_date');
 
 		/*a counter of regions is recieved from the view to use as size as the for loop below*/

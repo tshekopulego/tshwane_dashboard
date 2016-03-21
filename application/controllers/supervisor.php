@@ -22,7 +22,7 @@ class supervisor extends CI_Controller
 		{
 			if($region == 17)
 			{
-                            $result = $this->datatables->getData('sup_report', array('date','shift','region','supname','time',
+                            $result = $this->datatables->getData('sup_report', array('date','shift_name','region_name','supname','time',
 		                     'handover_true_and_false','handover_comment','complaint_reg','complaint_reg_comment','manage_leave',
 							 'manage_leave_comment','office_duties','office_duties_comment','pool_phone','pool_phone_comment','private_calls',
 							 'private_calls_comment','lunch_cleanup','lunch_cleanup_comment','phone_etiquette','phone_etiquette_comment','radio_protocol',
@@ -30,9 +30,9 @@ class supervisor extends CI_Controller
 							 'kitchen_cleanup','kitchen_cleanup_comment','standby_list','standby_list_comment','working_radios','working_radios_comment','working_phones',
 							 'working_phones_comment','time_sheet','time_sheet_comment','man_feedback','man_feedback_comment','check_arbook','check_arbook_comment','check_obbook',
 							 'check_obbook_comment','book_onduty','book_onduty_comment','takeover_shift','takeover_shift_comment','other','other_comment',
-							 'report_id'), 'report_id');
+							 'report_id'), 'report_id', array('regions','sup_report.region = regions.region_id','inner'),array('shifts','sup_report.shift = shifts.shift_id','inner'));
 		        }else{
-                           $result = $this->datatables->getData('sup_report', array('date','shift','region','supname','time',
+                           $result = $this->datatables->getData('sup_report', array('date','shift_name','region_name','supname','time',
 		                     'handover_true_and_false','handover_comment','complaint_reg','complaint_reg_comment','manage_leave',
 							 'manage_leave_comment','office_duties','office_duties_comment','pool_phone','pool_phone_comment','private_calls',
 							 'private_calls_comment','lunch_cleanup','lunch_cleanup_comment','phone_etiquette','phone_etiquette_comment','radio_protocol',
@@ -40,7 +40,7 @@ class supervisor extends CI_Controller
 							 'kitchen_cleanup','kitchen_cleanup_comment','standby_list','standby_list_comment','working_radios','working_radios_comment','working_phones',
 							 'working_phones_comment','time_sheet','time_sheet_comment','man_feedback','man_feedback_comment','check_arbook','check_arbook_comment','check_obbook',
 							 'check_obbook_comment','book_onduty','book_onduty_comment','takeover_shift','takeover_shift_comment','other','other_comment',
-							 'report_id'), 'report_id', '','',array('region',$region ));
+							 'report_id'), 'report_id', array('regions','sup_report.region = regions.region_id','inner'),array('shifts','sup_report.shift = shifts.shift_id','inner'),array('region',$region ));
 
 			}
 			
@@ -65,7 +65,7 @@ class supervisor extends CI_Controller
 		$data = array();
 		
 		$date1 		= $this->input->post('report_date');
-		$shift  	= $this->input->post('drop_shifts');
+		$shift  	= $this->input->post('drop_shifts_id');
 		$region 	= $this->input->post('menu_region');
 		
 		
@@ -167,6 +167,15 @@ class supervisor extends CI_Controller
 			else
 				echo "Data update not successful!";
 	}
+	
+	public function get_shifts()
+	{
+		$this->load->model('new_message_model');
+		$shifts= $this->new_message_model->get_shifts();
+		
+		echo json_encode($shifts);
+	}
+	
 	/*update function
 	public function update()
 	{

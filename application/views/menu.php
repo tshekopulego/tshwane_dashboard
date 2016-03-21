@@ -81,23 +81,23 @@
 		<thead>
 			<tr>
 				<th>Name</th>
-				<th>Address</th>
+				<th width="150px">Address</th>
 				<th>Phone</th>
 				<th>Type</th>
 				<th>Notes</th>
-				<th>Enquiry Date</th>
-				<th>Captured By</th>
+				<th width="200px">Enquiry Date</th>
+				<th width="200px">Captured By</th>
 			</tr>
 		</thead>
 		<tfoot id="form_filter" style="display:none">
 			<tr align="center">
 				<th>Name </th>
-				<th>Address</th>
+				<th width="150px">Address</th>
 				<th>Phone</th>
 				<th>Type</th>
 				<th>Notes</th>
-				<th>Enquiry Date</th>
-				<th>Captured By</th>
+				<th width="200px">Enquiry Date</th>
+				<th width="200px">Captured By</th>
 			</tr>
 		</tfoot>
 		<tbody>
@@ -140,14 +140,14 @@
 	/*onchange the the option handover field data for insert*/
     	  $("#enquiry_type_id").change(function(){
      
-    	 $("#enquiry_type_id2").val($('#enquiry_type_id option:selected').text());
+    	 $("#enquiry_type_id2").val($('#enquiry_type_id option:selected').val());
      
     	 });
 
 	/*onchange the the option handover field data for update*/
     	  $("#enquiry_type_idup").change(function(){
      
-    	 $("#enquiry_type_id2up").val($('#enquiry_type_id option:selected').text());
+    	 $("#enquiry_type_id2up").val($('#enquiry_type_idup option:selected').val());
      
     	 });
 		
@@ -159,7 +159,7 @@
         var data = JSON.parse(data.responseText);
     
 		for (var i = 0; i < data.length; i++) {
-			$("#enquiry_type_id").append("<option value="+data[i].name+">"+data[i].name+"</option>");
+			$("#enquiry_type_id").append("<option value="+data[i].type_id+">"+data[i].name+"</option>");
 			
 		}
 		
@@ -173,7 +173,7 @@
         var data = JSON.parse(data.responseText);
     
 		for (var i = 0; i < data.length; i++) {
-			$("#enquiry_type_idup").append("<option value="+data[i].name+">"+data[i].name+"</option>");
+			$("#enquiry_type_idup").append("<option value="+data[i].type_id+">"+data[i].name+"</option>");
 			
 		}
 		
