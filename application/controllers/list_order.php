@@ -388,9 +388,12 @@ $this->load->model('login_model');
 		$today1 = date("Y-m-d H:i:s");
 		$average1 =    strtotime($today1) - strtotime($reportedon);
                 $days1 = floor($average1 /(60*60*24));
+				if ($days1 < 10){
+					$data['time_diff']	=  sprintf('%02d',$days1)." day/s ".gmdate("H:i:s", $average1);
+				}else{
+					$data['time_diff']	=  $days1." day/s ".gmdate("H:i:s", $average1);
+				}
 
-		$data['time_diff']	= $days1." day/s  ".gmdate("H:i:s", $average1);
-		
 		
 		
 		
@@ -467,7 +470,13 @@ $this->load->model('login_model');
 		$data['capturedby']	=	"$user_name";
 		$data['notes']		=	$this->input->post('notes');
 		$data['message']	=	$this->input->post('message');
-		$data['time_diff']	=	 $days." day/s  ".gmdate("H:i:s", $average);
+		//$data['time_diff']	=	 $days." day/s  ".gmdate("H:i:s", $average);	if ($days < 10){
+				if ($days < 10){
+					$data['time_diff']	=  sprintf('%02d',$days)." day/s ".gmdate("H:i:s", $average);
+				}else{
+					$data['time_diff']	=  $days." day/s ".gmdate("H:i:s", $average);
+				}
+
 
 		
 		//118

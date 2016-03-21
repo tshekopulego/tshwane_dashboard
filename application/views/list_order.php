@@ -10,7 +10,7 @@ var incident_image, escalation_id, longidute,latidute,incident_audio,incident_vi
 <!--********************************************************************************************************-->
 <div class="remodal" data-remodal-id="modal_export">
 <a href="#" onclick='window.print()' ><button><span class="icon-print"></span>Print</button></a>
-       <h1>Export Incidents </h1><br>
+       <h1>Export Incidents  </h1><br>
        
        <div  id="print_info_id"></div>
     
