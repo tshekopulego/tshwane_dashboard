@@ -26,7 +26,7 @@ var incident_imagesend;
 <div class="remodal" data-remodal-id="modal_view">
 	<form style="text-align: left;" method="post" id="view-form" action="category/preview">
 		<input type="hidden" name="category_view_id" id="category_view_id">
-		<h1><span id='modal_title'></span>Notifications</h1>
+		<h1><span id='modal_title'></span>Notifications </h1>
 		
 		<label for="title1">Title</label>
 		<input type="text" name="title1" id="title1">
