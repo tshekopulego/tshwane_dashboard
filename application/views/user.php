@@ -302,14 +302,14 @@ $("#confirm_password").keyup(checkPasswordMatch);
         var data = JSON.parse(data.responseText);
     
         for (var i = 0; i < data.length; i++) {
-			$("#user_region").append("<option value="+data[i].region_name+">"+data[i].region_name+"</option>");
+			$("#user_region").append("<option value="+data[i].region_id+">"+data[i].region_name+"</option>");
         }
 
     });
      $("#user_region").change(function(){
     
     	 
-    	 $("#user_reg").val($('#user_region option:selected').text());
+    	 $("#user_reg").val($('#user_region option:selected').val());
     });
    
       $("#user_group").change(function(){
@@ -397,8 +397,8 @@ $("#confirm_password").keyup(checkPasswordMatch);
 		  
 		 if(aData != null){
 			// Set value form after select table for update data
-			$('#remove_user_id').val(aData[11]);
-			$('#user_id').val(aData[11]);
+			$('#remove_user_id').val(aData[12]);
+			$('#user_id').val(aData[12]);
 			$('#user_name').val(aData[2]);
 			$('#user_group > option[value="'+aData[9]+'"]').prop("selected", "selected");
 			$('#user_full_name').val(aData[3]);
@@ -406,7 +406,8 @@ $("#confirm_password").keyup(checkPasswordMatch);
 			$('#user_phone').val(aData[5]);
 			$('#user_address').val(aData[6]);
 			$('#paynum').val(aData[0]);
-			$('#user_region').val(aData[8]);
+			//$('#user_region').val(aData[11]);
+			$('#user_reg').val(aData[11]);
 //$('#user_region > option[value="'+aData[8]+'"]').prop("selected", "selected");
 
 			$('#user_idno').val(aData[1]);
