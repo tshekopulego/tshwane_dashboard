@@ -16,9 +16,7 @@
 				<td><label for="drop_shifts">Shifts</label></br>
 					<select id="drop_shifts" name="drop_shifts" style="width:100%" >
         				<option value="">Select Shift</option>
-						<!--<option value="5am-1pm">5am - 1pm</option>
-						<option value="1pm-9pm">1pm - 9pm</option>
-						<option value="9pm-5am">9pm - 5am</option>-->
+						
         			</select>
 						<input type="hidden" name="drop_shifts_id" id="drop_shifts_id">
 					
@@ -253,7 +251,7 @@
 <div class="remodal" data-remodal-id="modal_update">
 	<form style="text-align: left;" method="post" id="update-form" name="assert_form"  action="supervisor/update">
 	 	 <input type="hidden" name="shift_update_id" id="shift_update_id">
-		<!--<input type="text" name="shift_id" id="shift_id">-->
+	
 		
 		<h1><span id='modal_title'></span> Report</h1>
 		

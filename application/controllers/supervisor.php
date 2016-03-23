@@ -77,7 +77,7 @@ class supervisor extends CI_Controller
 			{
 		
 				$data['supname']					=	"$user_name";
-				$data['captureddatetime']				=	"$today";
+				$data['captureddatetime']			=	"$today";
 				$data['region']						=	"$region";
 				$data['shift']						=	"$shift";
 				$data['date']						=	"$date1";
@@ -176,100 +176,7 @@ class supervisor extends CI_Controller
 		echo json_encode($shifts);
 	}
 	
-	/*update function
-	public function update()
-	{
-		
-		$data			= array();
-		$shift_id		= $this->input->post('shift_id');
-		$insert_id = $this->input->post('shift_id');
-		
-		
-				$data['handover_comment']			=	$this->input->post('handover_up');
-				$data['handover_true_and_false'] 	=	$this->input->post('checkboxvalue1');
-		
-				$data['complaint_reg_comment']		=	$this->input->post('complaints_up');
-				$data['complaint_reg'] 				=	$this->input->post('checkboxvalue2');
-		
-				$data['manage_leave_comment']		=	$this->input->post('manage_up');
-				$data['manage_leave']				=	$this->input->post('checkboxvalue3');
-		
-				$data['office_duties_comment']		=	$this->input->post('assist_up');
-				$data['office_duties'] 				=	$this->input->post('checkboxvalue4');
-		
-				$data['pool_phone_comment']			=	$this->input->post('pool_up');
-				$data['pool_phone'] 				=	$this->input->post('checkboxvalue5');
-		
-				$data['private_calls_comment']		=	$this->input->post('private_up');
-				$data['private_calls'] 				=	$this->input->post('checkboxvalue6');
-		
-				$data['lunch_cleanup_comment']		=	$this->input->post('lunch_up');
-				$data['lunch_cleanup'] 				=	$this->input->post('checkboxvalue7');
-		
-				$data['phone_etiquette_comment']	=	$this->input->post('etiquette_up');
-				$data['phone_etiquette'] 			=	$this->input->post('checkboxvalue8');
-		
-				$data['radio_protocol_comment']		=	$this->input->post('protocol_up');
-				$data['radio_protocol'] 			=	$this->input->post('checkboxvalue9');
-			
-				$data['shift_complete_comment']		=	$this->input->post('check_register_up');
-				$data['shift_complete'] 			=	$this->input->post('checkboxvalue10');
-		
-				$data['check_mails_comment']		=	$this->input->post('check_emails_up');
-				$data['check_mails'] 				=	$this->input->post('checkboxvalue11');
-		
-				$data['kitchen_cleanup_comment']	=	$this->input->post('check_office_up');
-				$data['kitchen_cleanup'] 			=	$this->input->post('checkboxvalue12');
-		
-				$data['standby_list_comment']		=	$this->input->post('check_standby_up');
-				$data['standby_list'] 				=	$this->input->post('checkboxvalue13');
-		
-				$data['working_radios_comment']		=	$this->input->post('check_radios_up');
-				$data['working_radios'] 			=	$this->input->post('checkboxvalue14');
-		
-				$data['working_phones_comment']		=	$this->input->post('check_phones_up');
-				$data['working_phones'] 			=	$this->input->post('checkboxvalue15');
-		
-				$data['time_sheet_comment']			=	$this->input->post('daily_up');
-				$data['time_sheet'] 				=	$this->input->post('checkboxvalue16');
-		
-				$data['man_feedback_comment']		=	$this->input->post('feedback_up');
-				$data['man_feedback'] 				=	$this->input->post('checkboxvalue17');
-		
-				$data['check_arbook_comment']		=	$this->input->post('check_ar_up');
-				$data['check_arbook'] 				=	$this->input->post('checkboxvalue18');
-		
-				$data['check_obbook_comment']		=	$this->input->post('check_ob_up');
-				$data['check_obbook'] 				=	$this->input->post('checkboxvalue19');
-		
-				$data['book_onduty_comment']		=	$this->input->post('ob_duty_up');
-				$data['book_onduty'] 				=	$this->input->post('checkboxvalue20');
-		
-				$data['takeover_shift_comment']		=	$this->input->post('take_over_up');
-				$data['takeover_shift'] 			=	$this->input->post('checkboxvalue21');
-		
-				$data['other_comment']				=	$this->input->post('other_up');
-				$data['other']		
-		
-		//118
-		$this->load->model('supervisor_model');
-		$result = $this->supervisor_model->update($data,$insert_id);
-		
-		// Cek data insert or data update
-		
-		if($insert_id)
-			if($result)
-				echo "Data insert was successful!";
-			else
-				echo "Data insert not success!";
-		else
-			if($result)
-				echo "Data update was successful!";
-			else
-				echo "Data update not successful!";
-		
-			
-	}*/
+	
 		public function update()
 	{
 	  	
