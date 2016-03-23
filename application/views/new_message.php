@@ -711,7 +711,6 @@ $("a.modal_strength").hide();
  
  
  
- 
   /** Get request data region**/
     $("#menu_region_id").change(function(){
     
@@ -914,18 +913,7 @@ $('#form_filter_details').hide();
 
 
 	/** Show detail data datatables **/
-			
-	   /*$('#tabels tbody').on( 'dblclick','td', function () {
-			var nTr = $(this).parents('tr')[0];
-			if ( oTable.fnIsOpen(nTr) )
-			{
-				oTable.fnClose( nTr );
-			}
-			else
-			{
-				oTable.fnOpen( nTr, fnFormatDetails(nTr), 'details' );
-			}
-		} );*/
+	
 	
 		/** Set edit value after click datatables **/	
 		$('#tabels tbody').on('click','tr', function () {
@@ -993,8 +981,6 @@ oTableDetails.$('tr.row_selected').removeClass('row_selected');
 				$('#btn-con').removeAttr("disabled");
 				$('#btn-update').attr("disabled","disabled");
 				$('#btn-view').attr("disabled","disabled");
-
-
 
 
         	}
@@ -1103,9 +1089,7 @@ post_shift = $('#post_shift').val();
 			$('#hidden_nodal_update_vehicles').val(aData[5]);
 			$('#hidden_nodal_update_bikes').val(aData[6]);
 			
-			//$('#nodal_update_date').val(post_date);
-			//$('#nodal_update_shift').val(post_shift);
-	 
+		
  			if ( $(this).hasClass('row_selected') ) {
             		$(this).removeClass('row_selected');
 				// clear data form
@@ -1169,16 +1153,7 @@ $('#btn-con').attr("disabled","disabled");
 			$('#view_nodal_ob').val(aData[9]);
 			$('#view_nodal_remarks').val(aData[11]);
 			
-			//update
-			/*$('#update_region_ob').val(aData[3]);
-			$('#update_members').val(aData[4]);
-			$('#update_vehicles').val(aData[5]);
-			$('#update_bikes').val(aData[6]);
 			
-			//update nodal point
-			$('#nodal_update_members').val(aData[4]);
-			$('#nodal_update_vehicles').val(aData[5]);
-			$('#nodal_update_bikes').val(aData[6]);*/
 	 
  			if ( $(this).hasClass('row_selected') ) {
             		$(this).removeClass('row_selected');
