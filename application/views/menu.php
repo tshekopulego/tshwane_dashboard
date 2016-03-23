@@ -8,6 +8,7 @@
 			<option value="0" >Select Enquiry Type</option>
 		</select>
 		<input type="hidden" name="enquiry_type_id2" id="enquiry_type_id2">
+	
 		<label for="category_name">Name</label>
 		<input type="text" name="category_name" id="category_name">
 		<label for="category_addrs">Address/Region</label>
@@ -139,19 +140,13 @@
 	$('[data-remodal-id=modal_update]').remodal();
 	$('[data-remodal-id=modal_remove]').remodal();
 	
-	/*onchange the the option handover field data for insert*/
+	/*onchange for the enquiry dropdown field data for insert*/
     	  $("#enquiry_type_id").change(function(){
      
     	 $("#enquiry_type_id2").val($('#enquiry_type_id option:selected').val());
      
     	 });
 
-	/*onchange the the option handover field data for update*/
-    	  $("#enquiry_type_idup").change(function(){
-     
-    	 $("#enquiry_type_id2up").val($('#enquiry_type_idup option:selected').val());
-     
-    	 });
 		
 			
 	  /** Get request data for enquiry for insert **/
@@ -168,20 +163,7 @@
 		
 	});
 
-  /** Get request data for enquiry for insert for update **/
-	
-	getRequest("menu/get_enquiry_type", function(data) {
-         
-        var data = JSON.parse(data.responseText);
-    
-		for (var i = 0; i < data.length; i++) {
-			$("#enquiry_type_idup").append("<option value="+data[i].type_id+">"+data[i].name+"</option>");
-			
-		}
-		
-		
-	});	
-	
+ 
 
 </script>
 <script>
@@ -203,6 +185,7 @@ function validateRequiredField()
 	    }else{
 	         if (enquiry_type_id2== null || enquiry_type_id2== "") {
 		        alert("Enquiry Type must be selected");
+				document.forms["submit-form"]["enquiry_type_id"].focus();
 		        return false;
 		    }else{
 	         if (category_name== null || category_name== "") {
@@ -335,18 +318,18 @@ $(document).ready(function() {
 		 if(aData != null){
 			// Set value form after select table for update data
 			//'menu_name','menu_category_id','menu_price','menu_disc','menu_desc','menu_image','menu_id'
-			$('#remove_category_id').val(aData[7]);
-			$('#category_id').val(aData[7]);
+			$('#remove_category_id').val(aData[8]);
+			$('#category_id').val(aData[8]);
 			$('#category_name').val(aData[0]);
 			$('#category_addrs').val(aData[1]);
 			$('#category_phone').val(aData[2]);
 			$('#category_notes').val(aData[4]);
-			$('#category_type').val(aData[3]);
+			$('#category_type').val(aData[7]);
 			//$('#enquiry_type_id').text(aData[3]);
-			$('#enquiry_type_id2').val(aData[3]);
+			$('#enquiry_type_id2').val(aData[7]);
 			//console.log(aData[7]);
 			//----------------------view--------------------------
-			$('#category_view_id').val(aData[7]);
+			$('#category_view_id').val(aData[8]);
 			$('#category_name1').val(aData[0]);
 			$('#category_addrs1').val(aData[1]);
 			$('#category_phone1').val(aData[2]);
