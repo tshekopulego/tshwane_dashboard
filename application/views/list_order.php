@@ -530,6 +530,7 @@ var incident_image, escalation_id, longidute,latidute,incident_audio,incident_vi
 			<option value="0">Select Region</option>
         		</select></div>
         		<input type="hidden" id="string_handover_region_id" name="string_handover_region_id" >
+				<input type="hidden" id="string_handover_region_id_up" name="string_handover_region_id_up" >
         		
 			<!--Feedback-->
 			<div id="arrival_time">
@@ -647,10 +648,15 @@ var incident_image, escalation_id, longidute,latidute,incident_audio,incident_vi
         var data = JSON.parse(data.responseText);
     
         for (var i = 0; i < data.length; i++) {
-			$("#handover_region_id").append("<option value="+data[i].region_name+">"+data[i].region_name+"</option>");
+			$("#handover_region_id").append("<option value="+data[i].region_id+">"+data[i].region_name+"</option>");
         }
 
     });
+	
+	
+	
+	
+	//---------------------------------------------------------
 	
 	/** Get request data category  **/
 	getRequest("list_order/get_category", function(data) {
@@ -873,7 +879,13 @@ $("#menu_type_id").append("<option value=Other>Other</option>");
      /*onchange the the option handover field data*/
       $("#handover_region_id").change(function(){
      
-     $("#string_handover_region_id").val($('#handover_region_id option:selected').text());
+     $("#string_handover_region_id").val($('#handover_region_id option:selected').val());
+     
+     });
+	 /*onchange the region for history*/
+      $("#handover_region_id").change(function(){
+     
+     $("#string_handover_region_id_up").val($('#handover_region_id option:selected').text());
      
      });
      

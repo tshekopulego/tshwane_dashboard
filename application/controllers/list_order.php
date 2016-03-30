@@ -154,12 +154,7 @@ $this->load->model('login_model');
 			if($region == 17)
 			{
 			
-				/*$result = $this->datatables->getData('crimereport', array('RefNum','category_name','type_name','reportedon','location','status', 
-'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
-'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id',array('regions','crimereport.region=regions.region_id','inner'),array('category','crimereport.area=category.category_id','inner'),array('type','crimereport.type=type.type_id','inner'),'','',array('area','Corruption'));
-*/
-
-             $result = $this->datatables->getData('crimereport_view', array('RefNum','category_name','type_name','reportedon','location','status', 
+			    $result = $this->datatables->getData('crimereport_view', array('RefNum','category_name','type_name','reportedon','location','status', 
 'region_name','channel','capturedby','description','feedback','address','reportedby','mobile','imagelocation','videolocation',
 'audiolocation','lat','lot','ar_number','car_reg_num','num_persons','id'), 'id');
 			}
@@ -431,7 +426,7 @@ $this->load->model('login_model');
 		$data = array();
 
 		if($status_data ==="Assigned"){
-		 $data['region']	= $this->input->post('string_handover_region_id');
+		 $data['region']	= $this->input->post('string_handover_region_id_up');
 		}
 		if($status_data ==="Dispatched"){
 		$data['officer_name']	= 	$this->input->post('dispatch_officer');
