@@ -471,12 +471,23 @@ $this->load->model('login_model');
 		$data['notes']		=	$this->input->post('notes');
 		$data['message']	=	$this->input->post('message');
 		if ($days < 10){
-					$data['time_diff']	=  sprintf('%02d',$days)." day/s ".gmdate("H:i:s", $average);
+					$answer	=  sprintf('%02d',$days)." day/s ".gmdate("H:i:s", $average);
+					$data['time_diff']	= $answer;
+					
+					$answer_unix	= date("Y-m-d",strtotime("- $days day"))." ".gmdate("H:i:s", $average) ;
+					$ans = strtotime($answer_unix." GMT");
+					$data['unix_time']	= $ans;
+					//$data['unix_time']	= $answer_unix;
 				}else{
-					$data['time_diff']	=  $days." day/s ".gmdate("H:i:s", $average);
+					$answer	=  $days." day/s ".gmdate("H:i:s", $average);
+					$data['time_diff']	= $answer;
+					
+					$answer_unix	= date("Y-m-d",strtotime("- $days day"))." ".gmdate("H:i:s", $average) ;
+					$ans = strtotime($answer_unix." GMT");
+					$data['unix_time']	= $ans;
+					//$data['unix_time']	= $answer_unix;
 				}
-
-		
+	
 
 		
 		//118

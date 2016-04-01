@@ -706,15 +706,16 @@ $('#menu_region_id option[value=0]').attr('selected','selected');
 			$("#menu_channel_id_recapture").append("<option value="+data[i].channel_type+">"+data[i].channel_type+"</option>");
 
         }
+       
 
+//$("#menu_channel_id").html($("#menu_channel_id option").sort(function (a, b) {
+//if(a.text != 'Select Channel'){
+  //  return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
+//}
 
-$("#menu_channel_id").html($("#menu_channel_id option").sort(function (a, b) {
-if(a.text != 'Select Channel'){
-    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
-}
-
-}))
+//}))
 $('#menu_channel_id option[value=0]').attr('selected','selected');
+$('#menu_channel_id option[value=8]').remove();
 
 
 
