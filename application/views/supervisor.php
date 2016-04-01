@@ -15,11 +15,11 @@
 				<td></td>
 				<td><label for="drop_shifts">Shifts</label></br>
 					<select id="drop_shifts" name="drop_shifts" style="width:100%" >
-        				<option value="" disabled selected hidden>Select Shift</option>
-						<option value="5am-1pm">5am - 1pm</option>
-						<option value="1pm-9pm">1pm - 9pm</option>
-						<option value="9pm-5am">9pm - 5am</option>
+        				<option value="">Select Shift</option>
+						
         			</select>
+						<input type="hidden" name="drop_shifts_id" id="drop_shifts_id">
+					
 				</td>
 			</tr>
 		</table>
@@ -251,7 +251,7 @@
 <div class="remodal" data-remodal-id="modal_update">
 	<form style="text-align: left;" method="post" id="update-form" name="assert_form"  action="supervisor/update">
 	 	 <input type="hidden" name="shift_update_id" id="shift_update_id">
-		<!--<input type="text" name="shift_id" id="shift_id">-->
+	
 		
 		<h1><span id='modal_title'></span> Report</h1>
 		
@@ -438,7 +438,15 @@
 	$('[data-remodal-id=modal_update]').remodal();
 	$('[data-remodal-id=modal_remove]').remodal();
 	
-	
+	   getRequest("supervisor/get_shifts", function(data) {
+         
+        var data = JSON.parse(data.responseText);
+    console.log("get the shift" + data);
+		var i;
+		for (i = 0; i < data.length; i++) {
+			$("#drop_shifts").append("<option value="+data[i].shift_id+">"+data[i].shift_name+"</option>");
+			}
+    });
 	
 	 /** Get request data region  **/
 	getRequest("supervisor/get_regions", function(data) {
@@ -446,7 +454,7 @@
         var data = JSON.parse(data.responseText);
     
         for (var i = 0; i < data.length; i++) {
-			$("#menu_region_id").append("<option value="+data[i].region_name+">"+data[i].region_name+"</option>");
+			$("#menu_region_id").append("<option value="+data[i].region_id+">"+data[i].region_name+"</option>");
         }
         
         
@@ -455,7 +463,12 @@
     
      $("#menu_region_id").change(function(){
 
-    	 $("#menu_region").val($('#menu_region_id option:selected').text());
+    	 $("#menu_region").val($('#menu_region_id option:selected').val());
+    });
+	
+	$("#drop_shifts").change(function(){
+
+    	 $("#drop_shifts_id").val($('#drop_shifts option:selected').val());
     });
 	
 	//checkbox value hidden field population

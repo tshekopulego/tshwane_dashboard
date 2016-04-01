@@ -152,11 +152,10 @@
 
 				<td><label for="drop_shifts">Shifts</label></br>
 					<select id="drop_shifts" name="drop_shifts" style="width:100%" >
-        					<option value="" disabled selected hidden>Select Shift</option>
-						<option value="5am-1pm">5am - 1pm</option>
-						<option value="1pm-9pm">1pm - 9pm</option>
-						<option value="9pm-5am">9pm - 5am</option>
-        				</select></td>
+					      <option value="" >Select Shift</option>
+        			
+        		    </select></td>
+					<input type="hidden" name="drop_shifts_id" id="drop_shifts_id">
 			</tr>
 		</table>
 		
@@ -214,11 +213,11 @@
 </br>
 <label for="calc_shift">Select Shift</label>
 <br>		
-<input type="radio" name="calc_shift" id="calc_shift1" onclick="return calculate_daily_strength();">  5am - 1pm
+<input type="radio" name="calc_shift" id="calc_shift1" value="1" onclick="return calculate_daily_strength();">  5am - 1pm
 <br>
-<input type="radio" name="calc_shift" id="calc_shift2" onclick="return calculate_daily_strength();">  1pm - 9pm
+<input type="radio" name="calc_shift" id="calc_shift2" value="2" onclick="return calculate_daily_strength();">  1pm - 9pm
 <br>
-<input type="radio" name="calc_shift" id="calc_shift3" onclick="return calculate_daily_strength();">  9pm - 5am
+<input type="radio" name="calc_shift" id="calc_shift3" value="3" onclick="return calculate_daily_strength();">  9pm - 5am
 
 </br></br>
 
@@ -515,19 +514,27 @@ getRequest("new_message/get_regions", function(data) {
 $("#fields").val(i);
      
     });
-    
+    getRequest("new_message/get_shifts", function(data) {
+         
+        var data = JSON.parse(data.responseText);
+    console.log("get the shift" + data);
+		var i;
+		for (i = 0; i < data.length; i++) {
+			$("#drop_shifts").append("<option value="+data[i].shift_id+">"+data[i].shift_name+"</option>");
+			}
+    });
     
     /***********NOT USED************/
    function calculate_daily_strength()
    {
-   
+	 
  	if(($("#calc_date").val() == '' || $("#calc_date").val() == null || $("#calc_date").val() == 'mm/dd/yyy') || (radio_calc_shift == '' || radio_calc_shift == null))
  	{
  		$("#display_daily_strength").hide();
  	}else
  	{
-   		getRequest("new_message/get_daily_deployment/" + radio_calc_shift.replace(/\ /g,"_") + "/" +  $("#calc_date").val() , function(data) {
-         
+   		//getRequest("new_message/get_daily_deployment/" + radio_calc_shift.replace(/\ /g,"_") + "/" +  $("#calc_date").val() , function(data) {
+         getRequest("new_message/get_daily_deployment/" + radio_calc_shift + "/" +  $('#calc_date').val() , function(data) {
        			var data = JSON.parse(data.responseText);
         		var total_members = 0;
         		var total_vehicles = 0;
@@ -704,7 +711,6 @@ $("a.modal_strength").hide();
  
  
  
- 
   /** Get request data region**/
     $("#menu_region_id").change(function(){
     
@@ -712,7 +718,12 @@ $("a.modal_strength").hide();
     	 $("#menu_region").val($('#menu_region_id option:selected').text());
     });
 
-
+/** Get request data region**/
+    $("#drop_shifts").change(function(){
+    
+    	 
+    	 $("#drop_shifts_id").val($('#drop_shifts option:selected').val());
+    });
 
     
      
@@ -722,15 +733,18 @@ $("input[name=shifts]:radio").change(function () {
  var rate_value;
  
 if (document.getElementById('shift1').checked) {
-  rate_value = "5am - 1pm";
+  //rate_value = "5am - 1pm";
+  rate_value = $('#shift1').val();
   $("#hidden_shifts").val(rate_value);
   
 }else if (document.getElementById('shift2').checked) {
-  rate_value = "1pm - 9pm";
+ //rate_value = "1pm - 9pm";
+  rate_value = $('#shift2').val();
   $("#hidden_shifts").val(rate_value);
  
 }else if (document.getElementById('shift3').checked) {
-  rate_value = "9pm - 5am";
+  //rate_value = "9pm - 5am";
+  rate_value = $('#shift3').val();
   $("#hidden_shifts").val(rate_value);
  
 }
@@ -744,15 +758,15 @@ $("input[name=calc_shift]:radio").change(function () {
 
  
 if (document.getElementById('calc_shift1').checked) {
-  radio_calc_shift = "5am - 1pm";
+  radio_calc_shift =$('#calc_shift1').val();// "5am - 1pm";
  
   
 }else if (document.getElementById('calc_shift2').checked) {
-  radio_calc_shift = "1pm - 9pm";
+  radio_calc_shift = $('#calc_shift2').val();//"1pm - 9pm";
 
  
 }else if (document.getElementById('calc_shift3').checked) {
-  radio_calc_shift= "9pm - 5am";
+  radio_calc_shift= $('#calc_shift2').val();//"9pm - 5am";
   
  
 }
@@ -899,18 +913,7 @@ $('#form_filter_details').hide();
 
 
 	/** Show detail data datatables **/
-			
-	   /*$('#tabels tbody').on( 'dblclick','td', function () {
-			var nTr = $(this).parents('tr')[0];
-			if ( oTable.fnIsOpen(nTr) )
-			{
-				oTable.fnClose( nTr );
-			}
-			else
-			{
-				oTable.fnOpen( nTr, fnFormatDetails(nTr), 'details' );
-			}
-		} );*/
+	
 	
 		/** Set edit value after click datatables **/	
 		$('#tabels tbody').on('click','tr', function () {
@@ -921,7 +924,7 @@ $('#form_filter_details').hide();
 		 if(aData != null){
 
 			post_date=aData[0];
-			post_shift=aData[1];
+			post_shift=aData[6];
 
 			oTableDetails.fnReloadAjax();
 
@@ -929,7 +932,7 @@ $('#form_filter_details').hide();
 			$('#view_id').val(aData[12]);
 			$('#id').val(aData[12]);
 			$('#update_id').val(aData[12]);
-			$('#conclude_deploy_id').val(aData[6]);
+			$('#conclude_deploy_id').val(aData[7]);
 			document.getElementById("conclude_date").innerHTML		= 	 "Date: " + aData[0];
 			document.getElementById("conclude_shift").innerHTML		= 	 "Shift: " + aData[1];
 			document.getElementById("conclude_mem").innerHTML		= 	 "Members: " + aData[2];
@@ -978,8 +981,6 @@ oTableDetails.$('tr.row_selected').removeClass('row_selected');
 				$('#btn-con').removeAttr("disabled");
 				$('#btn-update').attr("disabled","disabled");
 				$('#btn-view').attr("disabled","disabled");
-
-
 
 
         	}
@@ -1045,15 +1046,15 @@ post_shift = $('#post_shift').val();
 		 var aData = oTableDetails.fnGetData(this);
 		  
 		 if(aData != null){
-			$('#remove_table_id').val(aData[12]);
-			$('#view_id').val(aData[12]);
-			$('#id').val(aData[12]);
+			$('#remove_table_id').val(aData[13]);
+			$('#view_id').val(aData[13]);
+			$('#id').val(aData[13]);
 
 
 
 			//$('#remove_deploy_id').val(aData[12]);
 			
-			$('#nodal_update_id').val(aData[12]);
+			$('#nodal_update_id').val(aData[13]);
 			$('#view_shift').val(aData[1]);
 			$('#view_region_ob').val(aData[3]);
 			$('#view_region').val(aData[2]);
@@ -1077,20 +1078,18 @@ post_shift = $('#post_shift').val();
 			
 			//update nodal point
 			$('#nodal_update_date').val(aData[0]);
-			$('#nodal_update_shift').val(aData[1]);
+			$('#nodal_update_shift').val(aData[12]);
 			$('#region_nodal_ob').val(aData[3]);
 			$('#nodal_update_members').val(aData[4]);
 			$('#nodal_update_vehicles').val(aData[5]);
 			$('#nodal_update_bikes').val(aData[6]);
-			
+			console.log("The shift id is :"+aData[12]);
 			//hidden fields
 			$('#hidden_nodal_update_members').val(aData[4]);
 			$('#hidden_nodal_update_vehicles').val(aData[5]);
 			$('#hidden_nodal_update_bikes').val(aData[6]);
 			
-			//$('#nodal_update_date').val(post_date);
-			//$('#nodal_update_shift').val(post_shift);
-	 
+		
  			if ( $(this).hasClass('row_selected') ) {
             		$(this).removeClass('row_selected');
 				// clear data form
@@ -1154,16 +1153,7 @@ $('#btn-con').attr("disabled","disabled");
 			$('#view_nodal_ob').val(aData[9]);
 			$('#view_nodal_remarks').val(aData[11]);
 			
-			//update
-			/*$('#update_region_ob').val(aData[3]);
-			$('#update_members').val(aData[4]);
-			$('#update_vehicles').val(aData[5]);
-			$('#update_bikes').val(aData[6]);
 			
-			//update nodal point
-			$('#nodal_update_members').val(aData[4]);
-			$('#nodal_update_vehicles').val(aData[5]);
-			$('#nodal_update_bikes').val(aData[6]);*/
 	 
  			if ( $(this).hasClass('row_selected') ) {
             		$(this).removeClass('row_selected');

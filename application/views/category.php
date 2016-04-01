@@ -8,7 +8,7 @@ var incident_imagesend;
 <div class="remodal" data-remodal-id="modal">
 	<form style="text-align: left;" method="post" id="submit-form" name="notification_form" onsubmit="return validateForm()" action="category/insert">
 		<input type="hidden" name="category_id" id="category_id">
-		<h1><span id='modal_title'></span>Notifications</h1>
+		<h1><span id='modal_title'></span>Notifications </h1>
 		<label for="title">Title</label>
 		<input type="text" name="title" id="title">
 		<label for="message">Message</label>

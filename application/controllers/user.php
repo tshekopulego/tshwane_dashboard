@@ -15,7 +15,7 @@ class User extends CI_Controller
 	       
 
 		// Get data user
-		$result = $this->datatables->getData('user', array('user_paysal','user_identityNo','user_name','user_full_name','user_email','user_phone','user_address','group_name','region_name','user_group','user_password','user_id'), 'user_id', array('groups','groups.group_id = user.user_group','inner'),array('regions','regions.region_id = user.user_region','inner'));
+		$result = $this->datatables->getData('user', array('user_paysal','user_identityNo','user_name','user_full_name','user_email','user_phone','user_address','group_name','region_name','user_group','user_password','user_region','user_id'), 'user_id', array('groups','groups.group_id = user.user_group','inner'),array('regions','regions.region_id = user.user_region','inner'));
 		
 		
 		

@@ -15,7 +15,7 @@ class Menu extends CI_Controller
 	public function get()
 	{
 		// Get data menu
-		$result = $this->datatables->getData('enquiry', array('fullname','address','phone','type','notes','enquirydate','capturedby','id'), 'id');
+		$result = $this->datatables->getData('enquiry', array('fullname','address','phone','name','notes','enquirydate','capturedby','type','id'), 'id',array('enquiry_type','enquiry.type = enquiry_type.type_id','inner'));
 		echo $result;
 	}
 
@@ -38,7 +38,7 @@ class Menu extends CI_Controller
 		$data['address']			=	$this->input->post('category_addrs');
 		$data['phone']				=	$this->input->post('category_phone');
 		$data['notes']				=	$this->input->post('category_notes');
-		$data['enquirydate']		=	$today;
+		//$data['enquirydate']		=	$today;
 		$data['capturedby']			=	$user_name;
 		
 		
@@ -53,12 +53,14 @@ class Menu extends CI_Controller
 				echo "Data insert was successful!";
 			else
 				echo "Data insert not success!";
-		else
+	else
 			if($result)
 				echo "Data update was successful!";
 			else
 				echo "Data update not successful!";
 	}
+	
+	
 	
 
 	/*

@@ -22,7 +22,7 @@ class supervisor extends CI_Controller
 		{
 			if($region == 17)
 			{
-                            $result = $this->datatables->getData('sup_report', array('date','shift','region','supname','time',
+                            $result = $this->datatables->getData('sup_report', array('date','shift_name','region_name','supname','time',
 		                     'handover_true_and_false','handover_comment','complaint_reg','complaint_reg_comment','manage_leave',
 							 'manage_leave_comment','office_duties','office_duties_comment','pool_phone','pool_phone_comment','private_calls',
 							 'private_calls_comment','lunch_cleanup','lunch_cleanup_comment','phone_etiquette','phone_etiquette_comment','radio_protocol',
@@ -30,9 +30,9 @@ class supervisor extends CI_Controller
 							 'kitchen_cleanup','kitchen_cleanup_comment','standby_list','standby_list_comment','working_radios','working_radios_comment','working_phones',
 							 'working_phones_comment','time_sheet','time_sheet_comment','man_feedback','man_feedback_comment','check_arbook','check_arbook_comment','check_obbook',
 							 'check_obbook_comment','book_onduty','book_onduty_comment','takeover_shift','takeover_shift_comment','other','other_comment',
-							 'report_id'), 'report_id');
+							 'report_id'), 'report_id', array('regions','sup_report.region = regions.region_id','inner'),array('shifts','sup_report.shift = shifts.shift_id','inner'));
 		        }else{
-                           $result = $this->datatables->getData('sup_report', array('date','shift','region','supname','time',
+                           $result = $this->datatables->getData('sup_report', array('date','shift_name','region_name','supname','time',
 		                     'handover_true_and_false','handover_comment','complaint_reg','complaint_reg_comment','manage_leave',
 							 'manage_leave_comment','office_duties','office_duties_comment','pool_phone','pool_phone_comment','private_calls',
 							 'private_calls_comment','lunch_cleanup','lunch_cleanup_comment','phone_etiquette','phone_etiquette_comment','radio_protocol',
@@ -40,7 +40,7 @@ class supervisor extends CI_Controller
 							 'kitchen_cleanup','kitchen_cleanup_comment','standby_list','standby_list_comment','working_radios','working_radios_comment','working_phones',
 							 'working_phones_comment','time_sheet','time_sheet_comment','man_feedback','man_feedback_comment','check_arbook','check_arbook_comment','check_obbook',
 							 'check_obbook_comment','book_onduty','book_onduty_comment','takeover_shift','takeover_shift_comment','other','other_comment',
-							 'report_id'), 'report_id', '','',array('region',$region ));
+							 'report_id'), 'report_id', array('regions','sup_report.region = regions.region_id','inner'),array('shifts','sup_report.shift = shifts.shift_id','inner'),array('region',$region ));
 
 			}
 			
@@ -65,7 +65,7 @@ class supervisor extends CI_Controller
 		$data = array();
 		
 		$date1 		= $this->input->post('report_date');
-		$shift  	= $this->input->post('drop_shifts');
+		$shift  	= $this->input->post('drop_shifts_id');
 		$region 	= $this->input->post('menu_region');
 		
 		
@@ -77,7 +77,7 @@ class supervisor extends CI_Controller
 			{
 		
 				$data['supname']					=	"$user_name";
-				$data['captureddatetime']				=	"$today";
+				$data['captureddatetime']			=	"$today";
 				$data['region']						=	"$region";
 				$data['shift']						=	"$shift";
 				$data['date']						=	"$date1";
@@ -167,100 +167,16 @@ class supervisor extends CI_Controller
 			else
 				echo "Data update not successful!";
 	}
-	/*update function
-	public function update()
+	
+	public function get_shifts()
 	{
+		$this->load->model('new_message_model');
+		$shifts= $this->new_message_model->get_shifts();
 		
-		$data			= array();
-		$shift_id		= $this->input->post('shift_id');
-		$insert_id = $this->input->post('shift_id');
-		
-		
-				$data['handover_comment']			=	$this->input->post('handover_up');
-				$data['handover_true_and_false'] 	=	$this->input->post('checkboxvalue1');
-		
-				$data['complaint_reg_comment']		=	$this->input->post('complaints_up');
-				$data['complaint_reg'] 				=	$this->input->post('checkboxvalue2');
-		
-				$data['manage_leave_comment']		=	$this->input->post('manage_up');
-				$data['manage_leave']				=	$this->input->post('checkboxvalue3');
-		
-				$data['office_duties_comment']		=	$this->input->post('assist_up');
-				$data['office_duties'] 				=	$this->input->post('checkboxvalue4');
-		
-				$data['pool_phone_comment']			=	$this->input->post('pool_up');
-				$data['pool_phone'] 				=	$this->input->post('checkboxvalue5');
-		
-				$data['private_calls_comment']		=	$this->input->post('private_up');
-				$data['private_calls'] 				=	$this->input->post('checkboxvalue6');
-		
-				$data['lunch_cleanup_comment']		=	$this->input->post('lunch_up');
-				$data['lunch_cleanup'] 				=	$this->input->post('checkboxvalue7');
-		
-				$data['phone_etiquette_comment']	=	$this->input->post('etiquette_up');
-				$data['phone_etiquette'] 			=	$this->input->post('checkboxvalue8');
-		
-				$data['radio_protocol_comment']		=	$this->input->post('protocol_up');
-				$data['radio_protocol'] 			=	$this->input->post('checkboxvalue9');
-			
-				$data['shift_complete_comment']		=	$this->input->post('check_register_up');
-				$data['shift_complete'] 			=	$this->input->post('checkboxvalue10');
-		
-				$data['check_mails_comment']		=	$this->input->post('check_emails_up');
-				$data['check_mails'] 				=	$this->input->post('checkboxvalue11');
-		
-				$data['kitchen_cleanup_comment']	=	$this->input->post('check_office_up');
-				$data['kitchen_cleanup'] 			=	$this->input->post('checkboxvalue12');
-		
-				$data['standby_list_comment']		=	$this->input->post('check_standby_up');
-				$data['standby_list'] 				=	$this->input->post('checkboxvalue13');
-		
-				$data['working_radios_comment']		=	$this->input->post('check_radios_up');
-				$data['working_radios'] 			=	$this->input->post('checkboxvalue14');
-		
-				$data['working_phones_comment']		=	$this->input->post('check_phones_up');
-				$data['working_phones'] 			=	$this->input->post('checkboxvalue15');
-		
-				$data['time_sheet_comment']			=	$this->input->post('daily_up');
-				$data['time_sheet'] 				=	$this->input->post('checkboxvalue16');
-		
-				$data['man_feedback_comment']		=	$this->input->post('feedback_up');
-				$data['man_feedback'] 				=	$this->input->post('checkboxvalue17');
-		
-				$data['check_arbook_comment']		=	$this->input->post('check_ar_up');
-				$data['check_arbook'] 				=	$this->input->post('checkboxvalue18');
-		
-				$data['check_obbook_comment']		=	$this->input->post('check_ob_up');
-				$data['check_obbook'] 				=	$this->input->post('checkboxvalue19');
-		
-				$data['book_onduty_comment']		=	$this->input->post('ob_duty_up');
-				$data['book_onduty'] 				=	$this->input->post('checkboxvalue20');
-		
-				$data['takeover_shift_comment']		=	$this->input->post('take_over_up');
-				$data['takeover_shift'] 			=	$this->input->post('checkboxvalue21');
-		
-				$data['other_comment']				=	$this->input->post('other_up');
-				$data['other']		
-		
-		//118
-		$this->load->model('supervisor_model');
-		$result = $this->supervisor_model->update($data,$insert_id);
-		
-		// Cek data insert or data update
-		
-		if($insert_id)
-			if($result)
-				echo "Data insert was successful!";
-			else
-				echo "Data insert not success!";
-		else
-			if($result)
-				echo "Data update was successful!";
-			else
-				echo "Data update not successful!";
-		
-			
-	}*/
+		echo json_encode($shifts);
+	}
+	
+	
 		public function update()
 	{
 	  	

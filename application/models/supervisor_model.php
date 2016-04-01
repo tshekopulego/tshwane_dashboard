@@ -40,6 +40,19 @@ class supervisor_model extends CI_Model
 			}	
 		}
 		
+	function get_shifts()
+	{
+		$this->db->select('*');
+        $this->db->from('shifts');
+		
+		 
+		$query = $this->db->get();
+		
+		$result = $query->result_array();
+		
+		return $result;
+	}
+		
 	function regions()
 	{
 

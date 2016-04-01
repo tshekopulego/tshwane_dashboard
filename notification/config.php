@@ -10,5 +10,5 @@ define("DB_DATABASE", "cosafson_dash");
 /*
  * Google API Key
  */
-define("GOOGLE_API_KEY", "AIzaSyAEGfzULASTK8AEhTJW5wFVL_lfLAOxk08"); // Place your Google API Key
+define("GOOGLE_API_KEY", "AIzaSyCLRKb-hFRJI1hf0tQoHmnZmK-yA01ewwA"); // Place your Google API Key
 ?>
