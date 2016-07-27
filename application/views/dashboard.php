@@ -3,6 +3,11 @@
 <div class="content-block-title"><span style="font-size: 20px; font-weight: 300;"> <span class="icon-home"> 
 	</span>Tshwane Safety Dashboard</span>
 <div style="float:right;">
+    <div class="menu">
+        <a href="#" onClick="openReport('capacity')" ><button id="btn-capacity" class="btn-report" >Capacity</button></a>
+        <!--<a href="#" onClick="openReport('sla')" ><button id="btn-capacity" class="btn-report" >SLA</button></a>
+        <a href="#" onClick="openReport('incident')" ><button id="btn-capacity" class="btn-report" >Incidents</button></a> -->
+    </div>
 </div>
 </div>
 <div class="mainview view">
