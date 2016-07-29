@@ -91,54 +91,108 @@
   $('ul.menu-left li:first').addClass('selected');
  
    // Load page
-  function openPages(url,module) {
+        function openPages(url,module) {
 
-  	$("#page").empty();		
-	$(".remodal").remove();
-	
-  	$.ajax({
-		url: url,	
+            $("#page").empty();		
+            $(".remodal").remove();
+
+            $.ajax({
+                url: url,	
 		type: "GET",		
 		cache: false,
 		success: function (data) {
-			$("#page").html(data);		
-			//$('#loading').fadeOut(100);
-			if(module != ''){
-				$.getJSON('main/get_access_menu',{"modul":module},function(r){
-					if(r.access_insert != 1){ $("#btn-insert").hide(); $("#btn-active").hide(); $("#btn-Inactive").hide(); $("#btn-add-image").hide(); $("#btn-add-times").hide(); $("#btn-view").hide();} else { $("#btn-insert").show(); $("#btn-active").show(); $("#btn-Inactive").show(); $("#btn-add-image").show(); $("#btn-add-times").show(); $("#btn-view").show(); }
-					if(r.access_update != 1){ $("#btn-update").hide(); }else{ $("#btn-update").show(); }
-					if(r.access_delete != 1){ $("#btn-remove").hide(); }else{ $("#btn-remove").show(); }
-					if(r.access_send != 1){ $("#btn-send").hide(); }else{ $("#btn-send").show(); }
-					if(r.access_con != 1){ $("#btn-con").hide(); }else{ $("#btn-con").show(); }
-					//if(r.access_region_capture != 1){ $("#btn-send").hide(); }else{ $("#btn-send").show(); }
-				});
-			}	
+			$("#page").html(data);	 
+                       //$('#loading').fadeOut(100);
+                        //console.log(url +' - '+ module);
+                            if(module != ''){
+                                    $.getJSON('main/get_access_menu',{"modul":module},function(r){
+                                            if(r.access_insert != 1){ $("#btn-insert").hide(); $("#btn-active").hide(); $("#btn-Inactive").hide(); $("#btn-add-image").hide(); $("#btn-add-times").hide(); $("#btn-view").hide();} else { $("#btn-insert").show(); $("#btn-active").show(); $("#btn-Inactive").show(); $("#btn-add-image").show(); $("#btn-add-times").show(); $("#btn-view").show(); }
+                                            if(r.access_update != 1){ $("#btn-update").hide(); }else{ $("#btn-update").show(); }
+                                            if(r.access_delete != 1){ $("#btn-remove").hide(); }else{ $("#btn-remove").show(); }
+                                            if(r.access_send != 1){ $("#btn-send").hide(); }else{ $("#btn-send").show(); }
+                                            //if(r.access_region_capture != 1){ $("#btn-send").hide(); }else{ $("#btn-send").show(); }
+                                    });
+                            }	
 			}		
 		});
 	}
+        
+        function openReport(report){
+            $("#page").empty();		
+            $(".remodal").remove();
+
+            $.ajax({
+                url: report,
+                type: "GET",		
+                cache: false,
+                success: function (data) {
+                            $("#page").html(data);	 
+                }		
+            });
+        }
+        
+        /* Export CSV report */
+        function exportReport(report){
+
+            $.ajax({
+                url: report+'/export',
+                type: "GET",		
+                cache: false,
+                success: function (data) {
+                    //console.log(data);
+                            //Get report data for csv export
+                            /*
+                            $.ajax({
+                                url: report+'/get_data',
+                                type: "GET",
+                                dataType: "json",
+                                cache: false,
+                                success: function (report_data) {
+
+                                    //if(report_data){
+                                        $(".mainview").append(report_data);
+
+                                        $.each(report_data, function(index, val){
+                                            $.each(report_data[index], function(key, value){
+                                                console.log(key + " - " + value);
+                                            });
+                                        });
+                                    //}
+
+                                }		
+                            });
+*/
+
+                        }		
+            });
+
+
+        }
 	/*
 		* DataTables Refresh
 	*/
 
-   $.fn.dataTableExt.oApi.fnReloadAjax = function ( oSettings, sNewSource ) {
-    if ( typeof sNewSource != 'undefined' )
-    oSettings.sAjaxSource = sNewSource;
-     
-    this.fnClearTable( this );
-    this.oApi._fnProcessingDisplay( oSettings, true );
-    var that = this;
-     
-    $.getJSON( oSettings.sAjaxSource, null, function(json) {
-    /* Got the data - add it to the table */
-    for ( var i=0 ; i<json.aaData.length ; i++ ) {
-    that.oApi._fnAddData( oSettings, json.aaData[i] );
-    }
-     
-    oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
-    that.fnDraw( that );
-    that.oApi._fnProcessingDisplay( oSettings, false );
-    });
-	}	
+    $.fn.dataTableExt.oApi.fnReloadAjax = function ( oSettings, sNewSource ) {
+        if ( typeof sNewSource != 'undefined' )
+            oSettings.sAjaxSource = sNewSource;
+        console.log(sNewSource);
+
+        this.fnClearTable( this );
+        this.oApi._fnProcessingDisplay( oSettings, true );
+        var that = this;
+
+        $.getJSON( oSettings.sAjaxSource, null, function(json) {
+            /* Got the data - add it to the table */
+            for ( var i=0 ; i<json.aaData.length ; i++ ) {
+                that.oApi._fnAddData( oSettings, json.aaData[i] );
+            }
+
+            oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+            that.fnDraw( that );
+            that.oApi._fnProcessingDisplay( oSettings, false );
+        });
+    }	
+    
   // Set style active menu
   $('ul.menu-left li').click(function(){
     	$('.menu-left li').removeClass('selected');
