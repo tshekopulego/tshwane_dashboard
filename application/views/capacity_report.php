@@ -49,8 +49,10 @@
                                             </select>                       
                                         </div><!-- end .selectbox_container-->
                                     </form>
-                                    <canvas id="canvas_b" height="150" width="600" ></canvas>
-                                    <div class="col12"><div id="legend_b" class="legend"></div></div>
+                                    <div class="per_region_container" >
+                                        <canvas id="canvas_b" height="150" width="600" ></canvas>
+                                        <div class="col12"><div id="legend_b" class="legend"></div></div>
+                                    </div>
                                 </div>
 				<div class="col12" style="padding-bottom:45px;"></div>
 			</div>
@@ -211,12 +213,6 @@
                 //Using the same select date method to display the data from the day before
                 function create_select_chart(){
                     
-                    /* Strength by Shift for selectable regions */
-                    $('#region_select').off().on('change', function(){
-                        $('#select_date_container').fadeIn();
-                        $("#select_date_container option:first").attr('selected','selected');
-                    });
-                    
                     var barChartData = {
                         /* Labels to be injected with json from db */
                         labels : ["9pm - 5am", "5am - 1pm", "1pm - 9pm"],
@@ -227,7 +223,7 @@
                                 strokeColor: "#299571",
                                 highlightFill: "#278f6c",
                                 highlightStroke: "#207559",
-                                data: []
+                                data: [0,0,0]
                             },
                             {
                                 label: "Vehicles",
@@ -235,7 +231,7 @@
                                 strokeColor: "rgba(151,187,205,0.8)",
                                 highlightFill: "rgba(151,187,205,0.75)",
                                 highlightStroke: "rgba(151,187,205,1)",
-                                data: []
+                                data: [0,0,0]
                             },
                             {
                                 label: "Bikes",
@@ -243,11 +239,71 @@
                                 strokeColor: "rgba(220,220,220,0.8)",
                                 highlightFill: "rgba(220,220,220,0.75)",
                                 highlightStroke: "rgba(220,220,220,1)",
-                                data: []
+                                data: [0,0,0]
                             }
                         ]
                     };
+                    
+                    //fetch div by id
+                    var ctx = document.getElementById("canvas_b").getContext("2d");
+                    //initialize graph
+                    var shift = new Chart(ctx).Bar(barChartData, {
+                            responsive : true,
+                            //String - A legend template
+                            legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+                    }); 
+                    
+                    //Generte legend
+                    var legend = shift.generateLegend();
+                    $('#legend_b').append(legend);
+                    
+                    /* Strength by Shift for selectable regions */
+                    $('#region_select').off().on('change', function(){
+                        $('#select_date_container, .per_region_container').fadeIn();
+                        $("#select_date_container option:first").attr('selected','selected');
+                    });
+                    
+                    //update graph on select change
+                    $('#month_select_b').off().on('change', function(){
+                        var selectedDate = $('#month_select_b option:selected').val();
+                        var RegionId = $('#region_select option:selected').val();
 
+                        $.post('capacity/chart_by_search/',
+                            {
+                                'date':selectedDate,
+                                'region':RegionId
+
+                            }, function(json){
+                                //console.log(json);
+
+                                 //check for undefined values (0)
+                                 if(typeof json[0] === 'undefined'){
+                                     json[0] = {shift: "0", region: RegionId, total_members: "0", total_vehicles: "0", total_bikes: "0"}
+                                 }
+                                 if(typeof json[1] === 'undefined'){
+                                     json[1] = {shift: "1", region: RegionId, total_members: "0", total_vehicles: "0", total_bikes: "0"}
+                                 }
+                                 if(typeof json[2] === 'undefined'){
+                                     json[2] = {shift: "2", region: RegionId, total_members: "0", total_vehicles: "0", total_bikes: "0"}
+                                 }           
+
+                                 //create new array to run through
+                                 var newData = [json[0], json[1], json[2]];
+
+                                 for(var i = 0; i < newData.length; i++){
+                                        shift.datasets[0].bars[i].value = parseInt(newData[i]['total_members']);
+                                        shift.datasets[1].bars[i].value = parseInt(newData[i]['total_vehicles']);
+                                        shift.datasets[2].bars[i].value = parseInt(newData[i]['total_bikes']);
+                                 }
+
+                                 //Update graph
+                                 shift.update();                                                
+
+                        }, "json");
+
+                    });
+                    
+/*
                     $.post('capacity/chart_by_search/',
                         {
                             'date':'2015-12-01'
@@ -260,20 +316,7 @@
                                     barChartData.datasets[1].data.push(parseInt(json[i]['total_vehicles']));
                                     barChartData.datasets[2].data.push(parseInt(json[i]['total_bikes']));
                             }
-
-                            //fetch div by id
-                            var ctx = document.getElementById("canvas_b").getContext("2d");
-                            //initialize graph
-                            var shift = new Chart(ctx).Bar(barChartData, {
-                                    responsive : true,
-                                    //String - A legend template
-                                    legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
-                            });                        
-
-                            //Generte legend
-                            var legend = shift.generateLegend();
-                            $('#legend_b').append(legend);
-                                
+                               
                         //update graph on select change
                        $('#month_select_b').off().on('change', function(){
                            var selectedDate = $('#month_select_b option:selected').val();
@@ -315,6 +358,7 @@
                        });
                     
                     }, "json");
+                    */
                 }
                 //create and display secondary table
                 create_select_chart();

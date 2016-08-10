@@ -88,6 +88,7 @@ body {
   -webkit-box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
   box-shadow:  1px 1px 10px rgba(0, 0, 0, 0.1);	
+  overflow:auto;
 }
 
 .content-block-title {
@@ -277,7 +278,6 @@ form input, form button, form textarea{
 input[type="password"],
 input[type="text"],
 input[type="date"],
-input[type="number"],
 .submit input,
 input[type="file"],
 button,
@@ -426,3 +426,52 @@ select {
 	background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
 }
 /**************************************************/
+
+/* Begin Nathaniel Additions */
+
+.legend {
+    width:100%;
+}
+
+.legend .bar-legend,
+.legend .pie-legend {
+    
+}
+
+.legend .bar-legend li,
+.legend .pie-legend li
+{
+    display:inline-block;
+    margin:10px 20px;
+    
+}
+
+.legend .bar-legend li span,
+.legend .pie-legend li span {
+    display:block; 
+    width:25px;
+    height:25px;
+    float:left; 
+    margin-right: 10px;
+}
+
+    /* Select boxes */
+    #region_date_select_form label,
+    #date_select_form label {
+        font-weight: bold;
+        font-size:14px;
+        clear:both;
+        
+    }
+    
+    #region_date_select_form select,
+    #date_select_form select {
+        min-width:150px;
+    }
+    
+    .selectbox_container {
+        width:25%;
+        float:left;
+    }
+
+/* End Nathaniel Additions */
