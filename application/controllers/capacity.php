@@ -38,38 +38,35 @@ class Capacity extends CI_Controller {
 
         //Get chart json based on date and region search
         public function chart_by_search() {
-             if($this->login_model->is_logged_in()){
-
+            if($this->login_model->is_logged_in()){
+                
                 if($this->uri->segment(3)){
-                  $date = $this->uri->segment(3);  
+                    $timeframe = $this->uri->segment(3); 
                 }else{
-                    $date = $this->input->post('date');                                 
+                    $timeframe = $this->input->post('daterange');         
                 }
                 $region = $this->input->post('region');
                 
-                 
-                 if($date == 'today'){
-                     $date = date('Y-m-d');
-                 }
-                 
-                $data = $this->capacity_model->chart_search($date, $region);
-                header("Access-Control-Allow-Origin: *"); 
-                header('Access-Control-Allow-Methods: GET, POST');
-                echo json_encode($data);	
+                if($timeframe){
+                    $data = $this->capacity_model->chart_search($timeframe, $region);
+                    //Return data
+                    echo json_encode($data);	         
+                }
+                
             }else{
 		redirect('login');
             }
 	}
         
         //Populate list of dates
-	public function get_dates() {
-            if($this->login_model->is_logged_in()){
-                $data = $this->capacity_model->get_dates();
-                echo json_encode($data);
-            }else{
-		redirect('login');
-            }            
-	}
+//	public function get_dates() {
+//            if($this->login_model->is_logged_in()){
+//                $data = $this->capacity_model->get_dates();
+//                echo json_encode($data);
+//            }else{
+//		redirect('login');
+//            }            
+//	}
 
         //Populate select list for regions
         public function get_regions() {

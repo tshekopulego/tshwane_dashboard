@@ -20,8 +20,11 @@
 			<div class="onerow">
                             <div class="col12"><center><b>Summary Of Strength (All Regions)</b></center><br>
                                 <form id="date_select_form" action="#" method="POST">
-                                    <select id="month_select">
-                                        <option value="" >Select Date</option>
+                                    <select id="time_select">
+                                        <option value="" >Please Select</option>
+                                        <option value="yesterday" >Yesterday</option>
+                                        <option value="lastweek" >Last Week</option>
+                                        <option value="lastmonth" >Last Month</option>
                                     </select>                                    
                                 </form>
                                 <canvas id="canvas" height="150" width="600"></canvas>
@@ -68,11 +71,11 @@
 	$(document).ready(function() {
   
                 //populate select date dropdown list
-                $.getJSON('capacity/get_dates/', function(dates) {
-                    $.each(dates, function(index, val){
-                        $('#month_select, #month_select_b').append('<option value="'+ val['date'] +'">'+ val['date'] +'</option>');
-                    });
-                });
+//                $.getJSON('capacity/get_dates/', function(dates) {
+//                    $.each(dates, function(index, val){
+//                        $('#month_select, #month_select_b').append('<option value="'+ val['date'] +'">'+ val['date'] +'</option>');
+//                    });
+//                });
                 
                 //populate select region dropdown list
                 $.getJSON('capacity/get_regions/', function(regions) {
@@ -143,12 +146,12 @@
                         $('#legend').append(legend);
                         
                         //update graph on select change
-                        $('#month_select').off().on('change', function(){   
-                            var selectedDate = $('#month_select option:selected').val();
+                        $('#time_select').off().on('change', function(){   
+                            var selectedDate = $('#time_select option:selected').val();
                             // switched to post to pass text data instead of id
                             $.post('capacity/chart_by_search/',
                                 {
-                                    'date':selectedDate
+                                    'daterange':selectedDate
                                 }, function(data){
                                     //5317722
                                 if(data){
@@ -190,7 +193,7 @@
                 //create pdf content for export
                 function export_pdf(image){
                     
-                    var selectedDate = $('#month_select option:selected').val();
+                    var selectedDate = $('#time_select option:selected').val();
                     
                     $('#btn-capacity').off().on('click', function(e){
                         e.preventDefault();
