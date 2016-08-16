@@ -40,6 +40,7 @@ class Capacity extends CI_Controller {
         public function chart_by_search() {
             if($this->login_model->is_logged_in()){
                 $timeframe = '';
+                
                 if($this->uri->segment(3)){
                     $timeframe = $this->uri->segment(3); 
                 }else{
@@ -47,11 +48,11 @@ class Capacity extends CI_Controller {
                 }
                 $region = $this->input->post('region');
                 
-                if($timeframe){
+                //if($timeframe){
                     $data = $this->capacity_model->chart_search($timeframe, $region);
                     //Return data
                     echo json_encode($data);
-                }
+                //}
                 
             }else{
 		redirect('login');
