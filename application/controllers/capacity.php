@@ -28,8 +28,8 @@ class Capacity extends CI_Controller {
 	public function chart() {
             if($this->login_model->is_logged_in()){
                 $data = $this->capacity_model->chart();
-                header("Access-Control-Allow-Origin: *"); 
-                header('Access-Control-Allow-Methods: GET, POST');	
+                //header("Access-Control-Allow-Origin: *"); 
+                //header('Access-Control-Allow-Methods: GET, POST');	
                 echo json_encode($data);
             }else{
 		redirect('login');
