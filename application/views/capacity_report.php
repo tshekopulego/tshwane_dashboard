@@ -154,6 +154,7 @@
                                     'daterange':selectedDate
                                 }, function(data){
                                     //5317722
+                                    console.log(data);
                                 if(data){
                                     
                                     //check for undefined values (0)
@@ -203,7 +204,7 @@
                                 'image':image
                             }, function(data){
                                 window.open(
-                                    '/capacity/export_pdf/'+data+'/'+selectedDate,
+                                    '/tshwane_safety/index.php/capacity/export_pdf/'+data+'/'+selectedDate,
                                     '_blank' 
                                   );
                             }
