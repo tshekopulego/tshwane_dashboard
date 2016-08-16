@@ -153,28 +153,28 @@
                                 {
                                     'daterange':selectedDate
                                 }, function(data){
-                                    //5317722
-                                    console.log(data);
-//                                if(data){
-//                                    
-//                                    //check for undefined values (0)
-//                                    var morning = data[0];
-//                                    var afternoon = data[1];
-//                                    var evening = data[2];
-//                                        
-//                                    if(typeof morning === 'undefined'){
-//                                        morning = {shift: "0", region: "0", total_members: "0", total_vehicles: "0", total_bikes: "0"}
-//                                    }
-//                                    if(typeof afternoon === 'undefined'){
-//                                        afternoon = {shift: "1", region: "0", total_members: "0", total_vehicles: "0", total_bikes: "0"}
-//                                    }
-//                                    if(typeof evening === 'undefined'){
-//                                        evening = {shift: "2", region: "0", total_members: "0", total_vehicles: "0", total_bikes: "0"}
-//                                    }
-//                                    
-//                                    //create new array to run through
-//                                    var newData = [morning, afternoon, evening];
-//
+                                    //console.log(data);
+                                if(data){
+                                    
+                                    //check for undefined values (0)
+                                    var morning = data[0];
+                                    var afternoon = data[1];
+                                    var evening = data[2];
+                                        
+                                    if(typeof morning === 'undefined'){
+                                        morning = {shift: "0", region: "0", total_members: "0", total_vehicles: "0", total_bikes: "0"}
+                                    }
+                                    if(typeof afternoon === 'undefined'){
+                                        afternoon = {shift: "1", region: "0", total_members: "0", total_vehicles: "0", total_bikes: "0"}
+                                    }
+                                    if(typeof evening === 'undefined'){
+                                        evening = {shift: "2", region: "0", total_members: "0", total_vehicles: "0", total_bikes: "0"}
+                                    }
+                                    
+                                    //create new array to run through
+                                    var newData = [morning, afternoon, evening];
+                                    console.log(newData);
+                                    
 //                                    for (var i = 0; i < newData.length; i++) {
 //                                        shift.datasets[0].bars[i].value = parseInt(newData[i]['total_members']);                                        
 //                                        shift.datasets[1].bars[i].value = parseInt(newData[i]['total_vehicles']);
@@ -182,7 +182,7 @@
 //                                    }
 //                                    //Update graph
 //                                    shift.update();
-//                                }
+                                }
                             }, "json");
                         });
                     });
