@@ -39,7 +39,7 @@ class Capacity extends CI_Controller {
         //Get chart json based on date and region search
         public function chart_by_search() {
             if($this->login_model->is_logged_in()){
-                
+                $timeframe = '';
                 if($this->uri->segment(3)){
                     $timeframe = $this->uri->segment(3); 
                 }else{
@@ -50,7 +50,7 @@ class Capacity extends CI_Controller {
                 if($timeframe){
                     $data = $this->capacity_model->chart_search($timeframe, $region);
                     //Return data
-                    echo json_encode($data);	         
+                    echo json_encode($data);
                 }
                 
             }else{
