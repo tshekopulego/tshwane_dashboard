@@ -7,7 +7,7 @@ class Capacity_model extends CI_Model
     
 	public function __construct(){	
             $this->load->database();
-            $this->months_test = 6;
+            $this->months_test = 3;
 	}
 	
         //Sample basic fetch from db
@@ -54,7 +54,15 @@ class Capacity_model extends CI_Model
         //Basic Chart Display
         public function chart(){
             //Fetch from deployment plan, changed to other table after meet
-            $sql = "SELECT `shift`, sum(`members`) AS `total_members`, sum(`vehicles`) AS `total_vehicles`, sum(`bikes`) AS `total_bikes` FROM `deployment_plan` WHERE `shift` != '' AND `date` >= DATE_SUB(CURDATE(), INTERVAL ".$this->months_test." MONTH) group by `shift` DESC";
+            $sql = "SELECT "
+                    . " `shift`, "
+                    . " sum(`members`) AS `total_members`, "
+                    . " sum(`vehicles`) AS `total_vehicles`, "
+                    . " sum(`bikes`) AS `total_bikes` "
+                    . " FROM `deployment_plan` "
+                    . " WHERE `shift` != '' AND `date` >= DATE_SUB(CURDATE(), INTERVAL ".$this->months_test." MONTH) "
+                    . " group by `shift` "
+                    . " DESC";
             
             //Fetch from deployment calculations
             //$sql = "SELECT `shift`, `total_members`, `total_vehicles`, `total_bikes` FROM `deployment_calculations` WHERE `date` >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) group by `shift` DESC";
@@ -66,14 +74,14 @@ class Capacity_model extends CI_Model
         //Chart display based on date
         public function chart_search($timeframe = '', $region = ''){
             
+            $diff = 'DATE_SUB(CURDATE(), INTERVAL 3 MONTH)';
+            
             if($timeframe == 'yesterday'){
                 $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 DAY)';
             }else if($timeframe == 'lastweek'){
                 $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 WEEK)';
             }else if($timeframe == 'lastmonth'){
                 $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 MONTH)';
-            }else{
-                $diff = 'DATE_SUB(CURDATE(), INTERVAL 3 MONTH)';
             }
             
             //Fetch from deployment calculations
