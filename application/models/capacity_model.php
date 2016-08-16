@@ -74,14 +74,14 @@ class Capacity_model extends CI_Model
         //Chart display based on date
         public function chart_search($timeframe = '', $region = ''){
             
-            $diff = 'DATE_SUB(CURDATE(), INTERVAL 3 MONTH)';
-            
             if($timeframe == 'yesterday'){
                 $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 DAY)';
             }else if($timeframe == 'lastweek'){
                 $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 WEEK)';
             }else if($timeframe == 'lastmonth'){
                 $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 MONTH)';
+            }else{
+                $diff = 'DATE_SUB(CURDATE(), INTERVAL 3 MONTH)';            
             }
             
             //Fetch from deployment calculations
