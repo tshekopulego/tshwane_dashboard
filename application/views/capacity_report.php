@@ -153,9 +153,10 @@
                                 {
                                     'daterange':selectedDate
                                 }, function(data){
-                                    //console.log(data);
+                                    console.log(data);
                                 if(data){
                                     
+                                    /*
                                     //check for undefined values (0)
                                     var morning = data[0];
                                     var afternoon = data[1];
@@ -174,15 +175,20 @@
                                     //create new array to run through
                                     var newData = [morning, afternoon, evening];
                                     //console.log(newData);
+        */
                                     
-                                    for (var i = 0; i < newData.length; i++) {
-                                        shift.datasets[0].bars[i].value = parseInt(newData[i]['total_members']);                                        
-                                        shift.datasets[1].bars[i].value = parseInt(newData[i]['total_vehicles']);
-                                        shift.datasets[2].bars[i].value = parseInt(newData[i]['total_bikes']);
-                                    }
+                                    jQuery.each(data, function(index, value){
+                                        console.log(index +' - '+ value);
+                                    });
+//                                    
+//                                    for (var i = 0; i < newData.length; i++) {
+//                                        shift.datasets[0].bars[i].value = parseInt(newData[i]['total_members']);                                        
+//                                        shift.datasets[1].bars[i].value = parseInt(newData[i]['total_vehicles']);
+//                                        shift.datasets[2].bars[i].value = parseInt(newData[i]['total_bikes']);
+//                                    }
                                     
                                     //Update graph
-                                    shift.update();
+                                    //shift.update();
                                 }
                             }, "json");
                         });
