@@ -178,7 +178,8 @@
         */
                                     
                                     jQuery.each(data, function(index, value){
-                                        console.log(index +' - '+ value);
+                                        console.log(value.shift);
+                                        //console.log(index +' - '+ value);
                                     });
 //                                    
 //                                    for (var i = 0; i < newData.length; i++) {
