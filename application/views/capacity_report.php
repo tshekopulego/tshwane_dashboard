@@ -204,6 +204,7 @@
 
                                     
                                         jQuery.each(data, function(index, val){
+                                            if(val.shift){
                                             if(val.shift === "1"){
                                                 shift.datasets[0].bars[0].value = parseInt(val.total_members); 
                                                 shift.datasets[1].bars[0].value = parseInt(val.total_vehicles);
@@ -216,6 +217,7 @@
                                                 shift.datasets[0].bars[2].value = parseInt(val.total_members); 
                                                 shift.datasets[1].bars[2].value = parseInt(val.total_vehicles); 
                                                 shift.datasets[2].bars[2].value = parseInt(val.total_bikes); 
+                                            }
                                             }
                                         });
                                     
