@@ -90,7 +90,7 @@
                         
                         var barChartData = {
                             /* Labels to be injected with json from db */
-                            labels : ["9pm - 5am", "5am - 1pm", "1pm - 9pm"],
+                            labels : ["5am - 1pm", "1pm - 9pm", "9pm - 5am"],
                             datasets : [
                                 {
                                     label: "Members",
@@ -120,12 +120,28 @@
                         };
 
                         //loop through result and populate data
-                        for (var i = 0; i < json.length; i++) {
-                                //barChartData.labels.push(json[i]['shift']);
-                                barChartData.datasets[0].data.push(parseInt(json[i]['total_members']));
-                                barChartData.datasets[1].data.push(parseInt(json[i]['total_vehicles']));
-                                barChartData.datasets[2].data.push(parseInt(json[i]['total_bikes']));
-                        }
+//                        for (var i = 0; i < json.length; i++) {
+//                                //barChartData.labels.push(json[i]['shift']);
+//                                barChartData.datasets[0].data.push(parseInt(json[i]['total_members']));
+//                                barChartData.datasets[1].data.push(parseInt(json[i]['total_vehicles']));
+//                                barChartData.datasets[2].data.push(parseInt(json[i]['total_bikes']));
+//                        }
+                        
+                        jQuery.each(json, function(index, val){
+                            if(val.shift === "1"){
+                                barChartData.datasets[0].data.push(parseInt(json[0]['total_members']));
+                                barChartData.datasets[1].data.push(parseInt(json[0]['total_vehicles']));
+                                barChartData.datasets[2].data.push(parseInt(json[0]['total_bikes']));
+                            }else if(val.shift === "2"){
+                                barChartData.datasets[0].data.push(parseInt(json[1]['total_members']));
+                                barChartData.datasets[1].data.push(parseInt(json[1]['total_vehicles']));
+                                barChartData.datasets[2].data.push(parseInt(json[1]['total_bikes']));
+                            }else if(val.shift === "3"){
+                                barChartData.datasets[0].data.push(parseInt(json[2]['total_members']));
+                                barChartData.datasets[1].data.push(parseInt(json[2]['total_vehicles']));
+                                barChartData.datasets[2].data.push(parseInt(json[2]['total_bikes']));
+                            }
+                        });
                         
                         //fetch div by id
                         var ctx = document.getElementById("canvas").getContext("2d");
@@ -141,7 +157,7 @@
                                 legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
                         });                        
 
-                        //Generte legend
+                        //Generate legend
                         var legend = shift.generateLegend();
                         $('#legend').append(legend);
                         
@@ -153,8 +169,10 @@
                                 {
                                     'daterange':selectedDate
                                 }, function(data){
-                                    console.log(data);
-                                if(data){
+                                    //console.log(data);
+                                    if($.isEmptyObject(data)){
+                                        alert('Unfortunaltey there are no results for your search criteria!');
+                                    }else{
                                     
                                     /*
                                     //check for undefined values (0)
@@ -174,23 +192,34 @@
                                     
                                     //create new array to run through
                                     var newData = [morning, afternoon, evening];
-                                    //console.log(newData);
+                                    console.log(newData);
+                                      for (var i = 0; i < newData.length; i++) {
+                                        shift.datasets[0].bars[i].value = parseInt(newData[i]['total_members']);                                        
+                                        shift.datasets[1].bars[i].value = parseInt(newData[i]['total_vehicles']);
+                                        shift.datasets[2].bars[i].value = parseInt(newData[i]['total_bikes']);
+                                    }
         */
+
                                     
-                                    jQuery.each(data, function(index, value){
-                                        console.log(value.shift);
-                                        //console.log(index +' - '+ value);
-                                    });
-//                                    
-//                                    for (var i = 0; i < newData.length; i++) {
-//                                        shift.datasets[0].bars[i].value = parseInt(newData[i]['total_members']);                                        
-//                                        shift.datasets[1].bars[i].value = parseInt(newData[i]['total_vehicles']);
-//                                        shift.datasets[2].bars[i].value = parseInt(newData[i]['total_bikes']);
-//                                    }
+                                        jQuery.each(data, function(index, val){
+                                            if(val.shift === "1"){
+                                                shift.datasets[0].bars[0].value = parseInt(val.total_members); 
+                                                shift.datasets[1].bars[0].value = parseInt(val.total_vehicles);
+                                                shift.datasets[2].bars[0].value = parseInt(val.total_bikes); 
+                                            }else if(val.shift === "2"){
+                                                shift.datasets[0].bars[1].value = parseInt(val.total_members); 
+                                                shift.datasets[1].bars[1].value = parseInt(val.total_vehicles); 
+                                                shift.datasets[2].bars[1].value = parseInt(val.total_bikes); 
+                                            }else if(val.shift === "3"){
+                                                shift.datasets[0].bars[2].value = parseInt(val.total_members); 
+                                                shift.datasets[1].bars[2].value = parseInt(val.total_vehicles); 
+                                                shift.datasets[2].bars[2].value = parseInt(val.total_bikes); 
+                                            }
+                                        });
                                     
-                                    //Update graph
-                                    //shift.update();
-                                }
+                                        //Update graph
+                                        shift.update();
+                                    }
                             }, "json");
                         });
                     });
@@ -212,7 +241,7 @@
                                 'image':image
                             }, function(data){
                                 window.open(
-                                    '/tshwane_safety/index.php/capacity/export_pdf/'+data+'/'+selectedDate,
+                                    '/capacity/export_pdf/'+data+'/'+selectedDate,
                                     '_blank' 
                                   );
                             }
