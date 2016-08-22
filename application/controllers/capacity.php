@@ -101,14 +101,14 @@ class Capacity extends CI_Controller {
 	}
         
         //Populate list of dates
-//	public function get_dates() {
-//            if($this->login_model->is_logged_in()){
-//                $data = $this->capacity_model->get_dates();
-//                echo json_encode($data);
-//            }else{
-//		redirect('login');
-//            }            
-//	}
+	public function get_dates() {
+            if($this->login_model->is_logged_in()){
+                $data = $this->capacity_model->get_dates();
+                echo json_encode($data);
+            }else{
+		redirect('login');
+            }            
+	}
 
         //Populate select list for regions
         public function get_regions() {
