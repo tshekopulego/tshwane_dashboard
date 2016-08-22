@@ -71,11 +71,11 @@
 	$(document).ready(function() {
   
                 //populate select date dropdown list
-//                $.getJSON('capacity/get_dates/', function(dates) {
-//                    $.each(dates, function(index, val){
-//                        $('#month_select, #month_select_b').append('<option value="'+ val['date'] +'">'+ val['date'] +'</option>');
-//                    });
-//                });
+                $.getJSON('capacity/get_dates/', function(dates) {
+                    $.each(dates, function(index, val){
+                        $('#month_select, #month_select_b').append('<option value="'+ val['date'] +'">'+ val['date'] +'</option>');
+                    });
+                });
                 
                 //populate select region dropdown list
                 $.getJSON('capacity/get_regions/', function(regions) {
