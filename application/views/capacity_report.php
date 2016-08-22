@@ -128,6 +128,7 @@
 //                        }
                         
                         jQuery.each(json, function(index, val){
+                            if(val.shift){
                             if(val.shift === "1"){
                                 barChartData.datasets[0].data.push(parseInt(json[0]['total_members']));
                                 barChartData.datasets[1].data.push(parseInt(json[0]['total_vehicles']));
@@ -140,6 +141,7 @@
                                 barChartData.datasets[0].data.push(parseInt(json[2]['total_members']));
                                 barChartData.datasets[1].data.push(parseInt(json[2]['total_vehicles']));
                                 barChartData.datasets[2].data.push(parseInt(json[2]['total_bikes']));
+                            }
                             }
                         });
                         
@@ -241,7 +243,7 @@
                                 'image':image
                             }, function(data){
                                 window.open(
-                                    '/capacity/export_pdf/'+data+'/'+selectedDate,
+                                    '/tshwane_safety/index.php/capacity/export_pdf/'+data+'/'+selectedDate,
                                     '_blank' 
                                   );
                             }
