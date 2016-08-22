@@ -7,7 +7,7 @@ class Capacity_model extends CI_Model
     
 	public function __construct(){	
             $this->load->database();
-            $this->months_test = 3;
+            $this->months_test = 9;
 	}
 	
         //Sample basic fetch from db
@@ -81,7 +81,7 @@ class Capacity_model extends CI_Model
             }else if($timeframe == 'lastmonth'){
                 $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 MONTH)';
             }else{
-                $diff = 'DATE_SUB(CURDATE(), INTERVAL 3 MONTH)';            
+                $diff = 'DATE_SUB(CURDATE(), INTERVAL 9 MONTH)';            
             }
             
             //Fetch from deployment calculations
