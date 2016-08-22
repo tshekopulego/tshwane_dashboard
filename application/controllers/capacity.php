@@ -29,8 +29,29 @@ class Capacity extends CI_Controller {
             if($this->login_model->is_logged_in()){
                 $data = $this->capacity_model->chart();
                 //header("Access-Control-Allow-Origin: *"); 
-                //header('Access-Control-Allow-Methods: GET, POST');	
-                echo json_encode($data);
+                //header('Access-Control-Allow-Methods: GET, POST');
+                
+                if($data){
+                    $count = count($data);
+                    if($count < 3){
+                        $shifts = array();
+                        foreach($data as $entry){
+                            $shifts[] = $entry['shift'];
+                        }
+                        for($x = 1; $x < 4;  $x++){
+                            if(!in_array($x, $shifts)){
+                                $data[] = array(
+                                    "shift"          => $x,
+                                    "total_members"  => "0",
+                                    "total_vehicles" => "0",
+                                    "total_bikes"    => "0"
+                                );
+                            }
+                        }
+                    }
+                }
+                //print_r(strip_slashes($data));
+                echo json_encode(strip_slashes($data));
             }else{
 		redirect('login');
             }
