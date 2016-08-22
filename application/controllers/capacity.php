@@ -71,8 +71,28 @@ class Capacity extends CI_Controller {
                 
                 //if($timeframe){
                     $data = $this->capacity_model->chart_search($timeframe, $region);
+                    
+                if($data){
+                    $count = count($data);
+                    if($count < 3){
+                        $shifts = array();
+                        foreach($data as $entry){
+                            $shifts[] = $entry['shift'];
+                        }
+                        for($x = 1; $x < 4;  $x++){
+                            if(!in_array($x, $shifts)){
+                                $data[] = array(
+                                    "shift"          => $x,
+                                    "total_members"  => "0",
+                                    "total_vehicles" => "0",
+                                    "total_bikes"    => "0"
+                                );
+                            }
+                        }
+                    }
+                }
                     //Return data
-                    echo json_encode($data);
+                    echo json_encode(strip_slashes($data));
                 //}
                 
             }else{
