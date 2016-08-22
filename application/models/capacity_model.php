@@ -23,20 +23,20 @@ class Capacity_model extends CI_Model
 	}
 
         //Basic Chart Dates Drop down
-//        public function get_dates(){
-//
-//            $this->db->select('date');
-//            $this->db->distinct();
-//            $this->db->from('deployment_plan');
-//            //$this->db->from('deployment_calculations');
-//            $this->db->order_by('date', 'DESC');
-//            //$this->db->limit('30');
-//            $query = $this->db->get();
-//
-//            $result = $query->result_array();
-//            
-//            return $result;
-//	}
+        public function get_dates(){
+
+            $this->db->select('date');
+            $this->db->distinct();
+            $this->db->from('deployment_plan');
+            //$this->db->from('deployment_calculations');
+            $this->db->order_by('date', 'DESC');
+            //$this->db->limit('30');
+            $query = $this->db->get();
+
+            $result = $query->result_array();
+            
+            return $result;
+	}
         
         //Basic Chart Regions Drop down
         public function get_regions(){
