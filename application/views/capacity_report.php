@@ -315,7 +315,7 @@
 
                         $.post('capacity/chart_by_search/',
                             {
-                                'date':selectedDate,
+                                'daterange':selectedDate,
                                 'region':RegionId
 
                             }, function(json){

@@ -102,7 +102,6 @@ class Capacity_model extends CI_Model
                 //$sql = "SELECT `shift`, `total_members`, `total_vehicles`, `total_bikes` FROM `deployment_calculations` WHERE `date` = '".$date."' group by `shift` DESC";            
             }else{
                 
-                $diff = $timeframe;   
                 
                 $sql = "SELECT "
                         . " `shift`, "
@@ -111,7 +110,7 @@ class Capacity_model extends CI_Model
                         . " sum(`vehicles`) AS `total_vehicles`, "
                         . " sum(`bikes`) AS `total_bikes` "
                         . " FROM `deployment_plan` "
-                        . " WHERE `date` = ".$diff 
+                        . " WHERE `date` = ".$timeframe 
                         . " AND `region` = '".$region."' "
                         . " group by `shift` "
                         . " DESC";
