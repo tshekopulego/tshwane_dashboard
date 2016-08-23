@@ -320,90 +320,34 @@
 
                             }, function(json){
                                 //console.log(json);
-
-                                 //check for undefined values (0)
-                                 if(typeof json[0] === 'undefined'){
-                                     json[0] = {shift: "0", region: RegionId, total_members: "0", total_vehicles: "0", total_bikes: "0"}
-                                 }
-                                 if(typeof json[1] === 'undefined'){
-                                     json[1] = {shift: "1", region: RegionId, total_members: "0", total_vehicles: "0", total_bikes: "0"}
-                                 }
-                                 if(typeof json[2] === 'undefined'){
-                                     json[2] = {shift: "2", region: RegionId, total_members: "0", total_vehicles: "0", total_bikes: "0"}
-                                 }           
-
-                                 //create new array to run through
-                                 var newData = [json[0], json[1], json[2]];
-
-                                 for(var i = 0; i < newData.length; i++){
-                                        shift.datasets[0].bars[i].value = parseInt(newData[i]['total_members']);
-                                        shift.datasets[1].bars[i].value = parseInt(newData[i]['total_vehicles']);
-                                        shift.datasets[2].bars[i].value = parseInt(newData[i]['total_bikes']);
-                                 }
+                                if($.isEmptyObject(json)){
+                                        alert('Unfortunaltey there are no results for your search criteria!');
+                                }else{
+                                    jQuery.each(json, function(index, val){
+                                        if(val.shift){
+                                            if(val.shift === "1"){
+                                                shift.datasets[0].bars[0].value = parseInt(val.total_members); 
+                                                shift.datasets[1].bars[0].value = parseInt(val.total_vehicles);
+                                                shift.datasets[2].bars[0].value = parseInt(val.total_bikes); 
+                                            }else if(val.shift === "2"){
+                                                shift.datasets[0].bars[1].value = parseInt(val.total_members); 
+                                                shift.datasets[1].bars[1].value = parseInt(val.total_vehicles); 
+                                                shift.datasets[2].bars[1].value = parseInt(val.total_bikes); 
+                                            }else if(val.shift === "3"){
+                                                shift.datasets[0].bars[2].value = parseInt(val.total_members); 
+                                                shift.datasets[1].bars[2].value = parseInt(val.total_vehicles); 
+                                                shift.datasets[2].bars[2].value = parseInt(val.total_bikes); 
+                                            }
+                                        }
+                                    });
 
                                  //Update graph
-                                 shift.update();                                                
+                                 shift.update();     
+                             }
 
                         }, "json");
 
                     });
-                    
-/*
-                    $.post('capacity/chart_by_search/',
-                        {
-                            'date':'2015-12-01'
-                        }, function(json){
-                            //console.log(json);
-                            //loop through result and populate data
-                            for (var i = 0; i < json.length; i++) {
-                                    //barChartData.labels.push(json[i]['shift']);
-                                    barChartData.datasets[0].data.push(parseInt(json[i]['total_members']));
-                                    barChartData.datasets[1].data.push(parseInt(json[i]['total_vehicles']));
-                                    barChartData.datasets[2].data.push(parseInt(json[i]['total_bikes']));
-                            }
-                               
-                        //update graph on select change
-                       $('#month_select_b').off().on('change', function(){
-                           var selectedDate = $('#month_select_b option:selected').val();
-                           var RegionId = $('#region_select option:selected').val();
-                           
-                           $.post('capacity/chart_by_search/',
-                               {
-                                   'date':selectedDate,
-                                   'region':RegionId
-
-                               }, function(json){
-                                   //console.log(json);
-                                   
-                                    //check for undefined values (0)
-                                    if(typeof json[0] === 'undefined'){
-                                        json[0] = {shift: "0", region: RegionId, total_members: "0", total_vehicles: "0", total_bikes: "0"}
-                                    }
-                                    if(typeof json[1] === 'undefined'){
-                                        json[1] = {shift: "1", region: RegionId, total_members: "0", total_vehicles: "0", total_bikes: "0"}
-                                    }
-                                    if(typeof json[2] === 'undefined'){
-                                        json[2] = {shift: "2", region: RegionId, total_members: "0", total_vehicles: "0", total_bikes: "0"}
-                                    }           
-
-                                    //create new array to run through
-                                    var newData = [json[0], json[1], json[2]];
-                                    
-                                    for(var i = 0; i < newData.length; i++){
-                                           shift.datasets[0].bars[i].value = parseInt(newData[i]['total_members']);
-                                           shift.datasets[1].bars[i].value = parseInt(newData[i]['total_vehicles']);
-                                           shift.datasets[2].bars[i].value = parseInt(newData[i]['total_bikes']);
-                                    }
-
-                                    //Update graph
-                                    shift.update();                                                
-
-                           }, "json");
-
-                       });
-                    
-                    }, "json");
-                    */
                 }
                 //create and display secondary table
                 create_select_chart();
