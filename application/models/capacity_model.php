@@ -74,18 +74,19 @@ class Capacity_model extends CI_Model
         //Chart display based on date
         public function chart_search($timeframe, $region = ''){
             
-            if($timeframe == 'yesterday'){
-                $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 DAY)';
-            }else if($timeframe == 'lastweek'){
-                $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 WEEK)';
-            }else if($timeframe == 'lastmonth'){
-                $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 MONTH)';
-            }else{
-                $diff = 'DATE_SUB(CURDATE(), INTERVAL 3 MONTH)';            
-            }
-            
             //Fetch from deployment calculations
             if(!$region){
+                
+                if($timeframe == 'yesterday'){
+                    $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 DAY)';
+                }else if($timeframe == 'lastweek'){
+                    $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 WEEK)';
+                }else if($timeframe == 'lastmonth'){
+                    $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 MONTH)';
+                }else{
+                    $diff = 'DATE_SUB(CURDATE(), INTERVAL 3 MONTH)';
+                }
+            
                 $sql = "SELECT "
                         . " `shift`, "
                         . " `region`, "
@@ -100,6 +101,9 @@ class Capacity_model extends CI_Model
                 
                 //$sql = "SELECT `shift`, `total_members`, `total_vehicles`, `total_bikes` FROM `deployment_calculations` WHERE `date` = '".$date."' group by `shift` DESC";            
             }else{
+                
+                $diff = $timeframe;   
+                
                 $sql = "SELECT "
                         . " `shift`, "
                         . " `region`, "
@@ -107,7 +111,7 @@ class Capacity_model extends CI_Model
                         . " sum(`vehicles`) AS `total_vehicles`, "
                         . " sum(`bikes`) AS `total_bikes` "
                         . " FROM `deployment_plan` "
-                        . " WHERE `date` >= ".$diff 
+                        . " WHERE `date` = ".$diff 
                         . " AND `region` = '".$region."' "
                         . " group by `shift` "
                         . " DESC";

@@ -67,10 +67,16 @@ class Capacity extends CI_Controller {
                 }else{
                     $timeframe = $this->input->post('daterange');         
                 }
-                $region = $this->input->post('region');
                 
-                //if($timeframe){
-                    $data = $this->capacity_model->chart_search($timeframe, $region);
+                if($this->uri->segment(4)){
+                    $region = $this->uri->segment(4); 
+                }else{
+                    $region = $this->input->post('region');        
+                }
+                //$region = $this->input->post('region');
+                
+                $data = $this->capacity_model->chart_search($timeframe, $region);                    
+
                     
                 if($data){
                     $count = count($data);
