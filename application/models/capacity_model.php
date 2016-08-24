@@ -110,7 +110,7 @@ class Capacity_model extends CI_Model
                         . " sum(`vehicles`) AS `total_vehicles`, "
                         . " sum(`bikes`) AS `total_bikes` "
                         . " FROM `deployment_plan` "
-                        . " WHERE `date` = ".$timeframe 
+                        . " WHERE `date` = '".$timeframe."'"
                         . " AND `region` = '".$region."' "
                         . " group by `shift` "
                         . " DESC";
