@@ -164,7 +164,7 @@ class Capacity extends CI_Controller {
             $results = $this->capacity_model->export_pdf($date);
 			print_r($results);
             
-			/*
+			
             // page info here, db calls, etc.    
             $data = array(
                 'title'     => '<h1 style="text-align:center">Strength Report Export</h1>',
@@ -176,7 +176,7 @@ class Capacity extends CI_Controller {
             $this->load->view('strength_report_pdf', $data);
             $html = $this->load->view('strength_report_pdf', $data, true);
             pdf_create($html, 'export_'.$date);
-            */
+            
             //delete graph image
             //unlink('./images/graphs/'.$image);
         }
