@@ -175,6 +175,7 @@ class Capacity_model extends CI_Model
                         . " group by `shift` "
                         . " DESC";
             
+			
 			/*
             if($date == ''){
                 //Export totals only
