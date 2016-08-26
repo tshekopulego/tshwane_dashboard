@@ -245,7 +245,7 @@
                                 'image':image
                             }, function(data){
                                 window.open(
-                                    '/tshwane_safety/index.php/capacity/export_pdf/'+data+'/'+selectedDate,
+                                    '/capacity/export_pdf/'+data+'/'+selectedDate,
                                     '_blank' 
                                   );
                             }
