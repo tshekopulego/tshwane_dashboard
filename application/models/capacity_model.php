@@ -193,23 +193,30 @@ class Capacity_model extends CI_Model
             $result = $query->result_array();
             
             //Retrieve region name from region table based on returned data from deployment_plan
-            for($i = 0; $i < count($result); $i++){
-                
-                $sql_r = "SELECT `region_name`, `region_id` FROM `regions` WHERE `region_id` = '".$result[$i]['region']."' ";
-                $query_r = $this->db->query($sql_r);
-                $result_r = $query_r->result_array();
-                
-                //Push region name to results
-                foreach ($result_r as $result_name){
-                    
-                    if(empty($result_name['region_name'])){
-                        $result_name['region_name'] = 'Error';
-                    }
-                    
-                    array_push($result[$i],  $result[$i]['region_name'] = $result_name['region_name']);                 
-                }
-                
-            }
+//            for($i = 0; $i < count($result); $i++){
+//                
+//                $sql_r = "SELECT "
+//                        . "`region_name`, "
+//                        . "`region_id` "
+//                        . "FROM "
+//                        . "`regions` "
+//                        . "WHERE "
+//                        . "`region_id` = '".$result[$i]['region']."' ";
+//                
+//                $query_r = $this->db->query($sql_r);
+//                $result_r = $query_r->result_array();
+//                
+//                //Push region name to results
+//                foreach ($result_r as $result_name){
+//                    
+//                    if(empty($result_name['region_name'])){
+//                        $result_name['region_name'] = 'Error';
+//                    }
+//                    
+//                    array_push($result[$i],  $result[$i]['region_name'] = $result_name['region_name']);                 
+//                }
+//                
+//            }
             return $result;
            
 	}
