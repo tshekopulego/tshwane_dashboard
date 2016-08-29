@@ -159,7 +159,7 @@ class Capacity_model extends CI_Model
             }else if($date == 'lastweek'){
                 $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 WEEK)';
             }else if($date == 'lastmonth'){
-                $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 MONTH)';
+                $diff = 'DATE_SUB(CURDATE(), INTERVAL 9 MONTH)';
             }else{
                 $diff = 'DATE_SUB(CURDATE(), INTERVAL 3 MONTH)';
             }
