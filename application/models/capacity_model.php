@@ -190,8 +190,8 @@ class Capacity_model extends CI_Model
                     . " FROM `deployment_plan` AS a "
                     . " LEFT JOIN `regions` AS b "
                     . " ON b.region_id = a.region "
-                    . " WHERE `date` >= ".$diff
-                    . " group by `shift` "
+                    . " WHERE a.date >= ".$diff
+                    . " group by a.shift "
                     . " DESC";       
             
             //Fetch from deployment calculations
