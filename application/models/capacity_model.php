@@ -164,64 +164,40 @@ class Capacity_model extends CI_Model
                 $diff = 'DATE_SUB(CURDATE(), INTERVAL 3 MONTH)';
             }
 
+//            $sql = "SELECT "
+//                    . " a.shift, AS sid "
+//                    . " a.region AS rid, "
+//                    . " b.region_id AS region_id, "
+//                    . " b.region_name AS region_name, "
+//                    . " sum(`members`) AS `total_members`, "
+//                    . " sum(`vehicles`) AS `total_vehicles`, "
+//                    . " sum(`bikes`) AS `total_bikes` "
+//                    . " FROM `deployment_plan` AS a"
+//                    . " LEFT JOIN `regions` AS b"
+//                    . " ON b.region_id = a.rid"
+//                    . " WHERE `date` >= ".$diff 
+//                    . " group by `shift` "
+//                    . " DESC";
+  
             $sql = "SELECT "
-                    . " a.shift, AS sid "
+                    . " a.shift AS sid, "
                     . " a.region AS rid, "
                     . " b.region_id AS region_id, "
                     . " b.region_name AS region_name, "
                     . " sum(`members`) AS `total_members`, "
                     . " sum(`vehicles`) AS `total_vehicles`, "
                     . " sum(`bikes`) AS `total_bikes` "
-                    . " FROM `deployment_plan` AS a"
-                    . " LEFT JOIN `regions` AS b"
-                    . " ON b.region_id = a.rid"
-                    . " WHERE `date` >= ".$diff 
+                    . " FROM `deployment_plan` AS a "
+                    . " LEFT JOIN `regions` AS b "
+                    . " ON b.region_id = a.region "
+                    . " WHERE `date` >= ".$diff
                     . " group by `shift` "
-                    . " DESC";
-
-
-//            
-//            if($date == ''){
-//                //Export totals only
-//                $sql = "SELECT `shift`, `region`, sum(`members`) AS `total_members`, sum(`vehicles`) AS `total_vehicles`, sum(`bikes`) AS `total_bikes` FROM `deployment_plan` WHERE  `shift` != '' AND `date` >= DATE_SUB(CURDATE(), INTERVAL ".$this->months_test." MONTH) group by `shift` DESC";
-//                //Export detailed overview
-//                //$sql = "SELECT `shift`, `region`, `members` AS `total_members`, `vehicles` AS `total_vehicles`, `bikes` AS `total_bikes` FROM `deployment_plan` WHERE  `shift` != '' AND `date` >= DATE_SUB(CURDATE(), INTERVAL ".$this->months_test." MONTH) order by `shift` DESC";
-//            }else{
-//                //Export totals only
-//                $sql = "SELECT `shift`, `region`, sum(`members`) AS `total_members`, sum(`vehicles`) AS `total_vehicles`, sum(`bikes`) AS `total_bikes` FROM `deployment_plan` WHERE `shift` != '' AND `date` = '".$date."' group by `shift` DESC";
-//                //Export detailed overview
-//                //$sql = "SELECT `shift`, `region`, `members` AS `total_members`, `vehicles` AS `total_vehicles`, `bikes` AS `total_bikes` FROM `deployment_plan` WHERE `shift` != '' AND `date` = '".$date."' order by `shift` DESC";
-//            }
-              
+                    . " DESC";       
+            
             //Fetch from deployment calculations
             $query = $this->db->query($sql);
             $result = $query->result_array();
             
-            //Retrieve region name from region table based on returned data from deployment_plan
-//            for($i = 0; $i < count($result); $i++){
-//                
-//                $sql_r = "SELECT "
-//                        . "`region_name`, "
-//                        . "`region_id` "
-//                        . "FROM "
-//                        . "`regions` "
-//                        . "WHERE "
-//                        . "`region_id` = '".$result[$i]['region']."' ";
-//                
-//                $query_r = $this->db->query($sql_r);
-//                $result_r = $query_r->result_array();
-//                
-//                //Push region name to results
-//                foreach ($result_r as $result_name){
-//                    
-////                    if(empty($result_name['region_name'])){
-////                        $result_name['region_name'] = 'Error';
-////                    }
-//                    
-//                    array_push($result[$i],  $result[$i]['region_name'] = $result_name['region_name']);                 
-//                }
-//                
-//            }
             return $result;
            
 	}
