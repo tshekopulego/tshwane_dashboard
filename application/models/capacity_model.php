@@ -153,42 +153,40 @@ class Capacity_model extends CI_Model
         
         //Basic CSV export
         public function export_pdf($date = ''){
-			
-			if($date == 'yesterday'){
-                    $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 DAY)';
-                }else if($date == 'lastweek'){
-                    $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 WEEK)';
-                }else if($date == 'lastmonth'){
-                    $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 MONTH)';
-                }else{
-                    $diff = 'DATE_SUB(CURDATE(), INTERVAL 3 MONTH)';
-                }
             
-                $sql = "SELECT "
-                        . " `shift`, "
-                        . " `region`, "
-                        . " sum(`members`) AS `total_members`, "
-                        . " sum(`vehicles`) AS `total_vehicles`, "
-                        . " sum(`bikes`) AS `total_bikes` "
-                        . " FROM `deployment_plan` "
-                        . " WHERE `date` >= ".$diff 
-                        . " group by `shift` "
-                        . " DESC";
-            
-			
-			/*
-            if($date == ''){
-                //Export totals only
-                $sql = "SELECT `shift`, `region`, sum(`members`) AS `total_members`, sum(`vehicles`) AS `total_vehicles`, sum(`bikes`) AS `total_bikes` FROM `deployment_plan` WHERE  `shift` != '' AND `date` >= DATE_SUB(CURDATE(), INTERVAL ".$this->months_test." MONTH) group by `shift` DESC";
-                //Export detailed overview
-                //$sql = "SELECT `shift`, `region`, `members` AS `total_members`, `vehicles` AS `total_vehicles`, `bikes` AS `total_bikes` FROM `deployment_plan` WHERE  `shift` != '' AND `date` >= DATE_SUB(CURDATE(), INTERVAL ".$this->months_test." MONTH) order by `shift` DESC";
+            if($date == 'yesterday'){
+                $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 DAY)';
+            }else if($date == 'lastweek'){
+                $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 WEEK)';
+            }else if($date == 'lastmonth'){
+                $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 MONTH)';
             }else{
-                //Export totals only
-                $sql = "SELECT `shift`, `region`, sum(`members`) AS `total_members`, sum(`vehicles`) AS `total_vehicles`, sum(`bikes`) AS `total_bikes` FROM `deployment_plan` WHERE `shift` != '' AND `date` = '".$date."' group by `shift` DESC";
-                //Export detailed overview
-                //$sql = "SELECT `shift`, `region`, `members` AS `total_members`, `vehicles` AS `total_vehicles`, `bikes` AS `total_bikes` FROM `deployment_plan` WHERE `shift` != '' AND `date` = '".$date."' order by `shift` DESC";
+                $diff = 'DATE_SUB(CURDATE(), INTERVAL 3 MONTH)';
             }
-			*/
+
+            $sql = "SELECT "
+                    . " `shift`, "
+                    . " `region`, "
+                    . " sum(`members`) AS `total_members`, "
+                    . " sum(`vehicles`) AS `total_vehicles`, "
+                    . " sum(`bikes`) AS `total_bikes` "
+                    . " FROM `deployment_plan` "
+                    . " WHERE `date` >= ".$diff 
+                    . " group by `shift` "
+                    . " DESC";
+
+//            
+//            if($date == ''){
+//                //Export totals only
+//                $sql = "SELECT `shift`, `region`, sum(`members`) AS `total_members`, sum(`vehicles`) AS `total_vehicles`, sum(`bikes`) AS `total_bikes` FROM `deployment_plan` WHERE  `shift` != '' AND `date` >= DATE_SUB(CURDATE(), INTERVAL ".$this->months_test." MONTH) group by `shift` DESC";
+//                //Export detailed overview
+//                //$sql = "SELECT `shift`, `region`, `members` AS `total_members`, `vehicles` AS `total_vehicles`, `bikes` AS `total_bikes` FROM `deployment_plan` WHERE  `shift` != '' AND `date` >= DATE_SUB(CURDATE(), INTERVAL ".$this->months_test." MONTH) order by `shift` DESC";
+//            }else{
+//                //Export totals only
+//                $sql = "SELECT `shift`, `region`, sum(`members`) AS `total_members`, sum(`vehicles`) AS `total_vehicles`, sum(`bikes`) AS `total_bikes` FROM `deployment_plan` WHERE `shift` != '' AND `date` = '".$date."' group by `shift` DESC";
+//                //Export detailed overview
+//                //$sql = "SELECT `shift`, `region`, `members` AS `total_members`, `vehicles` AS `total_vehicles`, `bikes` AS `total_bikes` FROM `deployment_plan` WHERE `shift` != '' AND `date` = '".$date."' order by `shift` DESC";
+//            }
               
             //Fetch from deployment calculations
             $query = $this->db->query($sql);
