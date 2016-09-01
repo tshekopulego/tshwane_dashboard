@@ -159,41 +159,25 @@ class Capacity_model extends CI_Model
             }else if($date == 'lastweek'){
                 $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 WEEK)';
             }else if($date == 'lastmonth'){
-                $diff = 'DATE_SUB(CURDATE(), INTERVAL 9 MONTH)';
+                $diff = 'DATE_SUB(CURDATE(), INTERVAL 1 MONTH)';
             }else{
-                $diff = 'DATE_SUB(CURDATE(), INTERVAL 3 MONTH)';
+                $diff = 'DATE_SUB(CURDATE(), INTERVAL 9 MONTH)';
             }
 
-//            $sql = "SELECT "
-//                    . " a.shift, AS sid "
-//                    . " a.region AS rid, "
-//                    . " b.region_id AS region_id, "
-//                    . " b.region_name AS region_name, "
-//                    . " sum(`members`) AS `total_members`, "
-//                    . " sum(`vehicles`) AS `total_vehicles`, "
-//                    . " sum(`bikes`) AS `total_bikes` "
-//                    . " FROM `deployment_plan` AS a"
-//                    . " LEFT JOIN `regions` AS b"
-//                    . " ON b.region_id = a.rid"
-//                    . " WHERE `date` >= ".$diff 
-//                    . " group by `shift` "
-//                    . " DESC";
   
             $sql = "SELECT "
-                    . " a.shift AS sid, "
-                    . " a.region AS rid, "
-                    . " b.region_id AS region_id, "
-                    . " b.region_name AS region_name, "
-                    . " sum(`members`) AS `total_members`, "
-                    . " sum(`vehicles`) AS `total_vehicles`, "
-                    . " sum(`bikes`) AS `total_bikes` "
+                    . " b.shift_name, "
+                    . " sum(a.members) AS `total_members`, "
+                    . " sum(a.vehicles) AS `total_vehicles`, "
+                    . " sum(a.bikes) AS `total_bikes` "
                     . " FROM `deployment_plan` AS a "
-                    . " LEFT JOIN `regions` AS b "
-                    . " ON b.region_id = a.region "
+                    . " LEFT JOIN `shifts` AS b "
+                    . " ON b.shift_id = a.shift "
                     . " WHERE a.date >= ".$diff
                     . " group by a.shift "
-                    . " DESC";       
-            
+                    . " DESC";
+
+
             //Fetch from deployment calculations
             $query = $this->db->query($sql);
             $result = $query->result_array();
@@ -202,3 +186,16 @@ class Capacity_model extends CI_Model
            
 	}
 }
+/*
+ * 
+ * 
+ SELECT a.shift AS sid, 
+ * a.region AS rid, 
+ * b.region_id AS region_id, b.region_name AS region_name, SUM(  `members` ) AS  `total_members` , SUM(  `vehicles` ) AS  `total_vehicles` , SUM(  `bikes` ) AS  `total_bikes` 
+FROM  `deployment_plan` AS a
+LEFT JOIN  `regions` AS b ON b.region_id = a.region
+WHERE  `date` >= DATE_SUB( CURDATE( ) , INTERVAL 9 
+MONTH ) 
+GROUP BY  `shift` DESC
+
+ */

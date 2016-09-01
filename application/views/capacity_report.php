@@ -236,6 +236,9 @@
                 function export_pdf(image){
                     
                     var selectedDate = $('#time_select option:selected').val();
+                    if(selectedDate == ''){
+                        selectedDate = 'unselected';
+                    }
                     
                     $('#btn-capacity').off().on('click', function(e){
                         e.preventDefault();
@@ -245,7 +248,7 @@
                                 'image':image
                             }, function(data){
                                 window.open(
-                                    '/dashboard/index.php/capacity/export_pdf/'+data+'/'+selectedDate,
+                                    '/tshwane_safety/index.php/capacity/export_pdf/'+data+'/'+selectedDate,
                                     '_blank' 
                                   );
                             }

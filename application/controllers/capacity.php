@@ -163,8 +163,6 @@ class Capacity extends CI_Controller {
             
             $results = $this->capacity_model->export_pdf($date);
             
-            //print_r($results);
-            
             // page info here, db calls, etc.    
             $data = array(
                 'title'     => '<h1 style="text-align:center">Strength Report Export</h1>',
