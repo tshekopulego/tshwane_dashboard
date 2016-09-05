@@ -248,7 +248,7 @@
                                 'image':image
                             }, function(data){
                                 window.open(
-                                    '/capacity/export_pdf/'+data+'/'+selectedDate,
+                                    'capacity/export_pdf/'+data+'/'+selectedDate,
                                     '_blank' 
                                   );
                             }
