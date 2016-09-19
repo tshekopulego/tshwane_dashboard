@@ -166,15 +166,31 @@ class Capacity_model extends CI_Model
 
   
             $sql = "SELECT "
-                    . " b.shift_name, "
+
+                    . " b.shift_name shift, "
+
+                    . " c.region_name, "
+
                     . " sum(a.members) AS `total_members`, "
+
                     . " sum(a.vehicles) AS `total_vehicles`, "
+
                     . " sum(a.bikes) AS `total_bikes` "
+
                     . " FROM `deployment_plan` AS a "
+
                     . " LEFT JOIN `shifts` AS b "
+
                     . " ON b.shift_id = a.shift "
+
+                    . " LEFT JOIN `regions` AS c "
+
+                    . " ON c.region_id = a.region "
+
                     . " WHERE a.date >= ".$diff
+
                     . " group by a.shift "
+
                     . " DESC";
 
 
