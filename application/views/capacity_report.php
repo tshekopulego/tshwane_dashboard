@@ -20,8 +20,11 @@
 			<div class="onerow">
                             <div class="col12"><center><b>Summary Of Strength (All Regions)</b></center><br>
                                 <form id="date_select_form" action="#" method="POST">
-                                    <select id="month_select">
-                                        <option value="" >Select Date</option>
+                                    <select id="time_select">
+                                        <option value="" >Please Select</option>
+                                        <option value="yesterday" >Yesterday</option>
+                                        <option value="lastweek" >Last Week</option>
+                                        <option value="lastmonth" >Last Month</option>
                                     </select>                                    
                                 </form>
                                 <canvas id="canvas" height="150" width="600"></canvas>
@@ -87,7 +90,7 @@
                         
                         var barChartData = {
                             /* Labels to be injected with json from db */
-                            labels : ["9pm - 5am", "5am - 1pm", "1pm - 9pm"],
+                            labels : ["5am - 1pm", "1pm - 9pm", "9pm - 5am"],
                             datasets : [
                                 {
                                     label: "Members",
@@ -117,12 +120,30 @@
                         };
 
                         //loop through result and populate data
-                        for (var i = 0; i < json.length; i++) {
-                                //barChartData.labels.push(json[i]['shift']);
-                                barChartData.datasets[0].data.push(parseInt(json[i]['total_members']));
-                                barChartData.datasets[1].data.push(parseInt(json[i]['total_vehicles']));
-                                barChartData.datasets[2].data.push(parseInt(json[i]['total_bikes']));
-                        }
+//                        for (var i = 0; i < json.length; i++) {
+//                                //barChartData.labels.push(json[i]['shift']);
+//                                barChartData.datasets[0].data.push(parseInt(json[i]['total_members']));
+//                                barChartData.datasets[1].data.push(parseInt(json[i]['total_vehicles']));
+//                                barChartData.datasets[2].data.push(parseInt(json[i]['total_bikes']));
+//                        }
+                        
+                        jQuery.each(json, function(index, val){
+                            if(val.shift){
+                            if(val.shift === "1"){
+                                barChartData.datasets[0].data.push(parseInt(json[0]['total_members']));
+                                barChartData.datasets[1].data.push(parseInt(json[0]['total_vehicles']));
+                                barChartData.datasets[2].data.push(parseInt(json[0]['total_bikes']));
+                            }else if(val.shift === "2"){
+                                barChartData.datasets[0].data.push(parseInt(json[1]['total_members']));
+                                barChartData.datasets[1].data.push(parseInt(json[1]['total_vehicles']));
+                                barChartData.datasets[2].data.push(parseInt(json[1]['total_bikes']));
+                            }else if(val.shift === "3"){
+                                barChartData.datasets[0].data.push(parseInt(json[2]['total_members']));
+                                barChartData.datasets[1].data.push(parseInt(json[2]['total_vehicles']));
+                                barChartData.datasets[2].data.push(parseInt(json[2]['total_bikes']));
+                            }
+                            }
+                        });
                         
                         //fetch div by id
                         var ctx = document.getElementById("canvas").getContext("2d");
@@ -138,21 +159,24 @@
                                 legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
                         });                        
 
-                        //Generte legend
+                        //Generate legend
                         var legend = shift.generateLegend();
                         $('#legend').append(legend);
                         
                         //update graph on select change
-                        $('#month_select').off().on('change', function(){   
-                            var selectedDate = $('#month_select option:selected').val();
+                        $('#time_select').off().on('change', function(){   
+                            var selectedDate = $('#time_select option:selected').val();
                             // switched to post to pass text data instead of id
                             $.post('capacity/chart_by_search/',
                                 {
-                                    'date':selectedDate
+                                    'daterange':selectedDate
                                 }, function(data){
-                                    //5317722
-                                if(data){
+                                    //console.log(data);
+                                    if($.isEmptyObject(data)){
+                                        alert('Unfortunaltey there are no results for your search criteria!');
+                                    }else{
                                     
+                                    /*
                                     //check for undefined values (0)
                                     var morning = data[0];
                                     var afternoon = data[1];
@@ -170,15 +194,36 @@
                                     
                                     //create new array to run through
                                     var newData = [morning, afternoon, evening];
-
-                                    for (var i = 0; i < newData.length; i++) {
+                                    console.log(newData);
+                                      for (var i = 0; i < newData.length; i++) {
                                         shift.datasets[0].bars[i].value = parseInt(newData[i]['total_members']);                                        
                                         shift.datasets[1].bars[i].value = parseInt(newData[i]['total_vehicles']);
                                         shift.datasets[2].bars[i].value = parseInt(newData[i]['total_bikes']);
                                     }
-                                    //Update graph
-                                    shift.update();
-                                }
+        */
+
+                                    
+                                        jQuery.each(data, function(index, val){
+                                            if(val.shift){
+                                            if(val.shift === "1"){
+                                                shift.datasets[0].bars[0].value = parseInt(val.total_members); 
+                                                shift.datasets[1].bars[0].value = parseInt(val.total_vehicles);
+                                                shift.datasets[2].bars[0].value = parseInt(val.total_bikes); 
+                                            }else if(val.shift === "2"){
+                                                shift.datasets[0].bars[1].value = parseInt(val.total_members); 
+                                                shift.datasets[1].bars[1].value = parseInt(val.total_vehicles); 
+                                                shift.datasets[2].bars[1].value = parseInt(val.total_bikes); 
+                                            }else if(val.shift === "3"){
+                                                shift.datasets[0].bars[2].value = parseInt(val.total_members); 
+                                                shift.datasets[1].bars[2].value = parseInt(val.total_vehicles); 
+                                                shift.datasets[2].bars[2].value = parseInt(val.total_bikes); 
+                                            }
+                                            }
+                                        });
+                                    
+                                        //Update graph
+                                        shift.update();
+                                    }
                             }, "json");
                         });
                     });
@@ -190,7 +235,10 @@
                 //create pdf content for export
                 function export_pdf(image){
                     
-                    var selectedDate = $('#month_select option:selected').val();
+                    var selectedDate = $('#time_select option:selected').val();
+                    if(selectedDate == ''){
+                        selectedDate = 'unselected';
+                    }
                     
                     $('#btn-capacity').off().on('click', function(e){
                         e.preventDefault();
@@ -200,7 +248,7 @@
                                 'image':image
                             }, function(data){
                                 window.open(
-                                    '/capacity/export_pdf/'+data+'/'+selectedDate,
+                                    '/dashboard/index.php/capacity/export_pdf/'+data+'/'+selectedDate,
                                     '_blank' 
                                   );
                             }
@@ -270,95 +318,39 @@
 
                         $.post('capacity/chart_by_search/',
                             {
-                                'date':selectedDate,
+                                'daterange':selectedDate,
                                 'region':RegionId
 
                             }, function(json){
                                 //console.log(json);
-
-                                 //check for undefined values (0)
-                                 if(typeof json[0] === 'undefined'){
-                                     json[0] = {shift: "0", region: RegionId, total_members: "0", total_vehicles: "0", total_bikes: "0"}
-                                 }
-                                 if(typeof json[1] === 'undefined'){
-                                     json[1] = {shift: "1", region: RegionId, total_members: "0", total_vehicles: "0", total_bikes: "0"}
-                                 }
-                                 if(typeof json[2] === 'undefined'){
-                                     json[2] = {shift: "2", region: RegionId, total_members: "0", total_vehicles: "0", total_bikes: "0"}
-                                 }           
-
-                                 //create new array to run through
-                                 var newData = [json[0], json[1], json[2]];
-
-                                 for(var i = 0; i < newData.length; i++){
-                                        shift.datasets[0].bars[i].value = parseInt(newData[i]['total_members']);
-                                        shift.datasets[1].bars[i].value = parseInt(newData[i]['total_vehicles']);
-                                        shift.datasets[2].bars[i].value = parseInt(newData[i]['total_bikes']);
-                                 }
+                                if($.isEmptyObject(json)){
+                                        alert('Unfortunaltey there are no results for your search criteria!');
+                                }else{
+                                    jQuery.each(json, function(index, val){
+                                        if(val.shift){
+                                            if(val.shift === "1"){
+                                                shift.datasets[0].bars[0].value = parseInt(val.total_members); 
+                                                shift.datasets[1].bars[0].value = parseInt(val.total_vehicles);
+                                                shift.datasets[2].bars[0].value = parseInt(val.total_bikes); 
+                                            }else if(val.shift === "2"){
+                                                shift.datasets[0].bars[1].value = parseInt(val.total_members); 
+                                                shift.datasets[1].bars[1].value = parseInt(val.total_vehicles); 
+                                                shift.datasets[2].bars[1].value = parseInt(val.total_bikes); 
+                                            }else if(val.shift === "3"){
+                                                shift.datasets[0].bars[2].value = parseInt(val.total_members); 
+                                                shift.datasets[1].bars[2].value = parseInt(val.total_vehicles); 
+                                                shift.datasets[2].bars[2].value = parseInt(val.total_bikes); 
+                                            }
+                                        }
+                                    });
 
                                  //Update graph
-                                 shift.update();                                                
+                                 shift.update();     
+                             }
 
                         }, "json");
 
                     });
-                    
-/*
-                    $.post('capacity/chart_by_search/',
-                        {
-                            'date':'2015-12-01'
-                        }, function(json){
-                            //console.log(json);
-                            //loop through result and populate data
-                            for (var i = 0; i < json.length; i++) {
-                                    //barChartData.labels.push(json[i]['shift']);
-                                    barChartData.datasets[0].data.push(parseInt(json[i]['total_members']));
-                                    barChartData.datasets[1].data.push(parseInt(json[i]['total_vehicles']));
-                                    barChartData.datasets[2].data.push(parseInt(json[i]['total_bikes']));
-                            }
-                               
-                        //update graph on select change
-                       $('#month_select_b').off().on('change', function(){
-                           var selectedDate = $('#month_select_b option:selected').val();
-                           var RegionId = $('#region_select option:selected').val();
-                           
-                           $.post('capacity/chart_by_search/',
-                               {
-                                   'date':selectedDate,
-                                   'region':RegionId
-
-                               }, function(json){
-                                   //console.log(json);
-                                   
-                                    //check for undefined values (0)
-                                    if(typeof json[0] === 'undefined'){
-                                        json[0] = {shift: "0", region: RegionId, total_members: "0", total_vehicles: "0", total_bikes: "0"}
-                                    }
-                                    if(typeof json[1] === 'undefined'){
-                                        json[1] = {shift: "1", region: RegionId, total_members: "0", total_vehicles: "0", total_bikes: "0"}
-                                    }
-                                    if(typeof json[2] === 'undefined'){
-                                        json[2] = {shift: "2", region: RegionId, total_members: "0", total_vehicles: "0", total_bikes: "0"}
-                                    }           
-
-                                    //create new array to run through
-                                    var newData = [json[0], json[1], json[2]];
-                                    
-                                    for(var i = 0; i < newData.length; i++){
-                                           shift.datasets[0].bars[i].value = parseInt(newData[i]['total_members']);
-                                           shift.datasets[1].bars[i].value = parseInt(newData[i]['total_vehicles']);
-                                           shift.datasets[2].bars[i].value = parseInt(newData[i]['total_bikes']);
-                                    }
-
-                                    //Update graph
-                                    shift.update();                                                
-
-                           }, "json");
-
-                       });
-                    
-                    }, "json");
-                    */
                 }
                 //create and display secondary table
                 create_select_chart();

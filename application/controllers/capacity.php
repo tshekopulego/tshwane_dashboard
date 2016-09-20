@@ -28,9 +28,30 @@ class Capacity extends CI_Controller {
 	public function chart() {
             if($this->login_model->is_logged_in()){
                 $data = $this->capacity_model->chart();
-                header("Access-Control-Allow-Origin: *"); 
-                header('Access-Control-Allow-Methods: GET, POST');	
-                echo json_encode($data);
+                //header("Access-Control-Allow-Origin: *"); 
+                //header('Access-Control-Allow-Methods: GET, POST');
+                
+                if($data){
+                    $count = count($data);
+                    if($count < 3){
+                        $shifts = array();
+                        foreach($data as $entry){
+                            $shifts[] = $entry['shift'];
+                        }
+                        for($x = 1; $x < 4;  $x++){
+                            if(!in_array($x, $shifts)){
+                                $data[] = array(
+                                    "shift"          => $x,
+                                    "total_members"  => "0",
+                                    "total_vehicles" => "0",
+                                    "total_bikes"    => "0"
+                                );
+                            }
+                        }
+                    }
+                }
+                //print_r(strip_slashes($data));
+                echo json_encode(strip_slashes($data));
             }else{
 		redirect('login');
             }
@@ -38,24 +59,48 @@ class Capacity extends CI_Controller {
 
         //Get chart json based on date and region search
         public function chart_by_search() {
-             if($this->login_model->is_logged_in()){
-
-                if($this->uri->segment(3)){
-                  $date = $this->uri->segment(3);  
-                }else{
-                    $date = $this->input->post('date');                                 
-                }
-                $region = $this->input->post('region');
+            if($this->login_model->is_logged_in()){
+                $timeframe = '';
+                $region = '';
                 
-                 
-                 if($date == 'today'){
-                     $date = date('Y-m-d');
-                 }
-                 
-                $data = $this->capacity_model->chart_search($date, $region);
-                header("Access-Control-Allow-Origin: *"); 
-                header('Access-Control-Allow-Methods: GET, POST');
-                echo json_encode($data);	
+                if($this->uri->segment(3)){
+                    $timeframe = $this->uri->segment(3); 
+                }else{
+                    $timeframe = $this->input->post('daterange');         
+                }
+                
+                if($this->uri->segment(4)){
+                    $region = $this->uri->segment(4); 
+                }else{
+                    $region = $this->input->post('region');        
+                }
+                //$region = $this->input->post('region');
+                
+                $data = $this->capacity_model->chart_search($timeframe, $region);                    
+
+                if($data){
+                    $count = count($data);
+                    if($count < 3){
+                        $shifts = array();
+                        foreach($data as $entry){
+                            $shifts[] = $entry['shift'];
+                        }
+                        for($x = 1; $x < 4;  $x++){
+                            if(!in_array($x, $shifts)){
+                                $data[] = array(
+                                    "shift"          => $x,
+                                    "total_members"  => "0",
+                                    "total_vehicles" => "0",
+                                    "total_bikes"    => "0"
+                                );
+                            }
+                        }
+                    }
+                }
+                    //Return data
+                    echo json_encode(strip_slashes($data));
+                //}
+                
             }else{
 		redirect('login');
             }
@@ -111,7 +156,7 @@ class Capacity extends CI_Controller {
         //Export generated pdf
         public function export_pdf(){
            
-            $this->load->helper(array('dompdf', 'file'));
+            //$this->load->helper(array('dompdf', 'file'));
  
             $image = $this->uri->segment(3);
             $date = $this->uri->segment(4);
@@ -124,10 +169,21 @@ class Capacity extends CI_Controller {
                 'rows'      => $results,
                 'graph'     => $image
             );
-
+/*
             $this->load->view('strength_report_pdf', $data);
             $html = $this->load->view('strength_report_pdf', $data, true);
-            pdf_create($html, 'export_'.$date);
+            pdf_create($html, 'export_'.$date);*/
+            
+            $date = $this->uri->segment(4);
+            
+            $this->load->library('pdf');
+
+$this->pdf->load_view('strength_report_pdf', $data);
+
+$this->pdf->render();
+
+$this->pdf->stream('export_'.$date);
+
             
             //delete graph image
             //unlink('./images/graphs/'.$image);
