@@ -153,40 +153,6 @@ class Capacity extends CI_Controller {
             
             echo $graph_name[0];
             
-        } 
-        
-        //Export generated pdf
-        public function export_pdf_old(){
-           
-            //$this->load->helper(array('dompdf', 'file'));
- 
-            $image = $this->uri->segment(3);
-            $date = $this->uri->segment(4);
-            
-            $results = $this->capacity_model->export_pdf($date);
-            
-            // page info here, db calls, etc.    
-            $data = array(
-                'title'     => '<h1 style="text-align:center">Strength Report Export</h1>',
-                'rows'      => $results,
-                'graph'     => $image
-            );
-                        /*
-            $this->load->view('strength_report_pdf', $data);
-            $html = $this->load->view('strength_report_pdf', $data, true);
-            pdf_create($html, 'export_'.$date);*/
-            
-            $date = $this->uri->segment(4);
-            
-            $this->load->library('pdf');
-
-            $this->pdf->load_view('strength_report_pdf');
-
-            $this->pdf->render();
-
-            $this->pdf->stream('export_');
-
-          
         }
 
 	public function export_pdf(){
