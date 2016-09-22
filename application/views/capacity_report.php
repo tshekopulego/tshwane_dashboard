@@ -6,6 +6,7 @@
     <div class="menu">
         <!-- onClick="exportReport('capacity')" -->
         <a href="#" id="btn-capacity" ><button  class="btn-report" >Export</button></a>
+        <a href="#modal" id="btn-capacity-email" ><button  class="btn-report-email" style="width:120px;" >Email Report</button></a>
         <!--
         <a href="capacity/export" id="btn-capacity" target="_blank" ><button  class="btn-report" >Export</button></a>
         -->
@@ -64,11 +65,30 @@
 </div>
 <!-- End -->
 		</div>		 
-	
+<div class="remodal" data-remodal-id="modal">
+    <button data-remodal-action="close" class="remodal-close"></button>
+    <h1>Email Report</h1>
+    <p class="modal_response">Please be patient, your PDF is being generated.</p>
+    
+    <div class="report_send_form" style="display:none">
+        <form action="" method="POST" id="report_send_form">
+            <label for="user_email">Email</label>
+            <input type="text" name="user_email" id="user_email">
+            <input type="hidden" name="selected_date" id="selected_date" val="" />
+            <input type="hidden" name="selected_pdf" id="selected_pdf" val="" />
+            <br />
+            <button data-remodal-action="cancel" >Cancel</button>
+            <button   id="send_report">Send</button>
+        </form>
+    </div>
+</div>
+
 <script>
    
 
 	$(document).ready(function() {
+  
+		$('[data-remodal-id=modal]').remodal();
   
                 //populate select date dropdown list
                 $.getJSON('capacity/get_dates/', function(dates) {
@@ -153,6 +173,7 @@
                                 maintainAspectRatio: true,
                                 onAnimationComplete: function(){ 
                                     var graph_png = shift.toBase64Image();
+                                    email_report_popup(graph_png);
                                     export_pdf(graph_png); 
                                 },
                                 //String - A legend template
@@ -256,6 +277,61 @@
                         
                     });
                 }
+				
+				//Email report to someone
+                function email_report_popup(image){
+                    
+                    var selectedDate = $('#time_select option:selected').val();
+                    if(selectedDate == ''){
+                        selectedDate = 'unselected';
+                    }
+                    
+                    $('#btn-capacity-email').off().on('click', function(e){
+                        $('[data-remodal-id=modal]').remodal();
+                        
+                        $.post('capacity/make_graph/',
+                            {
+                                'image':image
+                            }, function(data){
+                                //console.log(data);
+                                $.post('capacity/save_export_pdf/',
+                                    {
+                                        'data':data,
+                                        'date':selectedDate
+                                    }, function(result){
+                                        $('#selected_date').val(date);
+                                        $('#selected_pdf').val(data);
+                                        $('.modal_response').html('Your pdf has been generated and is ready to send.<br />Please complete the field below with the email address you wish to send to.');
+                                        $('.report_send_form').fadeIn();
+                                        //console.log(result);
+                                    }
+                                );
+                          
+                            }
+                        );
+                        
+                    });
+                }
+				
+				//Send report to someone
+				$('#report_send_form').on('click', function(e){
+                    e.preventDefault();
+                    $('.report_send_form').fadeOut();
+                    $('.modal_response').html('Your pdf is being sent..');
+            
+                    $.post('capacity/send_export_pdf/',
+                        {
+                            'date':$('#selected_date').val(),
+                            'pdf':$('#selected_pdf').val(),
+                            'email': $('#user_email').val()
+                        }, function(result){
+                            $('.modal_response').html('Your pdf has been sent.');
+                            //console.log(result);
+                        }
+                    );
+                    
+
+                });
 		
                 
                 //Using the same select date method to display the data from the day before

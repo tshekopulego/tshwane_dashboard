@@ -156,7 +156,7 @@ class Capacity extends CI_Controller {
             
         }
 
-	public function export_pdf(){
+		public function export_pdf(){
  
             $image = $this->uri->segment(3);
             $date = $this->uri->segment(4);
@@ -170,14 +170,59 @@ class Capacity extends CI_Controller {
                 'graph'     => $image
             );
             
-            $date = $this->uri->segment(4);
             
             $this->load->library('pdf');
             $this->pdf->load_view('strength_report_pdf', $data);
             $this->pdf->render();
-            $this->pdf->stream('export_'.$date);
+            $this->pdf->stream('export_'.$date.".pdf");
           
         }
+		
+		public function save_export_pdf(){
+           
+ 
+            $image = $this->input->post('data');
+            $date = $this->input->post('date');
+                        
+            $results = $this->capacity_model->export_pdf($date);
+            
+            // page info here, db calls, etc.    
+            $data = array(
+                'title'     => '<h1 style="text-align:center">Strength Report Export</h1>',
+                'rows'      => $results,
+                'graph'     => $image
+            );
+
+			$this->load->library('pdf');
+            $this->load->view('strength_report_pdf', $data);
+            
+            $this->pdf->render();
+            $this->pdf->stream('export_'.$date.".pdf");
+			$data = $this->pdf->output();
+            write_file('./pdf_render/capacity_export_'.$date.'_'.$image.'.pdf', $data);
+			
+        }
+		
+		public function send_export_pdf(){
+            $this->load->library('email');
+            
+            $email = $this->input->post('email');
+            $date = $this->input->post('date');
+            $pdf = $this->input->post('pdf');
+
+            $this->email->from('your@example.com', 'Tshwane Safety Dashboard');
+            $this->email->to($email);
+            //$this->email->cc('another@another-example.com');
+            //$this->email->bcc('them@their-example.com');
+
+            $this->email->subject('Capacity Report');
+            $this->email->message('Please find attached exported capacity report.');
+            $this->email->attach('./pdf_render/capacity_export_'.$date.'_'.$pdf.'.pdf');
+            
+            $this->email->send();
+        }
+		
+	
 }
 
 /* End of file capacity.php */
