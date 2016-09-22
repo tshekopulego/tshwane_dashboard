@@ -1,5 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+//DO NOT REMOVE THIS CODE, OTHERWISE THE EXPORT TO PDF WONT WORK
 date_default_timezone_set('Africa/Johannesburg');
 
 class Capacity extends CI_Controller {
@@ -156,8 +157,6 @@ class Capacity extends CI_Controller {
         }
 
 	public function export_pdf(){
-           
-           	//$this->load->helper(array('dompdf', 'file'));
  
             $image = $this->uri->segment(3);
             $date = $this->uri->segment(4);
@@ -170,17 +169,13 @@ class Capacity extends CI_Controller {
                 'rows'      => $results,
                 'graph'     => $image
             );
-/*
-            $this->load->view('strength_report_pdf', $data);
-            $html = $this->load->view('strength_report_pdf', $data, true);
-            pdf_create($html, 'export_'.$date);*/
             
             $date = $this->uri->segment(4);
             
             $this->load->library('pdf');
-$this->pdf->load_view('strength_report_pdf', $data);
-$this->pdf->render();
-$this->pdf->stream('export_'.$date);
+            $this->pdf->load_view('strength_report_pdf', $data);
+            $this->pdf->render();
+            $this->pdf->stream('export_'.$date);
           
         }
 }
