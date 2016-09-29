@@ -293,7 +293,7 @@
                             {
                                 'image':image
                             }, function(data){
-                                //console.log(data);
+                                console.log(data);
                                 $.post('capacity/save_export_pdf/',
                                     {
                                         'data':data,
@@ -303,7 +303,7 @@
                                         $('#selected_pdf').val(data);
                                         $('.modal_response').html('Your pdf has been generated and is ready to send.<br />Please complete the field below with the email address you wish to send to.');
                                         $('.report_send_form').fadeIn();
-                                        //console.log(result);
+                                        console.log(result);
                                     }
                                 );
                           
